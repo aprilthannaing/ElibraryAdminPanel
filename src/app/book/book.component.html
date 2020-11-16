@@ -1,0 +1,106 @@
+<app-home></app-home>
+<div class="content">
+    <div>
+        <mat-label style="margin-left: 440px;color: blue;font-size: 20px;"> Book Registration Form</mat-label>
+        <form [formGroup]="myForm" class="example-form" style="max-width: 100%;">
+            <div class="form-group">
+
+                <div style="margin-left: 350px;width:30%">
+                    <mat-label>Cover Photo</mat-label>
+
+                    <img [src]="imageSrc" *ngIf="imageSrc" alt="Cover Photo" class="responsive"
+                        style="box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;">
+
+                    <input
+                        style="margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
+                        formControlName="file" id="file" type="file" class="form-control"
+                        (change)="onFileChange($event)">
+
+                    <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger"
+                        style="margin-right: 20px;">
+                        <div *ngIf="f.file.errors.required">File is required.</div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+        <mat-form-field class="mat" style="margin-left: 270px;">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Ex. Pizza" required [(ngModel)]="json.name">
+        </mat-form-field>
+
+
+
+
+        <mat-form-field class="mat" style="margin-left: 50px;">
+            <mat-label>ISBN</mat-label>
+            <input matInput placeholder="Ex. Pizza" required [(ngModel)]="json.ISBN">
+        </mat-form-field>
+
+        <mat-form-field class="mat" style="margin-left: 270px;">
+            <mat-label>Publisher</mat-label>
+            <input matInput placeholder="Jhon" required [(ngModel)]="json.publisher">
+        </mat-form-field>
+        <mat-form-field class="mat" style="margin-left: 50px;">
+            <mat-label>Published Year</mat-label>
+            <input matInput placeholder="2012" required [(ngModel)]="json.publishedYear">
+        </mat-form-field>
+        <mat-form-field class="mat" style="margin-left: 270px;">
+            <mat-label>Edition</mat-label>
+            <input matInput placeholder="2nd" required [(ngModel)]="json.edition">
+        </mat-form-field>
+        <mat-form-field class="mat" style="margin-left: 50px;">
+            <mat-label>Category Type</mat-label>
+            <select matNativeControl required [(ngModel)]="json.categoryType">
+                <option></option>
+                <option value="volvo">Comedy</option>
+                <option value="saab">Adventure</option>
+                <option value="mercedes">Romance</option>
+                <option value="audi">Contemporary</option>
+                <option value="volvo">Dystopian</option>
+                <option value="saab">Mystery</option>
+                <option value="mercedes">Horror</option>
+                <option value="audi">Thriller</option>
+            </select>
+        </mat-form-field>
+        <mat-form-field class="mat" style="margin-left: 270px;">
+            <mat-label>Choose Author</mat-label>
+            <select matNativeControl required [(ngModel)]="json.authorType">
+                <option value="local">Local</option>
+                <option value="global">Global</option>
+            </select>
+        </mat-form-field>
+        <mat-form-field class="mat" style="margin-left: 50px;">
+            <mat-label>Author</mat-label>
+            <input matInput placeholder="Smith" required [(ngModel)]="json.authorName">
+        </mat-form-field>
+
+
+
+
+
+
+
+
+        <!--div class="container" style="margin-left: 250px;">
+                    <input type="file" style="display: none" #fileInput accept="image/*"
+                        (change)="onChangeFileInput()" />
+                    <button mat-raised-button color="primary" class="file-select-button"
+                        (click)="onClickFileInputButton()">
+                        <mat-icon>attach_file</mat-icon>
+                        pdf file
+                    </button>
+
+                    <p class="file-name" *ngIf="!file; else fileName" style="color: blue;">Please Choose File</p>
+                    <ng-template #fileName>
+                        <p class="file-name" style="color: blue;">{{ file?.name }}</p>
+                    </ng-template>
+                </div-->
+
+        <div style="margin-left:450px;">
+            <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
+            <button mat-raised-button color="primary" type="submit" (click)="submit()" style="margin-left:40px;">Submit</button>
+
+        </div>
+    </div>
+</div>
