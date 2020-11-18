@@ -1,0 +1,17 @@
+<app-home></app-home>
+<div class="content">
+    <div style="margin-left: 30%;margin-top: 3%;">
+        <p style="margin-left: 5%;">Enter Sub Category Name!</p>
+
+        <mat-form-field style="width: 40%;">
+            <input matInput placeholder="For eg. Eduction" [(ngModel)]="description">
+        </mat-form-field>
+
+
+
+    <div style="margin-left: 5%;">
+        <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
+        <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Submit</button>
+    </div>
+    </div>
+</div>

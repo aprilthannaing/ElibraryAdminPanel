@@ -1,0 +1,143 @@
+<app-home></app-home>
+<div class="content">
+    <div style="margin-left: 20%;margin-top: 3%;">
+        <mat-label style="margin-left:7.3%;color: blue;font-size: 20px;"> Book Registration Form</mat-label>
+        <form [formGroup]="myForm" class="example-form" style="max-width: 100%;margin-top:2%;">
+            <div class="form-group">
+
+                <div style="width:80%">
+                    <mat-label style="margin-left: 9%;">Cover Photo</mat-label>
+
+                    <img [src]="imageSrc" *ngIf="imageSrc" alt="Cover Photo" class="responsive"
+                        style="box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;">
+
+
+                    <div class="row" style="margin-left: 9%;">
+                        <input
+                            style="width:40%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
+                            formControlName="file" id="file" type="file" class="form-control"
+                            (change)="onFileChange($event)">
+
+                        <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger"
+                            style="margin-right: 20px;">
+                            <div *ngIf="f.file.errors.required">Cover Photo is required.</div>
+                        </div>
+
+                        <input
+                            style=" margin-left:6.8%;width:40%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
+                            formControlName="file" id="file" type="file" class="form-control"
+                            (change)="onPdfChange($event)">
+
+                        <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger"
+                            style="margin-right: 20px;">
+                            <div *ngIf="f.file.errors.required">Pdf File is required.</div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </form>
+        <mat-form-field class="mat">
+            <mat-label>Call Number</mat-label>
+            <input matInput placeholder="Ex. M123" required [(ngModel)]="json.callNumber">
+        </mat-form-field>
+
+        <mat-form-field class="mat">
+            <mat-label>ISBN</mat-label>
+            <input matInput placeholder="Ex. 123" [(ngModel)]="json.ISBN">
+        </mat-form-field>
+
+        <mat-form-field class="mat">
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Ex. Pizza" required [(ngModel)]="json.title">
+        </mat-form-field>
+
+        <mat-form-field class="mat">
+            <mat-label>Sort</mat-label>
+            <input matInput placeholder="Ex. Pizza" [(ngModel)]="json.ISBN">
+        </mat-form-field>
+
+        <mat-form-field class="mat">
+            <mat-label>Edition</mat-label>
+            <input matInput placeholder="Jhon" required [(ngModel)]="json.edition">
+        </mat-form-field>
+        <mat-form-field class="mat">
+            <mat-label>Volume</mat-label>
+            <input matInput placeholder="2012" required [(ngModel)]="json.volume">
+        </mat-form-field>
+        <mat-form-field class="mat">
+            <mat-label>Series Index</mat-label>
+            <input matInput placeholder="2nd" required [(ngModel)]="json.seriesIndex">
+        </mat-form-field>
+        <mat-form-field class="mat" color="accent">
+            <input matInput [matDatepicker]="picker1" placeholder="Published Date" [(ngModel)]="json.publishedDate">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      
+      
+        <mat-form-field style="margin-left: 20%;width: 40%;">
+            <mat-label> Categories</mat-label>
+            <input matInput placeholder="Search Here" [(ngModel)]="term">
+        </mat-form-field>
+        <form [formGroup]="form" style="margin-left: 15%;">
+
+            <div class="form-group">
+                <div style="width: 60%;overflow: auto; height:200px;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of categories | filter:term;">
+                                <td>{{item.name}}
+                                </td>
+                                <td>
+                                    <input type="checkbox" value="{{item.boId}}" (change)="onCheckboxChange($event)">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- <mat-label> Categories</mat-label>
+                <input class="form-control" placeholder="Search Here" [(ngModel)]="term">
+                
+                <div style="width: 60%;overflow: auto; height:200px;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of categories | filter:term;">
+                                <td>{{item.name}}
+                                </td>
+                                <td>
+                                    <input type="checkbox" value="{{item.boId}}" (change)="onCheckboxChange($event)">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> -->
+            </div>
+
+
+
+        </form>
+      
+        
+        <div style="margin-left: 24%;">
+            <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
+            <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Save</button>
+        </div>
+
+
+    </div>
+</div>

@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Event, Router, RouterEvent, NavigationStart, NavigationEnd } from '@angular/router';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-book',
@@ -11,10 +16,10 @@ export class BookComponent implements OnInit {
   @ViewChild('fileInput') fileInput;
 
   file: File | null = null;
-  
+
   imageSrc: string;
 
-  json={"name":"", "ISBN": "", "publisher":"","publishedYear":"","edition":"", "categoryType":"","authorType":"", "authorName":""};
+  json = { "name": "", "ISBN": "", "publisher": "", "publishedYear": "", "edition": "", "categoryType": "", "authorType": "", "authorName": "" };
 
   myForm = new FormGroup({
 
@@ -27,7 +32,9 @@ export class BookComponent implements OnInit {
   });
 
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    public dialog: MatDialog,) { }
 
   get f() {
 
@@ -39,8 +46,8 @@ export class BookComponent implements OnInit {
     const reader = new FileReader();
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
-      reader.readAsDataURL(file); 
-       reader.onload = () => {
+      reader.readAsDataURL(file);
+      reader.onload = () => {
         this.imageSrc = reader.result as string;
         this.myForm.patchValue({
           fileSource: reader.result
@@ -63,7 +70,7 @@ export class BookComponent implements OnInit {
     this.fileInput.nativeElement.click();
   }
 
-  onChangeFileInput(): void{
+  onChangeFileInput(): void {
     const files: { [key: string]: File } = this.fileInput.nativeElement.files;
     this.file = files[0];
     console.log("file!!!!!!!!!!!!", this.file);

@@ -53,8 +53,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {HomeComponent} from './home/home.component';
-import {HeaderComponent} from './header/header.component';
+import { HomeComponent } from './home/home.component';
+import { HeaderComponent } from './header/header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { BookComponent } from './book/book.component';
 import { MagazineComponent } from './magazine/magazine.component';
@@ -63,14 +63,20 @@ import { UserComponent } from './user/user.component';
 import { DepartmentComponent } from './department/department.component';
 import { PositionComponent } from './position/position.component';
 import { LibrarianComponent } from './librarian/librarian.component';
-import { AuthorComponent } from './author/author.component';
 import { ExportComponent } from './export/export.component';
 import { ImportComponent } from './import/import.component';
 import { AccountsettingComponent } from './accountsetting/accountsetting.component';
+import { SearchFilterDemoComponent } from './search-filter-demo/search-filter-demo.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { BookaddcategoryComponent } from './bookaddcategory/bookaddcategory.component';
+import { BookaddauthorComponent } from './bookaddauthor/bookaddauthor.component';
+import { BookaddsubcategoryComponent } from './bookaddsubcategory/bookaddsubcategory.component';
+import { BookaddpublisherComponent } from './bookaddpublisher/bookaddpublisher.component';
+import { BookaddComponent } from './bookadd/bookadd.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'header', component: HeaderComponent }, 
+  { path: 'header', component: HeaderComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'book', component: BookComponent },
   { path: 'magazine', component: MagazineComponent },
@@ -79,16 +85,21 @@ const routes: Routes = [
   { path: 'department', component: DepartmentComponent },
   { path: 'position', component: PositionComponent },
   { path: 'librarian', component: LibrarianComponent },
-  { path: 'author', component: AuthorComponent },
   { path: 'export', component: ExportComponent },
   { path: 'import', component: ImportComponent },
   { path: 'accountsetting', component: AccountsettingComponent },
+  { path: 'search', component: SearchFilterDemoComponent },
+  { path: 'addcategory', component: BookaddcategoryComponent },
+  { path: 'addauthor', component: BookaddauthorComponent },
+  { path: 'addsubcategory', component: BookaddsubcategoryComponent },
+  { path: 'addpublisher', component: BookaddpublisherComponent },
+  { path: 'addbook', component: BookaddComponent },
 
 ];
 
 @NgModule({
   declarations: [
-    AppComponent, 
+    AppComponent,
     HomeComponent,
     HeaderComponent,
     DashboardComponent,
@@ -99,12 +110,18 @@ const routes: Routes = [
     DepartmentComponent,
     PositionComponent,
     LibrarianComponent,
-    AuthorComponent,
     ExportComponent,
     ImportComponent,
-    AccountsettingComponent
+    AccountsettingComponent,
+    SearchFilterDemoComponent,
+    BookaddcategoryComponent,
+    BookaddauthorComponent,
+    BookaddsubcategoryComponent,
+    BookaddpublisherComponent,
+    BookaddComponent
   ],
   imports: [
+    Ng2SearchPipeModule,
     MatFormFieldModule,
     HttpClientModule,
     BrowserModule,
