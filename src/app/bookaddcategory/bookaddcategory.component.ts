@@ -13,9 +13,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angu
 export class BookaddcategoryComponent implements OnInit {
   term: string;
   subcategories = [];
-  category: String = '';
+  myaName: String = '';
+  engName: String = '';
   form: FormGroup;
-
 
   constructor(
     private router: Router,
@@ -64,7 +64,8 @@ export class BookaddcategoryComponent implements OnInit {
     const json =
     {
       subcategories: this.form.value.subs,
-      category: this.category
+      myaName: this.myaName,
+      engName: this.engName
     };
 
     console.log("json : " , json)

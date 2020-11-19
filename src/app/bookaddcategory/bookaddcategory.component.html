@@ -4,11 +4,16 @@
         <p style="margin-left: 5%;">Please Enter Details!</p>
 
         <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
-            <mat-label> Category</mat-label>
-            <input matInput placeholder="For eg. Myanmar Books" [(ngModel)]="category" required>
+            <mat-label> Category (Myanmar)</mat-label>
+            <input matInput placeholder="မြန်မာစာအုပ်များ" [(ngModel)]="myaName" required>
         </mat-form-field>
 
 
+        <br>
+        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+            <mat-label> Category  (English)</mat-label>
+            <input matInput placeholder="Myanmar books" [(ngModel)]="engName" required>
+        </mat-form-field>
         <br>
         <mat-form-field class="mat" style="width: 40%; margin-left: 5%">
             <mat-label> Sub-Categories</mat-label>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-bookaddauthor',
@@ -11,8 +12,24 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angu
 export class BookaddauthorComponent implements OnInit {
 
 
-   json = { "name" : "", "sort":"", "authorType":""
+  json = {
+    "name": "", "sort": "", "authorType": "", "imageSrc":"", "profilePicture" : ""
   }
+
+  imageSrc: string = '';
+
+  /*img , pdf */
+  myForm = new FormGroup({
+
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+
+    file: new FormControl('', [Validators.required]),
+
+    fileSource: new FormControl('', [Validators.required])
+
+  });
+
+  profilePicture: string = '';
 
   constructor(
     private router: Router,
@@ -20,7 +37,27 @@ export class BookaddauthorComponent implements OnInit {
     private dialog: MatDialog,
   ) { }
 
+
+  onFileChange(event) {
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.imageSrc = reader.result as string;
+        this.myForm.patchValue({
+          fileSource: reader.result
+        });
+      };
+    }
+  }
+
   ngOnInit(): void {
+  }
+
+  get f() {
+    return this.myForm.controls;
+
   }
 
   cancel() {
@@ -28,12 +65,17 @@ export class BookaddauthorComponent implements OnInit {
 
   }
 
-  save(){
-    const url: string = "http://localhost:8082/operation/saveAuthor";
+  save() {
+    const url: string = "http://localhost:8082/operation/saveAuthor"; 
+    this.json.imageSrc = this.imageSrc;
+    this.json.profilePicture = this.myForm.value.file; 
+    console.log("json: ", this.json)  
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
-        this.successDialog();
+        if(data.status == "1")
+          this.successDialog();
+        else this.failDialog();
       },
       error => {
         console.warn("error: ", error);
