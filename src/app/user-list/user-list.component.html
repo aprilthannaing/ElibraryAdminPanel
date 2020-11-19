@@ -1,0 +1,48 @@
+<app-home></app-home>
+<div class="cardview">
+    <div class="col-md-12"> 
+        <div class="col-md-4">  
+            <div class="input-group">
+                <span class="input-group-btn" >
+                    <button class="btn btn-primary" type="button" (click)="goBack();">Back</button>
+                </span>
+                <input id="textinput" name="textinput" type="text" placeholder="Search" [(ngModel)]="json.searchText" (keyup)="searchKeyup($event)" class="form-control">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" (click)="Searching()" >
+                <span class="glyphicon glyphicon-search"></span>Search
+                </button>
+                </span>        
+            </div>
+        </div> 
+        <div class="col-md-12" style="overflow-x:auto">
+            <table class="table table-striped table-condensed table-hover tblborder">
+                <thead>
+                <tr>
+                    <th>Name </th>
+                    <th>Email </th>      
+                    <th>Phone No</th> 
+                    <th>Hluttaw</th> 
+                    <th>Department</th> 
+                    <th>Position</th> 
+                    <th>Role</th>
+                    <th>Type</th>  
+                    <th>Modified Date</th>    
+                </tr>
+                </thead>
+            <tbody>
+                <tr *ngFor="let obj of userObj">
+                    <td><a (click)="goto(obj.boId)">{{obj.name}}</a></td>
+                    <td>{{obj.email}}</td>
+                    <td>{{obj.phoneNo}}</td>
+                    <td>{{obj.hlutawName}}</td>
+                    <td>{{obj.deptName}}</td>
+                    <td>{{obj.positionName}}</td>
+                    <td>{{obj.role}}</td>
+                    <td>{{obj.type}}</td>
+                    <td>{{obj.modifiedDate}}</td>
+                </tr>  
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>

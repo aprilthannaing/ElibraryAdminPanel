@@ -67,12 +67,12 @@ import { ExportComponent } from './export/export.component';
 import { ImportComponent } from './import/import.component';
 import { AccountsettingComponent } from './accountsetting/accountsetting.component';
 import { SearchFilterDemoComponent } from './search-filter-demo/search-filter-demo.component';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { BookaddcategoryComponent } from './bookaddcategory/bookaddcategory.component';
 import { BookaddauthorComponent } from './bookaddauthor/bookaddauthor.component';
 import { BookaddsubcategoryComponent } from './bookaddsubcategory/bookaddsubcategory.component';
 import { BookaddpublisherComponent } from './bookaddpublisher/bookaddpublisher.component';
 import { BookaddComponent } from './bookadd/bookadd.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -82,6 +82,8 @@ const routes: Routes = [
   { path: 'magazine', component: MagazineComponent },
   { path: 'journal', component: JournalComponent },
   { path: 'user', component: UserComponent },
+  { path: 'user/:cmd/:id', component: UserComponent },
+  { path: 'userList', component: UserListComponent },
   { path: 'department', component: DepartmentComponent },
   { path: 'position', component: PositionComponent },
   { path: 'librarian', component: LibrarianComponent },
@@ -118,10 +120,10 @@ const routes: Routes = [
     BookaddauthorComponent,
     BookaddsubcategoryComponent,
     BookaddpublisherComponent,
-    BookaddComponent
+    BookaddComponent,
+    UserListComponent
   ],
   imports: [
-    Ng2SearchPipeModule,
     MatFormFieldModule,
     HttpClientModule,
     BrowserModule,
@@ -178,7 +180,8 @@ const routes: Routes = [
     PortalModule,
     ScrollingModule,
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent],
   entryComponents: []
 })

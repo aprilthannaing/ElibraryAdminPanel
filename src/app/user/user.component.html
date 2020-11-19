@@ -1,10 +1,64 @@
 <app-home></app-home>
 <div class="content">
-    <div>
-        <h1>Dashboard</h1>
-        <p>London is the capital city of England. It is the most populous city in the United Kingdom, with a
-            metropolitan area of over 13 million inhabitants.</p>
-        <p>Standing on the River Thames, London has been a major settlement for two millennia, its history going back to
-            its founding by the Romans, who named it Londinium.</p>
+    <div class="row  col-md-12">    
+        <button class="btn btn-primary" type="button"  (click)="goSave()">Save</button>
+        <button class="btn btn-primary" type="button"  (click)="goList()">List</button>
+    </div>
+    <div class="col-md-12"></div>
+    <p style="margin-left: 5%;">Please Enter Details!</p>
+    <div class="col-md-12 row">
+        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+            <mat-label> Name</mat-label>
+            <input matInput placeholder="Noam Chomsky" [(ngModel)]="json.name" required>
+        </mat-form-field>
+        <br>
+
+        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+            <mat-label> Email</mat-label>
+            <input matInput placeholder="aaa@gmail.com" [(ngModel)]="json.email" required>
+        </mat-form-field>
+        <br>
+
+        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+                <mat-label> Phone No</mat-label>
+                <input matInput placeholder="09...." [(ngModel)]="json.phoneNo" required>
+            </mat-form-field>
+            <br>
+
+        <mat-form-field style="width: 40%; margin-left: 5%;">
+            <mat-label style="font-weight: bold;">Choose User Type</mat-label>
+            <select  matNativeControl required [(ngModel)]="json.type">
+                <option *ngFor="let item of lov.refUserType" value="{{item.value}}">{{item.caption}}</option>
+            </select>
+        </mat-form-field>
+
+        <mat-form-field style="width: 40%; margin-left: 5%;">
+            <mat-label style="font-weight: bold;">Choose Hluttaw Type</mat-label>
+            <select (change)="changeModule()" matNativeControl required [(ngModel)]="json.hlutawType">
+                <option *ngFor="let item of lov.refHluttaw" value="{{item.value}}">{{item.caption}}</option>
+            </select>
+        </mat-form-field>
+
+        <mat-form-field style="width: 40%; margin-left: 5%;">
+            <mat-label style="font-weight: bold;">Choose Department Type</mat-label>
+            <select  matNativeControl required [(ngModel)]="json.deptType">
+                <option *ngFor="let item of lov.refDept" value="{{item.value}}">{{item.caption}}</option>
+            </select>
+        </mat-form-field>
+
+        <mat-form-field style="width: 40%; margin-left: 5%;">
+            <mat-label style="font-weight: bold;">Choose Position</mat-label>
+            <select  matNativeControl required [(ngModel)]="json.positionType">
+                <option *ngFor="let item of lov.refPosition" value="{{item.value}}">{{item.caption}}</option>
+            </select>
+        </mat-form-field>
+
+        <mat-form-field style="width: 40%; margin-left: 5%;">
+            <mat-label style="font-weight: bold;">Choose Status</mat-label>
+            <select  matNativeControl required [(ngModel)]="json.status">
+                <option *ngFor="let item of lov.refStatus" value="{{item.value}}">{{item.caption}}</option>
+            </select>
+        </mat-form-field>
+
     </div>
 </div>
