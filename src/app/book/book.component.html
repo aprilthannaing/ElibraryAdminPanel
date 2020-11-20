@@ -2,40 +2,228 @@
 
 
 <div class="content">
+
     <div>
-        <ul class="list-group" style="width: 80%;">
+        <mat-label style="margin-left:37%;color: blue;font-size: 20px;"> Book Management</mat-label>
+
+        <ul class="list-group" style="width: 50%;margin-top:2%;margin-left: 20%;">
             <li class="list-group-item"><span style="margin-left:5%">Book </span>
-                <i style="margin-left:14%" class="fa fa-plus" aria-hidden="true" [routerLink]="['/addbook']"></i>
-                <i style="margin-left:12%" class="fa fa-trash" aria-hidden="true"></i>
-                <i style="margin-left:12%" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                <span class="badge">12</span></li>
+                <i style="margin-left:70%" class="fa fa-plus" aria-hidden="true" [routerLink]="['/addbook']"></i>
+                <span (click)="showBooks()" class="badge list">{{books.length}}</span></li>
 
             <li class="list-group-item"><span style="margin-left:5%">Author</span>
-                <i style="margin-left:13.4%" class="fa fa-plus" aria-hidden="true" [routerLink]="['/addauthor']"></i>
-                <i style="margin-left:12%" class="fa fa-trash" aria-hidden="true"></i>
-                <i style="margin-left:12%" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                <span class="badge">12</span></li>
+                <i style="margin-left:69%" class="fa fa-plus" aria-hidden="true" [routerLink]="['/addauthor']"></i>
+                <span (click)="showAuthors()" class="badge list">{{authors.length}}</span></li>
 
             <li class="list-group-item"><span style="margin-left:5%">Publisher</span>
-                <i style="margin-left:11.8%" class="fa fa-plus" aria-hidden="true" [routerLink]="['/addpublisher']"></i>
-                <i style="margin-left:12%" class="fa fa-trash" aria-hidden="true"></i>
-                <i style="margin-left:12%" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                <span class="badge">12</span></li>
+                <i style="margin-left:66.5%" class="fa fa-plus" aria-hidden="true" [routerLink]="['/addpublisher']"></i>
+                <span (click)="showPublishers()" class="badge list">{{publishers.length}}</span></li>
 
             <li class="list-group-item"><span style="margin-left:5%">Category</span>
-                <i style="margin-left:12%" class="fa fa-plus" aria-hidden="true" [routerLink]="['/addcategory']"></i>
-                <i style="margin-left:12%" class="fa fa-trash" aria-hidden="true"></i>
-                <i style="margin-left:12%" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                <span class="badge">12</span></li>
+                <i style="margin-left:67%" class="fa fa-plus" aria-hidden="true" [routerLink]="['/addcategory']"></i>
+                <span (click)="showCategories()" class="badge list">{{categories.length}}</span></li>
 
             <li class="list-group-item"><span style="margin-left:5%">Sub-Category</span>
-                <i style="margin-left:9.2%" class="fa fa-plus" aria-hidden="true"
+                <i style="margin-left:62.5%" class="fa fa-plus" aria-hidden="true"
                     [routerLink]="['/addsubcategory']"></i>
-                <i style="margin-left:12%" class="fa fa-trash" aria-hidden="true"></i>
-                <i style="margin-left:12%" class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                <span class="badge">12</span></li>
+                <span (click)="showSubCategories()" class="badge list">{{subcategories.length}}</span></li>
 
         </ul>
-   
+
+    </div>   
+
+
+    <div  class="col-md-11" style="overflow-x:auto" *ngIf="showBook == 'true' ">
+        <table class="table table-striped table-condensed table-hover tblborder">
+            <thead>
+                <tr>
+                    <td style="color:blue;font-weight: bold;" colspan="12">Book List</td>
+                </tr>
+                <tr>
+                    <th>BookTitle </th>
+                    <th>ISBN </th>
+                    <th>Call Number</th>
+                    <th>Accession No.</th>
+                    <th>Edition</th>
+                    <th>Volume</th>
+                    <th>State</th>
+                    <th>Created Date</th>
+                    <th>Series Index</th>
+                    <th>Size</th>
+                    <th>Download Approval</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let obj of books">
+                    <td>{{obj.title}}</td>
+                    <td>{{obj.ISBN}}</td>
+                    <td>{{obj.callNo}}</td>
+                    <td>{{obj.accessionNo}}</td>
+                    <td>{{obj.edition}}</td>
+                    <td>{{obj.volume}}</td>
+                    <td>{{obj.state}}</td>
+                    <td>{{obj.createdDate}}</td>
+                    <td>{{obj.seriesIndex}}</td>
+                    <td>{{obj.size}}</td>
+                    <td>{{obj.downloadApproval}}</td>
+                    <td>
+                        <i style="margin-left:12%" value="{{obj.boId}}" (click)="editBook($event)"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
+
+                    </td>
+                    <td>
+                        <i style="margin-left:12%" value="{{obj.boId}}" (click)="deleteBook($event)" class="fa fa-trash" aria-hidden="true"></i>
+
+                      
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+
+    <div style="width:90%;overflow-x:auto" *ngIf="showAuthor == 'true' ">
+        <table class="table table-striped table-condensed table-hover tblborder">
+            <thead>
+                <tr>
+                    <td style="color:blue;font-weight: bold;" colspan="12">Author List</td>
+                </tr>
+                <tr>
+                    <th scope="col" style="width: 10%;text-align: left;">Profile</th>
+                    <th scope="col" style="width: 10%;text-align: left;">Name</th>
+                    <th scope="col" style="width: 10%;text-align: left;">Sort</th>
+                    <th scope="col" style="width: 10%;text-align: left;">Type</th>
+                    <th scope="col" style="width: 5%;text-align: left;">Edit</th>
+                    <th scope="col" style="width: 5%;text-align: left;">Delete</th>
+
+
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of authors | filter:authorTerm;">
+                    <td>
+                        <img class="profile" src="{{'http://localhost:8080' + item.profilePicture}}"
+                            alt="W3Schools.com">
+                    </td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.sort}}</td>
+                    <td>{{item.authorType}}</td>
+                    <td>
+                        <i style="margin-left:12%" value="{{item.boId}}" (click)="editAuthor($event)"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
+
+                    </td>
+                    <td>
+                        <i style="margin-left:12%" value="{{item.boId}}" (click)="deleteAuthor($event)" class="fa fa-trash" aria-hidden="true"></i>
+
+                      
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="width:53%;margin-left:20%;overflow-x:auto" *ngIf="showPublisher == 'true' ">
+        <table class="table table-striped table-condensed table-hover tblborder">
+            <thead>
+                <tr>
+                    <td style="color:blue;font-weight: bold;" colspan="12">Publisher List</td>
+                </tr>
+                <tr>
+                    <th scope="col" style="width: 10%;text-align: left;">Name</th>
+                    <th scope="col" style="width: 10%;text-align: left;">Sort</th>
+                    <th scope="col" style="width: 5%;text-align: left;">Edit</th>
+                    <th scope="col" style="width: 5%;text-align: left;">Delete</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of publishers | filter:authorTerm;">
+                    
+                    <td>{{item.name}}</td>
+                    <td>{{item.sort}}</td>
+                    <td>
+                        <i style="margin-left:12%" value="{{item.boId}}" (click)="editPublisher($event)"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
+
+                    </td>
+                    <td>
+                        <i style="margin-left:12%" value="{{item.boId}}" (click)="deletePublisher($event)" class="fa fa-trash" aria-hidden="true"></i>
+
+                      
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="width:53%;margin-left:20%;overflow-x:auto" *ngIf="showCategory == 'true' ">
+        <table class="table table-striped table-condensed table-hover tblborder">
+            <thead>
+                <tr>
+                    <td style="color:blue;font-weight: bold;" colspan="12">Category List</td>
+                </tr>
+                <tr>
+                    <th scope="col" style="width: 10%;text-align: left;">Myanmar Name</th>
+                    <th scope="col" style="width: 10%;text-align: left;">Eng Name</th>
+                    <th scope="col" style="width: 5%;text-align: left;">Edit</th>
+                    <th scope="col" style="width: 5%;text-align: left;">Delete</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of categories | filter:authorTerm;">
+                    
+                    <td>{{item.myanmarName}}</td>
+                    <td>{{item.engName}}</td>
+                    <td>
+                        <i style="margin-left:12%" value="{{item.boId}}" (click)="editCategory($event)"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
+
+                    </td>
+                    <td>
+                        <i style="margin-left:12%" value="{{item.boId}}" (click)="deleteCategory($event)" class="fa fa-trash" aria-hidden="true"></i>
+
+                      
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="width:49%;margin-left:22%;overflow-x:auto" *ngIf="showSubCategory == 'true' ">
+        <table class="table table-striped table-condensed table-hover tblborder">
+            <thead>
+                <tr>
+                    <td style="color:blue;font-weight: bold;" colspan="12">Sub-Category List</td>
+                </tr>
+                <tr>
+                    <th scope="col" style="width: 10%;text-align: left;text-align: center;">Name</th>
+                    <th scope="col" style="width: 5%;text-align: left;text-align: center;">Edit</th>
+                    <th scope="col" style="width: 5%;text-align: left;text-align: center;">Delete</th>
+
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of subcategories | filter:authorTerm;">                    
+                    <td style="text-align: center;">{{item.name}}</td>
+                    <td>
+                        <i style="margin-left:12%" value="{{item.boId}}" (click)="editSubCategory($event)"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
+
+                    </td>
+                    <td>
+                        <i style="margin-left:12%" value="{{item.boId}}" (click)="deleteSubCategory($event)" class="fa fa-trash" aria-hidden="true"></i>
+
+                      
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
 </div>

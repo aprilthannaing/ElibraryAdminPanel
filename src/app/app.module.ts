@@ -73,6 +73,7 @@ import { BookaddsubcategoryComponent } from './bookaddsubcategory/bookaddsubcate
 import { BookaddpublisherComponent } from './bookaddpublisher/bookaddpublisher.component';
 import { BookaddComponent } from './bookadd/bookadd.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -124,6 +125,7 @@ const routes: Routes = [
     UserListComponent
   ],
   imports: [
+    Ng2SearchPipeModule,
     MatFormFieldModule,
     HttpClientModule,
     BrowserModule,
