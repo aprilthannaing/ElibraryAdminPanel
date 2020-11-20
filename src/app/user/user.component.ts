@@ -9,7 +9,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UserComponent implements OnInit {
  
-  json = { "boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":""
+  json:any = this.userObj();
+  userObj(){ 
+      return { "boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":""
+  }
 }
 lov: any = {
   "refHluttaw": [{ "value": "", "caption": "" }],
@@ -118,7 +121,8 @@ getPosition() {
           (data:any) => {
               if (data != null && data != undefined) {
                   this.lov.refPosition = data.refPosition;
-                  this.json.positionType=this.lov.refPosition[0].value;
+                  if(this.json.positionType == "")
+                    this.json.positionType=this.lov.refPosition[0].value;
               }
           },
           error => {
@@ -140,7 +144,7 @@ goSave() {
       this.http.post(url,this.json).subscribe(
           (data:any) => {
               if (data != null && data != undefined) {
-
+                    this.json = data;
               }
           },
           error => {
@@ -162,8 +166,10 @@ changeModule() {
 goList(){
     this.router.navigate(['userList']);  
 }
-cancel() {
-
+goNew() {
+    this.json = this.userObj();
+    this.getHluttaw();
+    this.getPosition();
 }
 
 }

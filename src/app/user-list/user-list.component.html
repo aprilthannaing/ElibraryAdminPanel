@@ -1,12 +1,11 @@
 <app-home></app-home>
 <div class="cardview">
-    <div class="col-md-12"> 
         <div class="col-md-4">  
             <div class="input-group">
                 <span class="input-group-btn" >
                     <button class="btn btn-primary" type="button" (click)="goBack();">Back</button>
                 </span>
-                <input id="textinput" name="textinput" type="text" placeholder="Search" [(ngModel)]="json.searchText" (keyup)="searchKeyup($event)" class="form-control">
+                <input id="textinput" name="textinput" type="text" placeholder="Search" [(ngModel)]="jsonReq.searchText" (keyup)="searchKeyup($event)" class="form-control">
                 <span class="input-group-btn">
                     <button class="btn btn-primary" type="button" (click)="Searching()" >
                 <span class="glyphicon glyphicon-search"></span>Search
@@ -14,6 +13,46 @@
                 </span>        
             </div>
         </div> 
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <mat-form-field>
+                    <mat-label>Hluttaw Type</mat-label>
+                    <select (change)="changeModule($event)" matNativeControl [(ngModel)]="jsonReq.hlutawType">
+                        <option *ngFor="let item of lov.refHluttaw" value="{{item.value}}">{{item.caption}}</option>
+                    </select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field>
+                    <mat-label >Department Type</mat-label>
+                    <select  matNativeControl [(ngModel)]="jsonReq.deptType">
+                        <option *ngFor="let item of lov.refDept" value="{{item.value}}">{{item.caption}}</option>
+                    </select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field>
+                    <mat-label>Position</mat-label>
+                    <select  matNativeControl [(ngModel)]="jsonReq.positionType">
+                        <option *ngFor="let item of lov.refPosition" value="{{item.value}}">{{item.caption}}</option>
+                    </select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="mat" color="accent">
+                    <input matInput [matDatepicker]="picker1" placeholder="From Date" [(ngModel)]="jsonReq.fromDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="mat" color="accent">
+                    <input matInput [matDatepicker]="picker1" placeholder="To Date" [(ngModel)]="jsonReq.toDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
         <div class="col-md-12" style="overflow-x:auto">
             <table class="table table-striped table-condensed table-hover tblborder">
                 <thead>
@@ -26,12 +65,13 @@
                     <th>Position</th> 
                     <th>Role</th>
                     <th>Type</th>  
-                    <th>Modified Date</th>    
+                    <th>Modified Date</th>   
+                    <th>Status</th> 
                 </tr>
                 </thead>
-            <tbody>
-                <tr *ngFor="let obj of userObj">
-                    <td><a (click)="goto(obj.boId)">{{obj.name}}</a></td>
+                <tbody *ngFor="let obj of userObj">
+                <tr (click)="goto(obj.boId)">
+                    <td>{{obj.name}}</td>
                     <td>{{obj.email}}</td>
                     <td>{{obj.phoneNo}}</td>
                     <td>{{obj.hlutawName}}</td>
@@ -40,9 +80,9 @@
                     <td>{{obj.role}}</td>
                     <td>{{obj.type}}</td>
                     <td>{{obj.modifiedDate}}</td>
+                    <td>{{obj.status}}</td>
                 </tr>  
-            </tbody>
+                </tbody>
             </table>
         </div>
-    </div>
 </div>

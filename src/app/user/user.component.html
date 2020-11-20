@@ -1,6 +1,7 @@
 <app-home></app-home>
 <div class="content">
     <div class="row  col-md-12">    
+        <button class="btn btn-primary" type="button"  (click)="goNew()">New</button>
         <button class="btn btn-primary" type="button"  (click)="goSave()">Save</button>
         <button class="btn btn-primary" type="button"  (click)="goList()">List</button>
     </div>
@@ -26,35 +27,35 @@
             <br>
 
         <mat-form-field style="width: 40%; margin-left: 5%;">
-            <mat-label style="font-weight: bold;">Choose User Type</mat-label>
+            <mat-label >Choose User Type</mat-label>
             <select  matNativeControl required [(ngModel)]="json.type">
                 <option *ngFor="let item of lov.refUserType" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field>
 
         <mat-form-field style="width: 40%; margin-left: 5%;">
-            <mat-label style="font-weight: bold;">Choose Hluttaw Type</mat-label>
+            <mat-label >Choose Hluttaw Type</mat-label>
             <select (change)="changeModule()" matNativeControl required [(ngModel)]="json.hlutawType">
                 <option *ngFor="let item of lov.refHluttaw" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field>
 
         <mat-form-field style="width: 40%; margin-left: 5%;">
-            <mat-label style="font-weight: bold;">Choose Department Type</mat-label>
+            <mat-label >Choose Department Type</mat-label>
             <select  matNativeControl required [(ngModel)]="json.deptType">
                 <option *ngFor="let item of lov.refDept" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field>
 
         <mat-form-field style="width: 40%; margin-left: 5%;">
-            <mat-label style="font-weight: bold;">Choose Position</mat-label>
+            <mat-label >Choose Position</mat-label>
             <select  matNativeControl required [(ngModel)]="json.positionType">
                 <option *ngFor="let item of lov.refPosition" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field>
 
         <mat-form-field style="width: 40%; margin-left: 5%;">
-            <mat-label style="font-weight: bold;">Choose Status</mat-label>
+            <mat-label >Choose Status</mat-label>
             <select  matNativeControl required [(ngModel)]="json.status">
                 <option *ngFor="let item of lov.refStatus" value="{{item.value}}">{{item.caption}}</option>
             </select>
