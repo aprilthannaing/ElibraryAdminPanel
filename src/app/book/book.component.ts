@@ -27,7 +27,8 @@ export class BookComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    public dialog: MatDialog,) { }
+    public dialog: MatDialog,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getAllBooks();
@@ -136,11 +137,6 @@ export class BookComponent implements OnInit {
     this.showBook = "false";
   }
 
-  editBook(e) {
-    console.log("click event: ", e.target.value)    
-
-  }
-
   deleteBook(e) {
     console.log("click event: ", e.target.value)
     for (let i = 0; i < this.books.length; ++i) {
@@ -193,7 +189,8 @@ export class BookComponent implements OnInit {
   }
 
   editSubCategory(e) {
-    console.log("click event: ", e.target.value)    
+    console.log("click event: ", e.target.value) 
+       
 
   }
 

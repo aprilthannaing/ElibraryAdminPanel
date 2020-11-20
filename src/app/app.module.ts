@@ -74,6 +74,7 @@ import { BookaddpublisherComponent } from './bookaddpublisher/bookaddpublisher.c
 import { BookaddComponent } from './bookadd/bookadd.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { BookeditComponent } from './bookedit/bookedit.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -97,6 +98,8 @@ const routes: Routes = [
   { path: 'addsubcategory', component: BookaddsubcategoryComponent },
   { path: 'addpublisher', component: BookaddpublisherComponent },
   { path: 'addbook', component: BookaddComponent },
+  { path: 'editbook/:boId', component: BookeditComponent },
+
 
 ];
 
@@ -122,7 +125,8 @@ const routes: Routes = [
     BookaddsubcategoryComponent,
     BookaddpublisherComponent,
     BookaddComponent,
-    UserListComponent
+    UserListComponent,
+    BookeditComponent
   ],
   imports: [
     Ng2SearchPipeModule,

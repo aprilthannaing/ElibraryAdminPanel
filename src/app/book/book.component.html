@@ -71,7 +71,7 @@
                     <td>{{obj.size}}</td>
                     <td>{{obj.downloadApproval}}</td>
                     <td>
-                        <i style="margin-left:12%" value="{{obj.boId}}" (click)="editBook($event)"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        <i style="margin-left:12%" value="{{obj.boId}}" [routerLink]="['/editbook/', obj.boId]"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
 
                     </td>
                     <td>
