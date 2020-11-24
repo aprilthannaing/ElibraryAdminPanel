@@ -1,12 +1,18 @@
 <app-home></app-home>
-<div class="content">
+<div class="cardview">
     <div class="row  col-md-12">    
         <button class="btn btn-primary" type="button"  (click)="goNew()">New</button>
         <button class="btn btn-primary" type="button"  (click)="goSave()">Save</button>
         <button class="btn btn-primary" type="button"  (click)="goList()">List</button>
+        <button class="btn btn-primary" type="button"  (click)="goUpload()">Upload</button>
     </div>
-    <div class="col-md-12"></div>
     <p style="margin-left: 5%;">Please Enter Details!</p>
+    <div class="col-md-6 row" style="margin-left: 5%;" >
+        <div *ngFor="let item of lov.refStatus">
+            <label class="radio-inline">
+            <input #c [checked]="json.status == c.value" (click)="json.status = c.value" type="radio" name="_encashobj.field1" value="{{item.value}}">{{item.caption}}</label>
+        </div>
+    </div>
     <div class="col-md-12 row">
         <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
             <mat-label> Name</mat-label>
@@ -18,13 +24,18 @@
             <mat-label> Email</mat-label>
             <input matInput placeholder="aaa@gmail.com" [(ngModel)]="json.email" required>
         </mat-form-field>
-        <br>
 
         <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
-                <mat-label> Phone No</mat-label>
-                <input matInput placeholder="09...." [(ngModel)]="json.phoneNo" required>
-            </mat-form-field>
-            <br>
+            <mat-label> Phone No</mat-label>
+            <input matInput placeholder="09...." [(ngModel)]="json.phoneNo" required>
+        </mat-form-field>
+
+        <mat-form-field style="width: 40%; margin-left: 5%;">
+            <mat-label >Choose User Role</mat-label>
+            <select  matNativeControl required [(ngModel)]="json.roleType">
+                <option *ngFor="let item of lov.refRole" value="{{item.value}}">{{item.caption}}</option>
+            </select>
+        </mat-form-field>
 
         <mat-form-field style="width: 40%; margin-left: 5%;">
             <mat-label >Choose User Type</mat-label>
@@ -39,27 +50,32 @@
                 <option *ngFor="let item of lov.refHluttaw" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field>
-
-        <mat-form-field style="width: 40%; margin-left: 5%;">
+        
+        <mat-form-field style="width: 35%; margin-left: 5%;" *ngIf="json.type == 'Staff'">
             <mat-label >Choose Department Type</mat-label>
             <select  matNativeControl required [(ngModel)]="json.deptType">
                 <option *ngFor="let item of lov.refDept" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field>
+        <div (click)="goSetup('lov1')" *ngIf="json.type == 'Staff'">
+            <i class="glyphicon glyphicon-plus-sign" style="font-size: 21px;color: #2e6da4;" aria-hidden="true"></i>
+        </div>
 
-        <mat-form-field style="width: 40%; margin-left: 5%;">
+        <mat-form-field style="width: 35%; margin-left: 5%;" *ngIf="json.type == 'Staff'">
             <mat-label >Choose Position</mat-label>
             <select  matNativeControl required [(ngModel)]="json.positionType">
                 <option *ngFor="let item of lov.refPosition" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field>
-
-        <mat-form-field style="width: 40%; margin-left: 5%;">
+        <div (click)="goSetup('lov2')" *ngIf="json.type == 'Staff'">
+            <i class="glyphicon glyphicon-plus-sign" style="font-size: 21px;color: #2e6da4;" aria-hidden="true"></i>
+        </div>
+        <!-- <mat-form-field style="width: 40%; margin-left: 5%;">
             <mat-label >Choose Status</mat-label>
             <select  matNativeControl required [(ngModel)]="json.status">
                 <option *ngFor="let item of lov.refStatus" value="{{item.value}}">{{item.caption}}</option>
             </select>
-        </mat-form-field>
+        </mat-form-field> -->
 
     </div>
 </div>

@@ -8,18 +8,19 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./user.component.styl']
 })
 export class UserComponent implements OnInit {
- 
   json:any = this.userObj();
   userObj(){ 
-      return { "boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":""
+      return { "boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":"","roleType":""
   }
 }
 lov: any = {
-  "refHluttaw": [{ "value": "", "caption": "" }],
-  "refDept": [{ "value": "", "caption": "" }],
-  "refPosition": [{ "value": "", "caption": "" }],
-  "refStatus": [{ "value": "NEW", "caption": "new" },{ "value": "ACTIVE", "caption": "active" },{ "value": "EXPIRED", "caption": "expired" }],
-  "refUserType": [{ "value": "Representative", "caption": "representative" },{ "value": "Staff", "caption": "staff" }],
+  "refHluttaw"  : [{ "value": "", "caption": "" }],
+  "refDept"     : [{ "value": "", "caption": "" }],
+  "refPosition" : [{ "value": "", "caption": "" }],
+  "refStatus"   : [{ "value": "NEW", "caption": "NEW" },{ "value": "ACTIVE", "caption": "ACTIVE" },{ "value": "EXPIRED", "caption": "EXPIRED" }],
+  "refUserType" : [{ "value": "", "caption": "" },{ "value": "Representative", "caption": "Representative" },{ "value": "Staff", "caption": "Staff" }],
+  "refRole"     : [{ "value": "", "caption": "" },{ "value": "Admin", "caption": "Admin" },{ "value": "SuperLibrarian", "caption": "Supervisor Librarian" },
+                    { "value": "Librarian", "caption": "Librarian" },{ "value": "User", "caption": "User" }],
 };
 
 constructor(
@@ -37,6 +38,7 @@ ngOnInit() {
         this.goReadByKey(id);
       }
     });
+    this.json.status = this.lov.refStatus[0].value;
     this.getHluttaw();
     this.getPosition();
   }
@@ -139,6 +141,12 @@ getPosition() {
 }
 
 goSave() {
+    if(this.json.type === 'Representative' ){
+        this.json.deptType = this.lov.refDept[0].value;
+        this.json.positionType = this.lov.refPosition[0].value;
+    }else{
+
+    }
   const url = 'http://localhost:8080/user/setuserinfo';
   try {
       this.http.post(url,this.json).subscribe(
@@ -166,10 +174,16 @@ changeModule() {
 goList(){
     this.router.navigate(['userList']);  
 }
+goSetup(id){
+    this.router.navigate(['setup', 'read', id]);
+}
 goNew() {
     this.json = this.userObj();
     this.getHluttaw();
     this.getPosition();
+}
+goUpload(){
+    this.router.navigate(['user-upload']);
 }
 
 }

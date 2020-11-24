@@ -1,3 +1,11 @@
+.card-container.card {
+  max-width: 350px;
+  max-height: 350px;
+  padding: 4px 20px 20px 20px;
+}
+.col-md-12 {
+  margin-bottom: 20px;
+}
 .cardview {
   background-color: #C2DFFF;
   padding: 8px 12px 5px 12px;

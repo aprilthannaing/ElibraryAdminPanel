@@ -80,9 +80,14 @@ import { PublishereditComponent } from './publisheredit/publisheredit.component'
 import { CategoryeditComponent } from './categoryedit/categoryedit.component';
 import { SubcategoryeditComponent } from './subcategoryedit/subcategoryedit.component';
 import { BooksupervisorpanelComponent } from './booksupervisorpanel/booksupervisorpanel.component';
+import { SetupComponent } from './setup/setup.component';
+import { UserUploadComponent } from './user-upload/user-upload.component';
+import { UserLoginComponent } from './user-login/user-login.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '',redirectTo: 'login',pathMatch: 'full'},
+  { path: 'login', component: UserLoginComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'header', component: HeaderComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'book', component: BookComponent },
@@ -109,7 +114,9 @@ const routes: Routes = [
   { path: 'editcategory/:boId', component: CategoryeditComponent },
   { path: 'editsubcategory/:boId', component: SubcategoryeditComponent },
   { path: 'booksupervisor', component: BooksupervisorpanelComponent },
-
+  { path: 'setup', component: SetupComponent },
+  { path: 'setup/:cmd/:id', component: SetupComponent },
+  { path: 'user-upload', component: UserUploadComponent },
 ];
 
 @NgModule({
@@ -141,6 +148,9 @@ const routes: Routes = [
     CategoryeditComponent,
     SubcategoryeditComponent,
     BooksupervisorpanelComponent,
+    SetupComponent,
+    UserUploadComponent,
+    UserLoginComponent
   ],
   imports: [
     Ng2SearchPipeModule,
@@ -199,6 +209,7 @@ const routes: Routes = [
     OverlayModule,
     PortalModule,
     ScrollingModule,
+  
   ],
   providers: [
   ],
