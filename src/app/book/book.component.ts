@@ -97,6 +97,7 @@ export class BookComponent implements OnInit {
         console.warn("error: ", error);
       });
   }
+  
   showBooks() {
     this.showBook = "true";
     this.showAuthor = "false"
@@ -142,6 +143,18 @@ export class BookComponent implements OnInit {
     for (let i = 0; i < this.books.length; ++i) {
       if (this.books[i].boId === e.target.value) {
         this.books.splice(i, 1);
+
+        const json = {
+          bookId : e.target.value
+        }
+        const url: string = "http://localhost:8082/operation/deleteBook";   
+        this.http.post(url, json).subscribe(
+          (data: any) => {
+            console.log("response: ", data);          
+          },
+          error => {
+            console.log("error ", error);    
+          });
       }
     }
   }
@@ -156,6 +169,18 @@ export class BookComponent implements OnInit {
     for (let i = 0; i < this.authors.length; ++i) {
       if (this.authors[i].boId === e.target.value) {
         this.authors.splice(i, 1);
+
+        const json = {
+          authorId : e.target.value
+        }
+        const url: string = "http://localhost:8082/operation/deleteAuthor";   
+        this.http.post(url, json).subscribe(
+          (data: any) => {
+            console.log("response: ", data);          
+          },
+          error => {
+            console.log("error ", error);    
+          });
       }
     }
   }
@@ -170,6 +195,18 @@ export class BookComponent implements OnInit {
     for (let i = 0; i < this.publishers.length; ++i) {
       if (this.publishers[i].boId === e.target.value) {
         this.publishers.splice(i, 1);
+
+        const json = {
+          publisherboId : e.target.value
+        }
+        const url: string = "http://localhost:8082/operation/deletePublisher";   
+        this.http.post(url, json).subscribe(
+          (data: any) => {
+            console.log("response: ", data);          
+          },
+          error => {
+            console.log("error ", error);    
+          });
       }
     }
   }
@@ -184,6 +221,18 @@ export class BookComponent implements OnInit {
     for (let i = 0; i < this.categories.length; ++i) {
       if (this.categories[i].boId === e.target.value) {
         this.categories.splice(i, 1);
+
+        const json = {
+          categoryboId : e.target.value
+        }
+        const url: string = "http://localhost:8082/operation/deleteCategory";   
+        this.http.post(url, json).subscribe(
+          (data: any) => {
+            console.log("response: ", data);          
+          },
+          error => {
+            console.log("error ", error);    
+          });
       }
     }
   }
@@ -199,9 +248,19 @@ export class BookComponent implements OnInit {
     for (let i = 0; i < this.subcategories.length; ++i) {
       if (this.subcategories[i].boId === e.target.value) {
         this.subcategories.splice(i, 1);
+
+        const json = {
+          subCategoryboId : e.target.value
+        }
+        const url: string = "http://localhost:8082/operation/deleteSubCategory";   
+        this.http.post(url, json).subscribe(
+          (data: any) => {
+            console.log("response: ", data);          
+          },
+          error => {
+            console.log("error ", error);    
+          });
       }
     }
-  }
-
-  
+  }  
 }

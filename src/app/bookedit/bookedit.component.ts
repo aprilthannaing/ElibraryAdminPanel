@@ -14,23 +14,48 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class BookeditComponent implements OnInit {
 
   boId: string;
-
+  json = { "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "callNo": "", "description": "" };
+  categories = [];
+  subcategories = [];
+  publishers = [];
+  authors = [];
 
   @ViewChild('fileInput') fileInput;
   file: File | null = null;
   imageSrc: string;
   pdf: string;
+
   publisherForm: FormGroup;
   authorForm: FormGroup;
-  json = { "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "callNumber": "", "description": "" };
-  categories = [];
-  subcategories = [];
-  publishers = [];
-  authors = [];
   term: string;
   publisherTerm: string;
   authorTerm: string;
   subCategoryTerm: string;
+
+  authorList = [];
+  categoryBoId: string = '';
+  subCategoryBoId: string = '';
+  publisherList = [];
+  selectedRadio: any;
+  selectedEntry;
+  selectedPublishers = [];
+  selectedAuthors = [];
+  test = "";
+
+  onSelectionChange(entry) {
+    this.selectedEntry = entry;
+    console.log("this selectedEntry: ", this.selectedEntry)
+
+  }
+
+  checkAuthorContainOrNot(boId) {
+    return this.authorList.includes(boId);
+
+  }
+
+  checkPublisherContainOrNot(boId) {
+    return this.publisherList.includes(boId);
+  }
 
   /*img  */
   myForm = new FormGroup({
@@ -42,9 +67,6 @@ export class BookeditComponent implements OnInit {
     fileSource: new FormControl('', [Validators.required])
 
   });
-
-
-
 
   get f() {
     return this.myForm.controls;
@@ -62,12 +84,37 @@ export class BookeditComponent implements OnInit {
 
   });
 
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private formBuilder: FormBuilder,
+    public dialog: MatDialog,
+    private actRoute: ActivatedRoute) {
+    this.boId = this.actRoute.snapshot.params.boId;
+
+    this.publisherForm = this.formBuilder.group({
+      pubs: this.formBuilder.array([], [Validators.required])
+
+    })
+    this.authorForm = this.formBuilder.group({
+      auths: this.formBuilder.array([], [Validators.required])
+
+    })
+
+  }
+
+  ngOnInit(): void {
+    console.log("heerefjksdfjk")
+    this.findByBoId();
+    this.getAllCategories();
+    this.getAllPublishers();
+    this.getAllAuthors();
+  }
+
 
   get pdfF() {
     return this.pdfForm.controls;
   }
-
-
 
   onFileChange(event) {
     const reader = new FileReader();
@@ -97,32 +144,7 @@ export class BookeditComponent implements OnInit {
     }
   }
 
-
-  constructor(
-    private router: Router,
-    private http: HttpClient,
-    private formBuilder: FormBuilder,
-    public dialog: MatDialog,
-    private actRoute: ActivatedRoute) {
-      this.boId = this.actRoute.snapshot.params.boId;
-
-    this.publisherForm = this.formBuilder.group({
-      pubs: this.formBuilder.array([], [Validators.required])
-
-    })
-    this.authorForm = this.formBuilder.group({
-      auths: this.formBuilder.array([], [Validators.required])
-
-    })
-  }
-
-
-  ngOnInit(): void {
-    this.getAllCategories();
-    this.getAllPublishers();
-    this.getAllAuthors();
-    this.findByBoId();
-  }
+ 
 
   onClickFileInputButton(): void {
     this.fileInput.nativeElement.click();
@@ -147,6 +169,7 @@ export class BookeditComponent implements OnInit {
     this.http.request('get', url).subscribe(
       (data: any) => {
         this.categories = data.categories;
+        console.log(" this.categories: ", this.categories)
       },
       error => {
         console.warn("error: ", error);
@@ -172,64 +195,62 @@ export class BookeditComponent implements OnInit {
       },
       error => {
         console.warn("error: ", error);
-      });    
-  }
-
-  onAuthorsCheckboxChange(e) {
-    const auths: FormArray = this.authorForm.get('auths') as FormArray;
-    if (e.target.checked) {
-      auths.push(new FormControl(e.target.value));
-    } else {
-      const index = auths.controls.findIndex(x => x.value === e.target.value);
-      auths.removeAt(index);
-    }
-  }
-
-  onPublishersCheckboxChange(e) {
-    const pubs: FormArray = this.publisherForm.get('pubs') as FormArray;
-    if (e.target.checked) {
-      pubs.push(new FormControl(e.target.value));
-    } else {
-      const index = pubs.controls.findIndex(x => x.value === e.target.value);
-      pubs.removeAt(index);
-    }
+      });
   }
 
   form = new FormGroup({
-
-    category: new FormControl('', Validators.required)
-
+    category: new FormControl('', Validators.required),
   });
 
-  subCategoryform = new FormGroup({
-    subcategory: new FormControl('', Validators.required)
-  })
 
   changeCategory(e) {
-    console.log("form vlaue: ", e.target.value);
-    console.log("form vlaue: ", this.form.value);
     const url: string = "http://localhost:8082/category/boId";
     this.http.post(url, this.form.value).subscribe(
       (data: any) => {
         this.subcategories = data.subcategories;
+        console.log(" this.subcategories:  ", this.subcategories)
+        console.log(" subCategoryBoId boid:  ", this.subCategoryBoId)
+
       },
       error => {
         console.warn("error: ", error);
       });
   }
 
+
+  onChange(boId: string, isChecked: boolean) {
+    const auths = <FormArray>this.authorForm.controls.auths;
+    if (isChecked) {
+      auths.push(new FormControl(boId));
+    } else {
+      let index = auths.controls.findIndex(x => x.value == boId)
+      auths.removeAt(index);
+    }
+  }
+
+  onPublisherChange(boId: string, isChecked: boolean) {
+    const pubs = <FormArray>this.publisherForm.controls.pubs;
+    if (isChecked) {
+      pubs.push(new FormControl(boId));
+    } else {
+      let index = pubs.controls.findIndex(x => x.value == boId)
+      pubs.removeAt(index);
+    }
+  }
+
   save() {
     this.json.imageSrc = this.imageSrc;
     this.json.pdf = this.pdf;
-    this.json.authors = this.authorForm.value.auths;
-    this.json.publishers = this.publisherForm.value.pubs;
     this.json.profileName = this.myForm.value.file;
     this.json.pdfName = this.pdfForm.value.file;
     this.json.category = this.form.value.category;
-    this.json.subCategory = this.subCategoryform.value.subcategory;
+    this.json.publishers = this.publisherForm.value.pubs;
+    this.json.authors = this.authorForm.value.auths;
+    this.json.category = this.form.value.category == '' ? this.categoryBoId : this.form.value.category;
+    this.json.subCategory = this.selectedEntry == undefined ? this.subCategoryBoId : this.selectedEntry;
 
-    console.log("json", this.json)
-    const url: string = "http://localhost:8082/operation/saveBook";
+    console.log("this.json: ", this.json)
+    const url: string = "http://localhost:8082/operation/editBook";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         if (data.status == "1")
@@ -243,8 +264,10 @@ export class BookeditComponent implements OnInit {
 
   }
 
+  findByBoId() {
 
-  findByBoId(){
+
+    console.log("find by boid.........................")
     const json = {
       boId: this.boId
     }
@@ -252,11 +275,32 @@ export class BookeditComponent implements OnInit {
     const url: string = "http://localhost:8082/book/boId";
     this.http.post(url, json).subscribe(
       (data: any) => {
-        console.warn("data: ", data);  
+        console.log("book by boId: ", data.book)
+        this.subcategories = data.book.category.subCategories;
+
         this.json = data.book;
-        this.json.description = data.book.comment.description;     
+        //this.json.downloadApproval = data.book.downloadApproval == "false" ? "" : "true";
+        this.json.description = data.book.comment == null? "" : data.book.comment.description;
         this.imageSrc = "http://localhost:8080" + data.book.coverPhoto;
-        this.myForm.value.file = data.book.coverPhoto;
+        this.json.profileName = data.book.coverPhoto;
+        this.json.pdfName = data.book.path;
+
+        data.book.authors.forEach(element => {
+          this.authorList.push(element.boId);
+          this.onChange(element.boId, true);
+
+        });
+
+        data.book.publishers.forEach(element => {
+          this.onPublisherChange(element.boId, true);
+        });
+
+        this.form.value.category = data.book.category.boId;
+        this.categoryBoId = data.book.category.boId;
+        this.subCategoryBoId = data.book.subCategory.boId;
+        data.book.publishers.forEach(element => {
+          this.publisherList.push(element.boId);
+        });
       },
       error => {
         console.warn("error: ", error);
@@ -273,7 +317,6 @@ export class BookeditComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.router.navigate(['book']);
-      console.log('The dialog was closed');
     });
 
   }
@@ -283,7 +326,6 @@ export class BookeditComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
 
   }

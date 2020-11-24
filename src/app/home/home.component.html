@@ -8,9 +8,11 @@
                     <path fill-rule="evenodd"
                         d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z" />
                 </svg><span style="margin-left: 5%;">Dashboard</span></a></li>
-        <li><a [routerLink]="['/book']">
+        <li><a  (click)="manageBooks()"> <!--[routerLink]="['/book']"-->
                 <i class="fa fa-book" aria-hidden="true" style="margin-top: 3px;"></i>
                 <span style="margin-left: 6%;">Book</span>
+                <span style="margin-left: 6%;background-color: blue;margin-bottom: 2%;" class="badge list">{{books.length}}</span>
+
             </a>
         </li>
 
@@ -71,18 +73,3 @@
         </li>
     </ul>
 </nav>
-
-<!-- 
-   <article>
-       <div>
-        <h1>Home</h1>
-        <p>London is the capital city of England. It is the most populous city in the United Kingdom, with a
-            metropolitan area of over 13 million inhabitants.</p>
-        <p>Standing on the River Thames, London has been a major settlement for two millennia, its history going back to
-            its founding by the Romans, who named it Londinium.</p>
-        </div>
-    </article> -->
-<!-- 
-<footer>
-    <p>Footer</p>
-</footer> -->

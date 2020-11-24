@@ -1,0 +1,60 @@
+<app-home></app-home>
+<div class="content">
+    <div style="margin-left: 20%;margin-top: 3%;">
+        <p style="margin-left: 5%;">Please Enter Details!</p>
+
+        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+            <mat-label> Category (Myanmar)</mat-label>
+            <input matInput placeholder="မြန်မာစာအုပ်များ" [(ngModel)]="json.myanmarName" required>
+        </mat-form-field>
+
+
+        <br>
+        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+            <mat-label> Category  (English)</mat-label>
+            <input matInput placeholder="Myanmar books" [(ngModel)]="json.engName" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="mat" style="width: 40%; margin-left: 5%">
+            <mat-label> Sub-Categories</mat-label>
+            <input matInput placeholder="Search Here" [(ngModel)]="term">
+        </mat-form-field>
+
+
+        <form [formGroup]="form">
+
+            <div class="form-group">
+                <div style="width: 40%;overflow: auto; height:300px;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of subcategories | filter:term;">
+                                <td>{{item.name}}
+                                </td>
+                                <td>
+                                    <input type="checkbox" value="{{item.boId}}" (change)="onChange(item.boId, $event.target.checked)" 
+                                    [checked]="checkCategoryContainOrNot(item.boId)">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+
+
+        <div style="margin-left: 12%;">
+            <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
+            <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Submit</button>
+        </div>
+
+
+
+
+
+    </div>
+</div>

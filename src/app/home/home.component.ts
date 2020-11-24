@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Event, Router, RouterEvent, NavigationStart, NavigationEnd } from '@angular/router';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IntercomService } from '../framework/intercom.service';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +14,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  books = [];
   ngOnInit(): void {
+    this.getAllBooks();
+  }
+
+  constructor(
+    private http: HttpClient,
+    public dialog: MatDialog,
+    private router: Router,
+    private ics: IntercomService) { }
+
+  manageBooks() {
+    console.log("manage book")
+    console.log("userRole", this.ics.userRole)
+
+    if (this.ics.userRole == "SUPERVISOR")
+      this.router.navigate(['booksupervisor']);
+    if (this.ics.userRole == "ADMIN")
+      this.router.navigate(['book']);
+  }
+
+  getAllBooks() {
+    const url: string = "http://localhost:8082/book/all";
+    this.http.request('get', url).subscribe(
+      (data: any) => {
+        console.warn("data: ", data);
+        this.books = data.books;
+      },
+      error => {
+        console.warn("error: ", error);
+      });
   }
 
 }

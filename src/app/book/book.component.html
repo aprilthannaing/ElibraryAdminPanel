@@ -36,48 +36,45 @@
     <div  class="col-md-11" style="overflow-x:auto" *ngIf="showBook == 'true' ">
         <table class="table table-striped table-condensed table-hover tblborder">
             <thead>
-                <tr>
-                    <td style="color:blue;font-weight: bold;" colspan="12">Book List</td>
-                </tr>
+               
                 <tr>
                     <th>BookTitle </th>
                     <th>ISBN </th>
                     <th>Call Number</th>
-                    <th>Accession No.</th>
                     <th>Edition</th>
-                    <th>Volume</th>
                     <th>State</th>
                     <th>Created Date</th>
-                    <th>Series Index</th>
                     <th>Size</th>
                     <th>Download Approval</th>
                     <th>Edit</th>
                     <th>Delete</th>
-
-                </tr>
+                 </tr>
 
             </thead>
             <tbody>
-                <tr *ngFor="let obj of books">
+                <tr *ngFor="let obj of books | filter:term;">
                     <td>{{obj.title}}</td>
                     <td>{{obj.ISBN}}</td>
                     <td>{{obj.callNo}}</td>
-                    <td>{{obj.accessionNo}}</td>
                     <td>{{obj.edition}}</td>
-                    <td>{{obj.volume}}</td>
-                    <td>{{obj.state}}</td>
+                    <td style="color: blue;">{{obj.state}}</td>
                     <td>{{obj.createdDate}}</td>
-                    <td>{{obj.seriesIndex}}</td>
                     <td>{{obj.size}}</td>
-                    <td>{{obj.downloadApproval}}</td>
+
                     <td>
-                        <i style="margin-left:12%" value="{{obj.boId}}" [routerLink]="['/editbook/', obj.boId]"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        <input style="text-align: center;" type="checkbox" [(ngModel)]="obj.downloadApproval">
 
                     </td>
                     <td>
-                        <i style="margin-left:12%" value="{{obj.boId}}" (click)="deleteBook($event)" class="fa fa-trash" aria-hidden="true"></i>
+                        <i style="margin-left:12%" value="{{obj.boId}}" [routerLink]="['/editbook/', obj.boId]"
+                            class="fa fa-pencil-square-o" aria-hidden="true"></i>
 
-                      
+                    </td>
+                    <td>
+                        <i style="margin-left:12%" value="{{obj.boId}}" (click)="deleteBook($event)" class="fa fa-trash"
+                            aria-hidden="true"></i>
+
+
                     </td>
                 </tr>
             </tbody>
@@ -112,7 +109,7 @@
                     <td>{{item.sort}}</td>
                     <td>{{item.authorType}}</td>
                     <td>
-                        <i style="margin-left:12%" value="{{item.boId}}" (click)="editAuthor($event)"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        <i style="margin-left:12%" value="{{item.boId}}" [routerLink]="['/editauthor/', item.boId]" class="fa fa-pencil-square-o" aria-hidden="true"></i>
 
                     </td>
                     <td>
@@ -145,7 +142,7 @@
                     <td>{{item.name}}</td>
                     <td>{{item.sort}}</td>
                     <td>
-                        <i style="margin-left:12%" value="{{item.boId}}" (click)="editPublisher($event)"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        <i style="margin-left:12%" value="{{item.boId}}" [routerLink]="['/editpublisher/', item.boId]" class="fa fa-pencil-square-o" aria-hidden="true"></i>
 
                     </td>
                     <td>
@@ -178,7 +175,7 @@
                     <td>{{item.myanmarName}}</td>
                     <td>{{item.engName}}</td>
                     <td>
-                        <i style="margin-left:12%" value="{{item.boId}}" (click)="editCategory($event)"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        <i style="margin-left:12%" value="{{item.boId}}" [routerLink]="['/editcategory/', item.boId]" class="fa fa-pencil-square-o" aria-hidden="true"></i>
 
                     </td>
                     <td>
@@ -209,21 +206,15 @@
                 <tr *ngFor="let item of subcategories | filter:authorTerm;">                    
                     <td style="text-align: center;">{{item.name}}</td>
                     <td>
-                        <i style="margin-left:12%" value="{{item.boId}}" (click)="editSubCategory($event)"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        <i style="margin-left:12%" value="{{item.boId}}" [routerLink]="['/editsubcategory/', item.boId]"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
 
                     </td>
                     <td>
                         <i style="margin-left:12%" value="{{item.boId}}" (click)="deleteSubCategory($event)" class="fa fa-trash" aria-hidden="true"></i>
-
-                      
+                  
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-
-
-
-
-
 </div>

@@ -2,22 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 @Component({
-  selector: 'app-bookaddsubcategory',
-  templateUrl: './bookaddsubcategory.component.html',
-  styleUrls: ['./bookaddsubcategory.component.styl']
+  selector: 'app-subcategoryedit',
+  templateUrl: './subcategoryedit.component.html',
+  styleUrls: ['./subcategoryedit.component.styl']
 })
-export class BookaddsubcategoryComponent implements OnInit {
+export class SubcategoryeditComponent implements OnInit {
 
-  description: String = '';
+  json = {"name":""};
+  boId: string;
   constructor(
     private router: Router,
     private dialog: MatDialog,
     private http: HttpClient,
-  ) { }
+    private actRoute: ActivatedRoute) {
+    this.boId = this.actRoute.snapshot.params.boId;
+  }
 
   ngOnInit(): void {
+    this.findByBoId();
   }
 
   cancel() {
@@ -25,18 +28,33 @@ export class BookaddsubcategoryComponent implements OnInit {
 
   }
 
+  findByBoId() {
+    const json = {
+      boId: this.boId
+    }
+
+    const url: string = "http://localhost:8082/subcategory/boId";
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        console.warn("data: ", data);
+        this.json  = data.subCategory;
+
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+
+  }
+
+
   save() {
 
-    const url: string = "http://localhost:8082/operation/savesubcategory";
-    const json = {
-      name: this.description,
-    }
-    this.http.post(url, json).subscribe(
+    const url: string = "http://localhost:8082/operation/editsubcategory";   
+    this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.log("response: ", data);
         if (data.status == "1") {
           this.successDialog();
-
         } else {
           this.failDialog();
         }

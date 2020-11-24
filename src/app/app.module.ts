@@ -75,6 +75,11 @@ import { BookaddComponent } from './bookadd/bookadd.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { BookeditComponent } from './bookedit/bookedit.component';
+import { AuthoreditComponent } from './authoredit/authoredit.component';
+import { PublishereditComponent } from './publisheredit/publisheredit.component';
+import { CategoryeditComponent } from './categoryedit/categoryedit.component';
+import { SubcategoryeditComponent } from './subcategoryedit/subcategoryedit.component';
+import { BooksupervisorpanelComponent } from './booksupervisorpanel/booksupervisorpanel.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -99,7 +104,11 @@ const routes: Routes = [
   { path: 'addpublisher', component: BookaddpublisherComponent },
   { path: 'addbook', component: BookaddComponent },
   { path: 'editbook/:boId', component: BookeditComponent },
-
+  { path: 'editauthor/:boId', component: AuthoreditComponent },
+  { path: 'editpublisher/:boId', component: PublishereditComponent },
+  { path: 'editcategory/:boId', component: CategoryeditComponent },
+  { path: 'editsubcategory/:boId', component: SubcategoryeditComponent },
+  { path: 'booksupervisor', component: BooksupervisorpanelComponent },
 
 ];
 
@@ -126,7 +135,12 @@ const routes: Routes = [
     BookaddpublisherComponent,
     BookaddComponent,
     UserListComponent,
-    BookeditComponent
+    BookeditComponent,
+    AuthoreditComponent,
+    PublishereditComponent,
+    CategoryeditComponent,
+    SubcategoryeditComponent,
+    BooksupervisorpanelComponent,
   ],
   imports: [
     Ng2SearchPipeModule,

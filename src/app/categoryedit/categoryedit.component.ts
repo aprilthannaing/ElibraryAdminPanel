@@ -5,17 +5,19 @@ import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@ang
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-bookaddcategory',
-  templateUrl: './bookaddcategory.component.html',
-  styleUrls: ['./bookaddcategory.component.styl']
+  selector: 'app-categoryedit',
+  templateUrl: './categoryedit.component.html',
+  styleUrls: ['./categoryedit.component.styl']
 })
+export class CategoryeditComponent implements OnInit {
 
-export class BookaddcategoryComponent implements OnInit {
+
+  boId: string;
   term: string;
   subcategories = [];
-  myaName: String = '';
-  engName: String = '';
+  categories = [];
   form: FormGroup;
+  json = { "myanmarName": "", "engName": "" ,"categories": ""}
 
   constructor(
     private router: Router,
@@ -23,7 +25,10 @@ export class BookaddcategoryComponent implements OnInit {
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
 
-  ) {
+    private actRoute: ActivatedRoute) {
+    this.boId = this.actRoute.snapshot.params.boId;
+
+
     this.form = this.formBuilder.group({
       subs: this.formBuilder.array([], [Validators.required])
 
@@ -32,27 +37,50 @@ export class BookaddcategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSubCategories();
+    this.findByBoId();
   }
 
-  onCheckboxChange(e) {
-    const subs: FormArray = this.form.get('subs') as FormArray;
-    if (e.target.checked) {
-      subs.push(new FormControl(e.target.value));
+  checkCategoryContainOrNot(boId) {
+    return this.categories.includes(boId);
+  }
+
+
+  findByBoId() {
+    const json = {
+      boId: this.boId
+    }
+
+    const url: string = "http://localhost:8082/category/byboId";
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        this.json = data.category;
+        data.category.subCategories.forEach(element => {
+          this.categories.push(element.boId);
+          this.onChange(element.boId, true);
+        });
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+
+  }
+
+  onChange(boId: string, isChecked: boolean) {
+    const subs = <FormArray>this.form.controls.subs;
+    if (isChecked) {
+      subs.push(new FormControl(boId));
     } else {
-      const index = subs.controls.findIndex(x => x.value === e.target.value);
+      let index = subs.controls.findIndex(x => x.value == boId)
       subs.removeAt(index);
     }
   }
 
 
-  //list of sub categories
   getSubCategories() {
     const url: string = "http://localhost:8082/subcategory/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
-        console.warn("data: ", data);
-        this.subcategories = data.subcategories;
-
+        this.subcategories = data.subcategories;      
       },
       error => {
         console.warn("error: ", error);
@@ -60,17 +88,11 @@ export class BookaddcategoryComponent implements OnInit {
   }
 
   save() {
-    
-    const json =
-    {
-      categories: this.form.value.subs,
-      myaName: this.myaName,
-      engName: this.engName
-    };
 
-    console.log("json : " , json)
-    const url: string = "http://localhost:8082/operation/savecategory";
-    this.http.post(url, json).subscribe(
+    this.json.categories = this.form.value.subs;
+    console.log("json: " , this.json);
+    const url: string = "http://localhost:8082/operation/editsubcategory";
+    this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
         this.successDialog();
@@ -86,7 +108,7 @@ export class BookaddcategoryComponent implements OnInit {
 
   }
 
-  
+
   successDialog() {
     const dialogRef = this.dialog.open(SuccessDialog, {
     });
