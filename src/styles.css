@@ -2,25 +2,29 @@
   max-width: 350px;
   max-height: 350px;
   padding: 4px 20px 20px 20px;
+  margin: 30px auto 0;
+  border-radius: 20px;
+}
+.header-title{
+  margin-top:30px;
 }
 .col-md-12 {
   margin-bottom: 20px;
 }
 .cardview {
-  background-color: #C2DFFF;
-  padding: 8px 12px 5px 12px;
-  margin: -8px auto;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
+  padding: 30px 12px 5px 12px;
   border-radius: 2px;
-  -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
   overflow-x: hidden;
-  border: 2px solid #ADD8E6; 
-  margin-left: 217px;
-  width: 84%;
-  height: 1000px;
+}
+nav[_ngcontent-gxc-c290] {
+  float: left;
+  width: 16%;
+  height: 100%;
+  background: #def;
+  margin-left: 0px !important;
+}
+.navbar {
+  margin-bottom: 0px !important;
 }
 
 .tblborder th {

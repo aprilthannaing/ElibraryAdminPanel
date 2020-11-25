@@ -6,9 +6,9 @@
         <button class="btn btn-primary" type="button"  (click)="goList()">List</button>
         <button class="btn btn-primary" type="button"  (click)="goUpload()">Upload</button>
     </div>
-    <p style="margin-left: 5%;">Please Enter Details!</p>
-    <div class="col-md-6 row" style="margin-left: 5%;" >
-        <div *ngFor="let item of lov.refStatus">
+    <div class="form">
+    <div class="row col-md-12" style="margin-left: 3%;" >
+        <div *ngFor="let item of lov.refStatus" style="margin-right: 10px;">
             <label class="radio-inline">
             <input #c [checked]="json.status == c.value" (click)="json.status = c.value" type="radio" name="_encashobj.field1" value="{{item.value}}">{{item.caption}}</label>
         </div>
@@ -57,7 +57,7 @@
                 <option *ngFor="let item of lov.refDept" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field>
-        <div (click)="goSetup('lov1')" *ngIf="json.type == 'Staff'">
+        <div (click)="goSetup('lov1')" *ngIf="json.type == 'Staff'"  style="margin-top: 16px;margin-left: 35px;">
             <i class="glyphicon glyphicon-plus-sign" style="font-size: 21px;color: #2e6da4;" aria-hidden="true"></i>
         </div>
 
@@ -67,7 +67,7 @@
                 <option *ngFor="let item of lov.refPosition" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field>
-        <div (click)="goSetup('lov2')" *ngIf="json.type == 'Staff'">
+        <div (click)="goSetup('lov2')" *ngIf="json.type == 'Staff'" style="margin-top: 16px;margin-left: 35px;">
             <i class="glyphicon glyphicon-plus-sign" style="font-size: 21px;color: #2e6da4;" aria-hidden="true"></i>
         </div>
         <!-- <mat-form-field style="width: 40%; margin-left: 5%;">
@@ -76,6 +76,6 @@
                 <option *ngFor="let item of lov.refStatus" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field> -->
-
+    </div>
     </div>
 </div>

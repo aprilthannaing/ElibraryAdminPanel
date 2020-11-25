@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { IntercomService } from '../framework/intercom.service';
 
 @Component({
   selector: 'app-user-login',
@@ -16,15 +17,17 @@ export class UserLoginComponent implements OnInit {
   private router: Router,
   private http: HttpClient,
   private route: ActivatedRoute,
+  private ics: IntercomService
   ) {
    }
 
   ngOnInit(): void {
   }
   goPost(){
+    this._result = "";
    this.goValidation();
-   if(this._result != ""){
-      const url = 'http://localhost:8080/user/selectUserbykey';
+   if(this._result == ""){
+      const url = 'http://localhost:8080/user/getLogin';
       let json = {
         "_email": this._email,
         "_psw": this._pw
@@ -33,10 +36,12 @@ export class UserLoginComponent implements OnInit {
           this.http.post(url,json).subscribe(
               (data:any) => {
                   if (data != null && data != undefined) {
-                      if(data.code ==="0000")
-                        this._result = data.message;
+                      if(data.code ==="001")
+                        this._result = data.desc;
                       else{
-                        this.router.navigate(['home']);  
+                        this.router.navigate(['home']); 
+                        this.ics.userRole = data.role;
+                        this.ics.uesrName = data.name;
                       }
                   }
               },
