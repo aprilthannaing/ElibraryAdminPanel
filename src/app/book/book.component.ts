@@ -24,6 +24,13 @@ export class BookComponent implements OnInit {
   showPublisher = "false";
   showCategory = "false";
   showSubCategory = "false";
+  loading = "false";
+
+  bookCount = 0;
+  authorCount = 0;
+  publisherCount = 0;
+  categoryCount = 0;
+  subcategoryCount = 0;
 
   constructor(
     private http: HttpClient,
@@ -31,19 +38,91 @@ export class BookComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    this.getAllBooks();
-    this.getAllAuthors();
-    this.getAllPublishers();
-    this.getAllCategories();
-    this.getAllSubCategories();
+    //  this.loading = "true";
+    // this.getAllBooks();
+    // this.getAllAuthors();
+    // this.getAllPublishers();
+    // this.getAllCategories();
+    // this.getAllSubCategories();
+    this.getBookCount();
+    this.getAuthorCount();
+    this.getPublisherCount();
+    this.getCategoryCount();
+    this.getSubCategoryCount();
+    }
+
+  getBookCount() {
+    const url: string = "http://localhost:8082/book/count";
+    this.http.request('get', url).subscribe(
+      (data: any) => {
+        console.warn("book count: ", data);
+        this.bookCount = data;
+
+      },
+      error => {
+        console.warn("error: ", error);
+      });
   }
+
+  getAuthorCount() {
+    const url: string = "http://localhost:8082/author/count";
+    this.http.request('get', url).subscribe(
+      (data: any) => {
+        console.warn("author count: ", data);
+        this.authorCount = data;
+
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+  }
+
+  getPublisherCount() {
+    const url: string = "http://localhost:8082/publisher/count";
+    this.http.request('get', url).subscribe(
+      (data: any) => {
+        console.warn("book count: ", data);
+        this.publisherCount = data;
+
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+  }
+
+  getCategoryCount() {
+    const url: string = "http://localhost:8082/category/count";
+    this.http.request('get', url).subscribe(
+      (data: any) => {
+        console.warn("category count: ", data);
+        this.categoryCount = data;
+
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+  }
+
+  getSubCategoryCount() {
+    const url: string = "http://localhost:8082/subcategory/count";
+    this.http.request('get', url).subscribe(
+      (data: any) => {
+        console.warn("sub category count: ", data);
+        this.subcategoryCount = data;
+
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+  }
+
 
   getAllPublishers() {
     const url: string = "http://localhost:8082/publisher/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
-        console.warn("data: ", data);
         this.publishers = data.publishers;
+        this.loading= "false";
       },
       error => {
         console.warn("error: ", error);
@@ -56,6 +135,10 @@ export class BookComponent implements OnInit {
       (data: any) => {
         console.warn("data: ", data);
         this.authors = data.authors;
+        data.authors.forEach(element => {
+          console.log("http://localhost:8080/" + element.profilePicture)
+        });
+        this.loading= "false";
       },
       error => {
         console.warn("error: ", error);
@@ -66,8 +149,8 @@ export class BookComponent implements OnInit {
     const url: string = "http://localhost:8082/category/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
-        console.warn("data: ", data);
         this.categories = data.categories;
+        this.loading= "false";
       },
       error => {
         console.warn("error: ", error);
@@ -78,8 +161,8 @@ export class BookComponent implements OnInit {
     const url: string = "http://localhost:8082/subcategory/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
-        console.warn("data: ", data);
         this.subcategories = data.subcategories;
+        this.loading= "false";
       },
       error => {
         console.warn("error: ", error);
@@ -90,15 +173,17 @@ export class BookComponent implements OnInit {
     const url: string = "http://localhost:8082/book/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
-        console.warn("data: ", data);
         this.books = data.books;
+        this.loading= "false";
       },
       error => {
         console.warn("error: ", error);
       });
   }
-  
+
   showBooks() {
+    this.loading = "true";
+    this.getAllBooks();
     this.showBook = "true";
     this.showAuthor = "false"
     this.showCategory = "false"
@@ -107,6 +192,8 @@ export class BookComponent implements OnInit {
   }
 
   showAuthors() {
+    this.loading = "true";
+    this.getAllAuthors();
     this.showAuthor = "true";
     this.showCategory = "false"
     this.showSubCategory = "false"
@@ -115,6 +202,8 @@ export class BookComponent implements OnInit {
   }
 
   showPublishers() {
+    this.loading = "true"
+    this.getAllPublishers();
     this.showPublisher = "true";
     this.showAuthor = "false";
     this.showCategory = "false"
@@ -123,6 +212,8 @@ export class BookComponent implements OnInit {
   }
 
   showCategories() {
+    this.loading = "true"
+    this.getAllCategories();
     this.showCategory = "true";
     this.showSubCategory = "false"
     this.showBook = "false";
@@ -131,6 +222,8 @@ export class BookComponent implements OnInit {
   }
 
   showSubCategories() {
+    this.loading = "true";
+    this.getAllSubCategories();
     this.showSubCategory = "true";
     this.showPublisher = "false";
     this.showAuthor = "false";
@@ -145,22 +238,22 @@ export class BookComponent implements OnInit {
         this.books.splice(i, 1);
 
         const json = {
-          bookId : e.target.value
+          bookId: e.target.value
         }
-        const url: string = "http://localhost:8082/operation/deleteBook";   
+        const url: string = "http://localhost:8082/operation/deleteBook";
         this.http.post(url, json).subscribe(
           (data: any) => {
-            console.log("response: ", data);          
+            console.log("response: ", data);
           },
           error => {
-            console.log("error ", error);    
+            console.log("error ", error);
           });
       }
     }
   }
 
   editAuthor(e) {
-    console.log("click event: ", e.target.value)    
+    console.log("click event: ", e.target.value)
 
   }
 
@@ -171,22 +264,22 @@ export class BookComponent implements OnInit {
         this.authors.splice(i, 1);
 
         const json = {
-          authorId : e.target.value
+          authorId: e.target.value
         }
-        const url: string = "http://localhost:8082/operation/deleteAuthor";   
+        const url: string = "http://localhost:8082/operation/deleteAuthor";
         this.http.post(url, json).subscribe(
           (data: any) => {
-            console.log("response: ", data);          
+            console.log("response: ", data);
           },
           error => {
-            console.log("error ", error);    
+            console.log("error ", error);
           });
       }
     }
   }
 
   editPublisher(e) {
-    console.log("click event: ", e.target.value)    
+    console.log("click event: ", e.target.value)
 
   }
 
@@ -197,22 +290,22 @@ export class BookComponent implements OnInit {
         this.publishers.splice(i, 1);
 
         const json = {
-          publisherboId : e.target.value
+          publisherboId: e.target.value
         }
-        const url: string = "http://localhost:8082/operation/deletePublisher";   
+        const url: string = "http://localhost:8082/operation/deletePublisher";
         this.http.post(url, json).subscribe(
           (data: any) => {
-            console.log("response: ", data);          
+            console.log("response: ", data);
           },
           error => {
-            console.log("error ", error);    
+            console.log("error ", error);
           });
       }
     }
   }
 
   editCategory(e) {
-    console.log("click event: ", e.target.value)    
+    console.log("click event: ", e.target.value)
 
   }
 
@@ -223,23 +316,23 @@ export class BookComponent implements OnInit {
         this.categories.splice(i, 1);
 
         const json = {
-          categoryboId : e.target.value
+          categoryboId: e.target.value
         }
-        const url: string = "http://localhost:8082/operation/deleteCategory";   
+        const url: string = "http://localhost:8082/operation/deleteCategory";
         this.http.post(url, json).subscribe(
           (data: any) => {
-            console.log("response: ", data);          
+            console.log("response: ", data);
           },
           error => {
-            console.log("error ", error);    
+            console.log("error ", error);
           });
       }
     }
   }
 
   editSubCategory(e) {
-    console.log("click event: ", e.target.value) 
-       
+    console.log("click event: ", e.target.value)
+
 
   }
 
@@ -250,17 +343,17 @@ export class BookComponent implements OnInit {
         this.subcategories.splice(i, 1);
 
         const json = {
-          subCategoryboId : e.target.value
+          subCategoryboId: e.target.value
         }
-        const url: string = "http://localhost:8082/operation/deleteSubCategory";   
+        const url: string = "http://localhost:8082/operation/deleteSubCategory";
         this.http.post(url, json).subscribe(
           (data: any) => {
-            console.log("response: ", data);          
+            console.log("response: ", data);
           },
           error => {
-            console.log("error ", error);    
+            console.log("error ", error);
           });
       }
     }
-  }  
+  }
 }

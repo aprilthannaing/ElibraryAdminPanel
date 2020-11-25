@@ -5,6 +5,7 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IntercomService } from '../framework/intercom.service';
 
 @Component({
   selector: 'app-bookedit',
@@ -31,6 +32,7 @@ export class BookeditComponent implements OnInit {
   publisherTerm: string;
   authorTerm: string;
   subCategoryTerm: string;
+  categoryTerm: string;
 
   authorList = [];
   categoryBoId: string = '';
@@ -40,12 +42,10 @@ export class BookeditComponent implements OnInit {
   selectedEntry;
   selectedPublishers = [];
   selectedAuthors = [];
-  test = "";
+  userRole = "";
 
   onSelectionChange(entry) {
     this.selectedEntry = entry;
-    console.log("this selectedEntry: ", this.selectedEntry)
-
   }
 
   checkAuthorContainOrNot(boId) {
@@ -89,7 +89,10 @@ export class BookeditComponent implements OnInit {
     private http: HttpClient,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    private actRoute: ActivatedRoute) {
+    private actRoute: ActivatedRoute,
+    private ics: IntercomService) {
+
+    this.userRole = this.ics.userRole;
     this.boId = this.actRoute.snapshot.params.boId;
 
     this.publisherForm = this.formBuilder.group({
@@ -144,7 +147,7 @@ export class BookeditComponent implements OnInit {
     }
   }
 
- 
+
 
   onClickFileInputButton(): void {
     this.fileInput.nativeElement.click();
@@ -238,6 +241,21 @@ export class BookeditComponent implements OnInit {
     }
   }
 
+  approveDialog() {
+    const dialogRef = this.dialog.open(ApproveDialog, {
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("Approve !!!!!!!!!")
+      this.save();
+    });
+
+  }
+
+  approve(){
+    this.approveDialog();
+  }
+
   save() {
     this.json.imageSrc = this.imageSrc;
     this.json.pdf = this.pdf;
@@ -280,13 +298,14 @@ export class BookeditComponent implements OnInit {
 
         this.json = data.book;
         //this.json.downloadApproval = data.book.downloadApproval == "false" ? "" : "true";
-        this.json.description = data.book.comment == null? "" : data.book.comment.description;
+        this.json.description = data.book.comment == null ? "" : data.book.comment.description;
         this.imageSrc = "http://localhost:8080" + data.book.coverPhoto;
         this.json.profileName = data.book.coverPhoto;
         this.json.pdfName = data.book.path;
 
         data.book.authors.forEach(element => {
           this.authorList.push(element.boId);
+          this.authorTerm = element.name;
           this.onChange(element.boId, true);
 
         });
@@ -296,6 +315,7 @@ export class BookeditComponent implements OnInit {
         });
 
         this.form.value.category = data.book.category.boId;
+        this.categoryTerm = data.book.category.myanmarName;
         this.categoryBoId = data.book.category.boId;
         this.subCategoryBoId = data.book.subCategory.boId;
         data.book.publishers.forEach(element => {
@@ -357,6 +377,22 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
+  ) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+
+@Component({
+  selector: 'approve-dialog',
+  templateUrl: './approve-dialog.html',
+})
+export class ApproveDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<ApproveDialog>,
   ) { }
 
   onNoClick(): void {

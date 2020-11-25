@@ -100,25 +100,31 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col" style="width: 30%;">Profile</th>
-                                <th scope="col">Name</th>
+                                <th scope="col" style="max-width: 20%;"></th>
+                                <th scope="col" style="max-width: 20%;">Profile </th>
+                                <th scope="col" style="max-width: 20%;">Type</th>
+                                <th scope="col" style="max-width: 20%;">Name</th>
 
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of authors | filter:authorTerm;">
                                 <td>
-                                    <img class="profile" src="{{'http://localhost:8080' + item.profilePicture}}"
-                                        alt="W3Schools.com">
-                                </td>
-                                <td>{{item.name}}
-                                </td>
-
-                                <td>
                                     <input type="checkbox" value="{{item.boId}}"
                                         (change)="onChange(item.boId, $event.target.checked)"
                                         [checked]="checkAuthorContainOrNot(item.boId)">
                                 </td>
+                                <td style="max-width: 20%;">
+                                    <img class="profile" src="http://localhost:8080/{{item.profilePicture}}"
+                                        alt="W3Schools.com">
+                                </td>
+                                <td style="max-width: 20%;">{{item.authorType}}
+                                </td>
+                                <td style="max-width: 20%;">{{item.name}}
+                                </td>
+
+
+
                             </tr>
                         </tbody>
                     </table>
@@ -128,7 +134,7 @@
 
         <mat-form-field style="margin-left: 10%;width: 50%;">
             <mat-label> Categories</mat-label>
-            <input matInput placeholder="Search Here" [(ngModel)]="term">
+            <input matInput placeholder="Search Here" [(ngModel)]="categoryTerm">
         </mat-form-field>
 
         <form [formGroup]="form" style="margin-left: 10%;">
@@ -138,20 +144,23 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th scope="col"></th>
                                 <th scope="col">Myanmar Name</th>
                                 <th scope="col">English Name</th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of categories | filter:term;">
-                                <td>{{item.myanmarName}}
-                                <td>{{item.engName}}
-                                </td>
+                            <tr *ngFor="let item of categories | filter:categoryTerm;">
                                 <td>
                                     <input type="radio" name="category" value="{{item.boId}}" formControlName="category"
                                         (change)="changeCategory($event)" [checked]="item.boId === categoryBoId">
                                 </td>
+
+                                <td>{{item.myanmarName}}
+                                <td>{{item.engName}}
+                                </td>
+
                             </tr>
                         </tbody>
                     </table>
@@ -170,23 +179,24 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th scope="col"></th>
                         <th scope="col">Name</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of subcategories | filter:subCategoryTerm;">
-                        <td>{{item.name}}</td>
                         <td>
 
-                            <input type="radio" name="list_name" value="{{item.boId}}"
-                                (change)="onItemChange(item)" [checked]="item.boId === subCategoryBoId" (change)="onSelectionChange(item)">                               
+                            <input type="radio" name="list_name" value="{{item.boId}}" (change)="onItemChange(item)"
+                                [checked]="item.boId === subCategoryBoId" (change)="onSelectionChange(item)">
 
                         </td>
+                        <td>{{item.name}}</td>
+
                     </tr>
                 </tbody>
             </table>
         </div>
-
 
 
         <mat-form-field style="margin-left: 10%;width: 50%;">
@@ -201,19 +211,22 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th scope="col"></th>
+
                                 <th scope="col">Name</th>
 
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of publishers | filter:publisherTerm;">
-                                <td>{{item.name}}
 
-                                </td>
                                 <td>
                                     <input type="checkbox" value="{{item.boId}}"
-                                        (change)="onChange(item.boId, $event.target.checked)"
+                                        (change)="onPublisherChange(item.boId, $event.target.checked)"
                                         [checked]="checkPublisherContainOrNot(item.boId)">
+                                </td>
+                                <td>{{item.name}}
+
                                 </td>
                             </tr>
                         </tbody>
@@ -230,9 +243,10 @@
 
         <div style="margin-left: 24%;margin-bottom: 10%;">
             <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
-            <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Save</button>
+            <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;"
+                *ngIf="userRole != 'ADMIN'">Save</button>
+            <button class="mat-raised-button mat-primary" (click)="approve()" style="margin-left: 20px;"
+                *ngIf="userRole == 'ADMIN'">Approve</button>
         </div>
-
-
     </div>
 </div>

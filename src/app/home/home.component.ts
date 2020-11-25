@@ -15,36 +15,26 @@ import { IntercomService } from '../framework/intercom.service';
 export class HomeComponent implements OnInit {
 
   books = [];
+  userRole = "";
   ngOnInit(): void {
-    this.getAllBooks();
   }
 
   constructor(
     private http: HttpClient,
     public dialog: MatDialog,
     private router: Router,
-    private ics: IntercomService) { }
+    private ics: IntercomService) {
+      this.userRole = this.ics.userRole;
+     }
 
   manageBooks() {
     console.log("manage book")
     console.log("userRole", this.ics.userRole)
 
-    if (this.ics.userRole == "SUPERVISOR")
+    if (this.userRole == "SUPERVISOR")
       this.router.navigate(['booksupervisor']);
-    if (this.ics.userRole == "ADMIN")
+    if (this.userRole == "ADMIN")
       this.router.navigate(['book']);
-  }
-
-  getAllBooks() {
-    const url: string = "http://localhost:8082/book/all";
-    this.http.request('get', url).subscribe(
-      (data: any) => {
-        console.warn("data: ", data);
-        this.books = data.books;
-      },
-      error => {
-        console.warn("error: ", error);
-      });
   }
 
 }
