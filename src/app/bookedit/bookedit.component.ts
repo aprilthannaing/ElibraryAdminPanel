@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
@@ -25,6 +25,8 @@ export class BookeditComponent implements OnInit {
   file: File | null = null;
   imageSrc: string;
   pdf: string;
+
+  emptyData = {};
 
   publisherForm: FormGroup;
   authorForm: FormGroup;
@@ -273,13 +275,12 @@ export class BookeditComponent implements OnInit {
       (data: any) => {
         if (data.status == "1")
           this.successDialog();
-        else this.failDialog();
+        else this.failDialog(data);
       },
       error => {
         console.warn("error: ", error);
-        this.failDialog();
+        this.failDialog(this.emptyData);
       });
-
   }
 
   findByBoId() {
@@ -341,8 +342,12 @@ export class BookeditComponent implements OnInit {
 
   }
 
-  failDialog() {
+  failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
+      data: {
+        "title": "Unable to edit book!!",
+        "message": data.msg
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -377,6 +382,7 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: {title:string, message:string}
   ) { }
 
   onNoClick(): void {
@@ -393,6 +399,7 @@ export class ApproveDialog {
 
   constructor(
     public dialogRef: MatDialogRef<ApproveDialog>,
+    
   ) { }
 
   onNoClick(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
@@ -16,6 +16,7 @@ export class BookaddauthorComponent implements OnInit {
     "name": "", "sort": "", "authorType": "", "imageSrc":"", "profilePicture" : ""
   }
 
+  emptyData = {};
   imageSrc: string = '';
 
   /*img , pdf */
@@ -75,11 +76,11 @@ export class BookaddauthorComponent implements OnInit {
         console.warn("data: ", data);
         if(data.status == "1")
           this.successDialog();
-        else this.failDialog();
+        else this.failDialog(data);
       },
       error => {
         console.warn("error: ", error);
-        this.failDialog();
+        this.failDialog(this.emptyData);
       });
 
   }
@@ -95,8 +96,12 @@ export class BookaddauthorComponent implements OnInit {
 
   }
 
-  failDialog() {
+  failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
+      data:{
+        "title":"Unable to add author!!",
+        "message": data.msg
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -132,6 +137,7 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
   ) { }
 
   onNoClick(): void {

@@ -73,7 +73,7 @@ import { BookaddsubcategoryComponent } from './bookaddsubcategory/bookaddsubcate
 import { BookaddpublisherComponent } from './bookaddpublisher/bookaddpublisher.component';
 import { BookaddComponent } from './bookadd/bookadd.component';
 import { UserListComponent } from './user-list/user-list.component';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
 import { BookeditComponent } from './bookedit/bookedit.component';
 import { AuthoreditComponent } from './authoredit/authoredit.component';
 import { PublishereditComponent } from './publisheredit/publisheredit.component';
@@ -85,6 +85,8 @@ import { UserUploadComponent } from './user-upload/user-upload.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserChangepwdComponent } from './user-changepwd/user-changepwd.component';
 import { NgApexchartsModule} from "ng-apexcharts";
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: UserLoginComponent },
@@ -110,6 +112,7 @@ const routes: Routes = [
   { path: 'addpublisher', component: BookaddpublisherComponent },
   { path: 'addbook', component: BookaddComponent },
   { path: 'editbook/:boId', component: BookeditComponent },
+
   { path: 'editauthor/:boId', component: AuthoreditComponent },
   { path: 'editpublisher/:boId', component: PublishereditComponent },
   { path: 'editcategory/:boId', component: CategoryeditComponent },
@@ -119,6 +122,7 @@ const routes: Routes = [
   { path: 'setup/:cmd/:id', component: SetupComponent },
   { path: 'user-upload', component: UserUploadComponent },
   { path: 'changePwd', component: UserChangepwdComponent },
+
 ];
 
 @NgModule({
@@ -155,9 +159,9 @@ const routes: Routes = [
     UserLoginComponent,
     UserChangepwdComponent,
   ],
+
   imports: [
     NgApexchartsModule,
-    Ng2SearchPipeModule,
     MatFormFieldModule,
     HttpClientModule,
     BrowserModule,
@@ -213,6 +217,8 @@ const routes: Routes = [
     OverlayModule,
     PortalModule,
     ScrollingModule,
+
+    Ng2SearchPipeModule
 
   ],
   providers: [

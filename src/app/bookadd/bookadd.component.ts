@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
@@ -28,6 +28,8 @@ export class BookaddComponent implements OnInit {
   publisherTerm: string;
   authorTerm: string;
   subCategoryTerm: string;
+
+  emptyData = {};
 
   /*img  */
   myForm = new FormGroup({
@@ -194,11 +196,15 @@ export class BookaddComponent implements OnInit {
     }
   }
 
+
   form = new FormGroup({
 
     category: new FormControl('', Validators.required)
 
   });
+  // get categoryF() {
+  //   return this.pdfForm.controls;
+  // }
 
   subCategoryform = new FormGroup({
     subcategory: new FormControl('', Validators.required)
@@ -225,8 +231,8 @@ export class BookaddComponent implements OnInit {
     this.json.publishers = this.publisherForm.value.pubs;
     this.json.profileName = this.myForm.value.file;
     this.json.pdfName = this.pdfForm.value.file;
-    this.json.category = this.form.value.category;
-    this.json.subCategory = this.subCategoryform.value.subcategory;
+    this.json.category = this.term;
+    this.json.subCategory = this.subCategoryTerm;
 
     console.log("json", this.json)
     const url: string = "http://localhost:8082/operation/saveBook";
@@ -235,11 +241,11 @@ export class BookaddComponent implements OnInit {
         console.warn("data: ", data);
         if (data.status == "1")
           this.successDialog();
-        else this.failDialog();
+        else this.failDialog(data);
       },
       error => {
         console.warn("error: ", error);
-        this.failDialog();
+        this.failDialog(this.emptyData);
       });
 
   }
@@ -254,8 +260,12 @@ export class BookaddComponent implements OnInit {
 
   }
 
-  failDialog() {
+  failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
+      data:{ 
+        "title": "Unable to add book!!",
+        "message": data.msg
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -291,6 +301,7 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
   ) { }
 
   onNoClick(): void {

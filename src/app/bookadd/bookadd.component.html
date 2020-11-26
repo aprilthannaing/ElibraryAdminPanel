@@ -130,6 +130,10 @@
         <mat-form-field style="margin-left: 10%;width: 50%;">
             <mat-label> Categories</mat-label>
             <input matInput placeholder="Search Here" [(ngModel)]="term">
+            <!-- <div *ngIf="categoryF.file.touched && categoryF.file.invalid" class="alert alert-danger"
+                        style="width: 100%;margin-left: 20%;">
+                <div *ngIf="categoryF.file.errors.required">Category is required.</div>
+            </div> -->
         </mat-form-field>
 
         <form [formGroup]="form" style="margin-left: 10%;">
