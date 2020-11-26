@@ -38,10 +38,16 @@ export class UserLoginComponent implements OnInit {
                   if (data != null && data != undefined) {
                       if(data.code ==="001")
                         this._result = data.desc;
+                      else  if(data.code ==="002"){
+                        this.router.navigate(['changePwd']); 
+                        this.ics.userId = data.userId;
+                      }
                       else{
                         this.router.navigate(['home']); 
                         this.ics.userRole = data.role;
                         this.ics.uesrName = data.name;
+                        this.ics.sessionId = data.sessionId;
+                        this.ics.userId = data.userId;
                       }
                   }
               },

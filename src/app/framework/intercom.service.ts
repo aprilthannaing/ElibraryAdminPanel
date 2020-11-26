@@ -7,7 +7,8 @@ export class IntercomService {
 
   userRole: string = "ADMIN";
   uesrName: string = "";
-
+  sessionId: string = "";
+  userId: string = "";
 
   constructor() { }
 }

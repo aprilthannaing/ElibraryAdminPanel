@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IntercomService } from '../framework/intercom.service';
 
 @Component({
   selector: 'app-header',
@@ -6,8 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.styl']
 })
 export class HeaderComponent{
-
-  constructor() { }
+  userName:string = "";
+  constructor(
+    private ics: IntercomService
+  ) { 
+    this.userName = this.ics.uesrName;
+  }
 
   ngOnInit(): void {
   }

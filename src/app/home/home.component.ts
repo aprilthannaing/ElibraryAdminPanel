@@ -37,4 +37,19 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['book']);
   }
 
+  getAllBooks() {
+    const url: string = "http://localhost:8082/book/all";
+    this.http.request('get', url).subscribe(
+      (data: any) => {
+        console.warn("data: ", data);
+        this.books = data.books;
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+  }
+  goLogout(){
+    this.router.navigate(['login']);
+  }
+
 }

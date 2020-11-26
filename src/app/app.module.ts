@@ -83,6 +83,7 @@ import { BooksupervisorpanelComponent } from './booksupervisorpanel/booksupervis
 import { SetupComponent } from './setup/setup.component';
 import { UserUploadComponent } from './user-upload/user-upload.component';
 import { UserLoginComponent } from './user-login/user-login.component';
+import { UserChangepwdComponent } from './user-changepwd/user-changepwd.component';
 
 const routes: Routes = [
   { path: '',redirectTo: 'login',pathMatch: 'full'},
@@ -117,6 +118,7 @@ const routes: Routes = [
   { path: 'setup', component: SetupComponent },
   { path: 'setup/:cmd/:id', component: SetupComponent },
   { path: 'user-upload', component: UserUploadComponent },
+  { path: 'changePwd', component: UserChangepwdComponent },
 ];
 
 @NgModule({
@@ -150,7 +152,8 @@ const routes: Routes = [
     BooksupervisorpanelComponent,
     SetupComponent,
     UserUploadComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    UserChangepwdComponent,
   ],
   imports: [
     Ng2SearchPipeModule,

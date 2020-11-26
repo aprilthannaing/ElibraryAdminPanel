@@ -1,3 +1,4 @@
+
 .card-container.card {
   max-width: 350px;
   max-height: 350px;
@@ -12,7 +13,7 @@
   margin-bottom: 20px;
 }
 .cardview {
-  padding: 30px 12px 5px 12px;
+  padding: 0px 12px 5px 12px;
   border-radius: 2px;
   overflow-x: hidden;
 }
@@ -30,7 +31,7 @@ nav[_ngcontent-gxc-c290] {
 .tblborder th {
   border: 2px solid #fff;
   border-left: none;
-  background-color: #1569C7;
+  background-color: #6C63FF;
   white-space: nowrap;
   font-weight: bold;
   color: white;
