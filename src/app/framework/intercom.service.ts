@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class IntercomService {
 
-  userRole: string = "";
+  userRole: string = "ADMIN";
   uesrName: string = "";
 
 
