@@ -26,7 +26,7 @@ export class UserChangepwdComponent implements OnInit {
     this._result = "";
     this.goValidation();
     if(this._result == ""){
-       const url = 'http://localhost:8080/user/goChangepwd';
+       const url = this.ics.apiRoute + '/user/goChangepwd';
        let json = {
          "oldpwd": this.oldpwd,
          "newpwd": this.newpwd,

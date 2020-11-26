@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
-
+import { IntercomService } from '../framework/intercom.service';
 @Component({
   selector: 'app-bookaddpublisher',
   templateUrl: './bookaddpublisher.component.html',
@@ -16,6 +16,7 @@ export class BookaddpublisherComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private dialog: MatDialog,
+    private ics: IntercomService
   ) { }
 
   ngOnInit(): void {
@@ -27,7 +28,7 @@ export class BookaddpublisherComponent implements OnInit {
 
   
   save(){
-    const url: string = "http://localhost:8082/operation/savePublisher";
+    const url: string = this.ics.apiRoute + "/operation/savePublisher";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);

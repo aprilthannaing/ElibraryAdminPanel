@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
-
+import { IntercomService } from '../framework/intercom.service';
 @Component({
   selector: 'app-bookaddcategory',
   templateUrl: './bookaddcategory.component.html',
@@ -22,7 +22,7 @@ export class BookaddcategoryComponent implements OnInit {
     private http: HttpClient,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-
+    private ics: IntercomService
   ) {
     this.form = this.formBuilder.group({
       subs: this.formBuilder.array([], [Validators.required])
@@ -47,7 +47,7 @@ export class BookaddcategoryComponent implements OnInit {
 
   //list of sub categories
   getSubCategories() {
-    const url: string = "http://localhost:8082/subcategory/all";
+    const url: string = this.ics.apiRoute + "/subcategory/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         console.warn("data: ", data);
@@ -69,7 +69,7 @@ export class BookaddcategoryComponent implements OnInit {
     };
 
     console.log("json : " , json)
-    const url: string = "http://localhost:8082/operation/savecategory";
+    const url: string = this.ics.apiRoute + "/operation/savecategory";
     this.http.post(url, json).subscribe(
       (data: any) => {
         console.warn("data: ", data);

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
+import { IntercomService } from '../framework/intercom.service';
 @Component({
   selector: 'app-setup',
   templateUrl: './setup.component.html',
@@ -15,6 +15,7 @@ export class SetupComponent implements OnInit {
   private router: Router,
   private http: HttpClient,
   private route: ActivatedRoute,
+  private ics: IntercomService
   ) { }
 
   ngOnInit(): void {
@@ -53,7 +54,7 @@ export class SetupComponent implements OnInit {
   
   }
   getPosition() {
-    const url = 'http://localhost:8082/setUp/getPosition';
+    const url = this.ics.apiRoute + '/setUp/getPosition';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(
@@ -84,7 +85,7 @@ export class SetupComponent implements OnInit {
       this.setDepartment();
   }
   setDepartment(){
-    const url = 'http://localhost:8082/setUp/departmentSetup';
+    const url = this.ics.apiRoute + '/setUp/departmentSetup';
     let json = {
         "code": this.hlutawType,
         "lov": this.lov.ref
@@ -110,7 +111,7 @@ export class SetupComponent implements OnInit {
   }
 
   setPosition(){
-    const url = 'http://localhost:8082/setUp/positionSetup';
+    const url = this.ics.apiRoute + '/setUp/positionSetup';
     let json = {
       "lov": this.lov.ref
     }
@@ -135,7 +136,7 @@ export class SetupComponent implements OnInit {
   }
 
   getDepartment() {
-    const url = 'http://localhost:8082/setUp/getDepartment';
+    const url = this.ics.apiRoute + '/setUp/getDepartment';
     try {
         this.http.post(url,this.hlutawType).subscribe(
             (data:any) => {
@@ -157,7 +158,7 @@ export class SetupComponent implements OnInit {
   }
 
   getHluttaw() {
-    const url = 'http://localhost:8082/setUp/getHluttaw';
+    const url = this.ics.apiRoute + '/setUp/getHluttaw';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(

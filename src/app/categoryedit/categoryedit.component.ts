@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
-
+import { IntercomService } from '../framework/intercom.service';
 @Component({
   selector: 'app-categoryedit',
   templateUrl: './categoryedit.component.html',
@@ -24,7 +24,7 @@ export class CategoryeditComponent implements OnInit {
     private http: HttpClient,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-
+    private ics: IntercomService,
     private actRoute: ActivatedRoute) {
     this.boId = this.actRoute.snapshot.params.boId;
 
@@ -50,7 +50,7 @@ export class CategoryeditComponent implements OnInit {
       boId: this.boId
     }
 
-    const url: string = "http://localhost:8082/category/byboId";
+    const url: string = this.ics.apiRoute + "/category/byboId";
     this.http.post(url, json).subscribe(
       (data: any) => {
         this.json = data.category;
@@ -77,7 +77,7 @@ export class CategoryeditComponent implements OnInit {
 
 
   getSubCategories() {
-    const url: string = "http://localhost:8082/subcategory/all";
+    const url: string = this.ics.apiRoute + "/subcategory/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         this.subcategories = data.subcategories;      
@@ -91,7 +91,7 @@ export class CategoryeditComponent implements OnInit {
 
     this.json.categories = this.form.value.subs;
     console.log("json: " , this.json);
-    const url: string = "http://localhost:8082/operation/editsubcategory";
+    const url: string = this.ics.apiRoute + "/operation/editsubcategory";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);

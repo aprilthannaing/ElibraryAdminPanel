@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IntercomService } from '../framework/intercom.service';
 @Component({
   selector: 'app-subcategoryedit',
   templateUrl: './subcategoryedit.component.html',
@@ -15,7 +16,8 @@ export class SubcategoryeditComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private http: HttpClient,
-    private actRoute: ActivatedRoute) {
+    private actRoute: ActivatedRoute,
+    private ics: IntercomService) {
     this.boId = this.actRoute.snapshot.params.boId;
   }
 
@@ -33,7 +35,7 @@ export class SubcategoryeditComponent implements OnInit {
       boId: this.boId
     }
 
-    const url: string = "http://localhost:8082/subcategory/boId";
+    const url: string = this.ics.apiRoute + "/subcategory/boId";
     this.http.post(url, json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
@@ -49,7 +51,7 @@ export class SubcategoryeditComponent implements OnInit {
 
   save() {
 
-    const url: string = "http://localhost:8082/operation/editsubcategory";   
+    const url: string = this.ics.apiRoute + "/operation/editsubcategory";   
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.log("response: ", data);

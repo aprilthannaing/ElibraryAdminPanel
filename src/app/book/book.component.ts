@@ -5,7 +5,7 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { IntercomService } from '../framework/intercom.service';
 
 @Component({
   selector: 'app-book',
@@ -35,7 +35,8 @@ export class BookComponent implements OnInit {
   constructor(
     private http: HttpClient,
     public dialog: MatDialog,
-    private router: Router) { }
+    private router: Router,
+    private ics: IntercomService) { }
 
   ngOnInit(): void {
     //  this.loading = "true";
@@ -52,7 +53,7 @@ export class BookComponent implements OnInit {
     }
 
   getBookCount() {
-    const url: string = "http://localhost:8082/book/count";
+    const url: string = this.ics.apiRoute + "/book/count";
     this.http.request('get', url).subscribe(
       (data: any) => {
         console.warn("book count: ", data);
@@ -65,7 +66,7 @@ export class BookComponent implements OnInit {
   }
 
   getAuthorCount() {
-    const url: string = "http://localhost:8082/author/count";
+    const url: string = this.ics.apiRoute + "/author/count";
     this.http.request('get', url).subscribe(
       (data: any) => {
         console.warn("author count: ", data);
@@ -78,7 +79,7 @@ export class BookComponent implements OnInit {
   }
 
   getPublisherCount() {
-    const url: string = "http://localhost:8082/publisher/count";
+    const url: string = this.ics.apiRoute + "/publisher/count";
     this.http.request('get', url).subscribe(
       (data: any) => {
         console.warn("book count: ", data);
@@ -91,7 +92,7 @@ export class BookComponent implements OnInit {
   }
 
   getCategoryCount() {
-    const url: string = "http://localhost:8082/category/count";
+    const url: string = this.ics.apiRoute + "/category/count";
     this.http.request('get', url).subscribe(
       (data: any) => {
         console.warn("category count: ", data);
@@ -104,7 +105,7 @@ export class BookComponent implements OnInit {
   }
 
   getSubCategoryCount() {
-    const url: string = "http://localhost:8082/subcategory/count";
+    const url: string = this.ics.apiRoute + "/subcategory/count";
     this.http.request('get', url).subscribe(
       (data: any) => {
         console.warn("sub category count: ", data);
@@ -118,7 +119,7 @@ export class BookComponent implements OnInit {
 
 
   getAllPublishers() {
-    const url: string = "http://localhost:8082/publisher/all";
+    const url: string = this.ics.apiRoute + "/publisher/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         this.publishers = data.publishers;
@@ -130,13 +131,13 @@ export class BookComponent implements OnInit {
   }
 
   getAllAuthors() {
-    const url: string = "http://localhost:8082/author/all";
+    const url: string = this.ics.apiRoute + "/author/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         console.warn("data: ", data);
         this.authors = data.authors;
         data.authors.forEach(element => {
-          console.log("http://localhost:8082/" + element.profilePicture)
+          console.log(this.ics.apiRoute + "/" + element.profilePicture)
         });
         this.loading= "false";
       },
@@ -146,7 +147,7 @@ export class BookComponent implements OnInit {
   }
 
   getAllCategories() {
-    const url: string = "http://localhost:8082/category/all";
+    const url: string = this.ics.apiRoute + "/category/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         this.categories = data.categories;
@@ -158,7 +159,7 @@ export class BookComponent implements OnInit {
   }
 
   getAllSubCategories() {
-    const url: string = "http://localhost:8082/subcategory/all";
+    const url: string = this.ics.apiRoute + "/subcategory/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         this.subcategories = data.subcategories;
@@ -170,7 +171,7 @@ export class BookComponent implements OnInit {
   }
 
   getAllBooks() {
-    const url: string = "http://localhost:8082/book/all";
+    const url: string = this.ics.apiRoute + "/book/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         this.books = data.books;
@@ -240,7 +241,7 @@ export class BookComponent implements OnInit {
         const json = {
           bookId: e.target.value
         }
-        const url: string = "http://localhost:8082/operation/deleteBook";
+        const url: string = this.ics.apiRoute + "/operation/deleteBook";
         this.http.post(url, json).subscribe(
           (data: any) => {
             console.log("response: ", data);
@@ -266,7 +267,7 @@ export class BookComponent implements OnInit {
         const json = {
           authorId: e.target.value
         }
-        const url: string = "http://localhost:8082/operation/deleteAuthor";
+        const url: string = this.ics.apiRoute + "/operation/deleteAuthor";
         this.http.post(url, json).subscribe(
           (data: any) => {
             console.log("response: ", data);
@@ -292,7 +293,7 @@ export class BookComponent implements OnInit {
         const json = {
           publisherboId: e.target.value
         }
-        const url: string = "http://localhost:8082/operation/deletePublisher";
+        const url: string = this.ics.apiRoute + "/operation/deletePublisher";
         this.http.post(url, json).subscribe(
           (data: any) => {
             console.log("response: ", data);
@@ -318,7 +319,7 @@ export class BookComponent implements OnInit {
         const json = {
           categoryboId: e.target.value
         }
-        const url: string = "http://localhost:8082/operation/deleteCategory";
+        const url: string = this.ics.apiRoute + "/operation/deleteCategory";
         this.http.post(url, json).subscribe(
           (data: any) => {
             console.log("response: ", data);
@@ -345,7 +346,7 @@ export class BookComponent implements OnInit {
         const json = {
           subCategoryboId: e.target.value
         }
-        const url: string = "http://localhost:8082/operation/deleteSubCategory";
+        const url: string = this.ics.apiRoute + "/operation/deleteSubCategory";
         this.http.post(url, json).subscribe(
           (data: any) => {
             console.log("response: ", data);

@@ -217,8 +217,7 @@ const routes: Routes = [
     OverlayModule,
     PortalModule,
     ScrollingModule,
-
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule, 
 
   ],
   providers: [

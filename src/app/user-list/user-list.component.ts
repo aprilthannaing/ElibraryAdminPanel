@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
+import { IntercomService } from '../framework/intercom.service';
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -24,6 +24,7 @@ export class UserListComponent implements OnInit {
   constructor( 
     private router: Router,
     private http: HttpClient,
+    private ics: IntercomService
     ) { }
 
   ngOnInit(): void {
@@ -41,7 +42,7 @@ export class UserListComponent implements OnInit {
     this.getDepartment(value);
   }
   Searching(){
-    const url = 'http://localhost:8082/user/selectUserInfo';
+    const url = this.ics.apiRoute + '/user/selectUserInfo';
     try {
         this.http.post(url,this.jsonReq).subscribe(
             (data:any) => {
@@ -74,7 +75,7 @@ export class UserListComponent implements OnInit {
   }
 
   getHluttaw() {
-    const url = 'http://localhost:8082/setUp/getHluttaw';
+    const url = this.ics.apiRoute + '/setUp/getHluttaw';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(
@@ -99,7 +100,7 @@ export class UserListComponent implements OnInit {
   }
   
   getDepartment(obj) {
-    const url = 'http://localhost:8082/setUp/getDepartment';
+    const url = this.ics.apiRoute + '/setUp/getDepartment';
     try {
         this.http.post(url,obj).subscribe(
             (data:any) => {
@@ -121,7 +122,7 @@ export class UserListComponent implements OnInit {
   }
   
   getPosition() {
-    const url = 'http://localhost:8082/setUp/getPosition';
+    const url = this.ics.apiRoute + '/setUp/getPosition';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(

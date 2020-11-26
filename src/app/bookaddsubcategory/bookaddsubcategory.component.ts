@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { IntercomService } from '../framework/intercom.service';
 @Component({
   selector: 'app-bookaddsubcategory',
   templateUrl: './bookaddsubcategory.component.html',
@@ -15,6 +15,7 @@ export class BookaddsubcategoryComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private http: HttpClient,
+    private ics: IntercomService
   ) { }
 
   ngOnInit(): void {
@@ -27,7 +28,7 @@ export class BookaddsubcategoryComponent implements OnInit {
 
   save() {
 
-    const url: string = "http://localhost:8082/operation/savesubcategory";
+    const url: string = this.ics.apiRoute + "/operation/savesubcategory";
     const json = {
       name: this.description,
     }

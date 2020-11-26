@@ -5,7 +5,7 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { IntercomService } from '../framework/intercom.service';
 @Component({
   selector: 'app-authoredit',
   templateUrl: './authoredit.component.html',
@@ -23,7 +23,8 @@ export class AuthoreditComponent implements OnInit {
     private http: HttpClient,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    private actRoute: ActivatedRoute) {
+    private actRoute: ActivatedRoute,
+    private ics: IntercomService) {
     this.boId = this.actRoute.snapshot.params.boId;
   }
 
@@ -40,7 +41,7 @@ export class AuthoreditComponent implements OnInit {
       boId: this.boId
     }
 
-    const url: string = "http://localhost:8082/author/boId";
+    const url: string = this.ics.apiRoute + "/author/boId";
     this.http.post(url, json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
@@ -99,7 +100,7 @@ export class AuthoreditComponent implements OnInit {
   }
 
   save() {
-    const url: string = "http://localhost:8082/operation/editAuthor";
+    const url: string = this.ics.apiRoute + "/operation/editAuthor";
     this.json.imageSrc = this.imageSrc;
     this.json.profilePicture = this.myForm.value.file;
     console.log("json: ", this.json)

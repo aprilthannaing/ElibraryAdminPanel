@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
-
+import { IntercomService } from '../framework/intercom.service';
 @Component({
   selector: 'app-bookaddauthor',
   templateUrl: './bookaddauthor.component.html',
@@ -36,6 +36,7 @@ export class BookaddauthorComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private dialog: MatDialog,
+    private ics: IntercomService
   ) { }
 
 
@@ -67,7 +68,7 @@ export class BookaddauthorComponent implements OnInit {
   }
 
   save() {
-    const url: string = "http://localhost:8082/operation/saveAuthor"; 
+    const url: string = this.ics.apiRoute + "/operation/saveAuthor"; 
     this.json.imageSrc = this.imageSrc;
     this.json.profilePicture = this.myForm.value.file; 
     console.log("json: ", this.json)  

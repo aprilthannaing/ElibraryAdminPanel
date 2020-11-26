@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
-
+import { IntercomService } from '../framework/intercom.service';
 @Component({
   selector: 'app-publisheredit',
   templateUrl: './publisheredit.component.html',
@@ -18,7 +18,8 @@ export class PublishereditComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private dialog: MatDialog,
-    private actRoute: ActivatedRoute) {
+    private actRoute: ActivatedRoute,
+    private ics: IntercomService) {
     this.boId = this.actRoute.snapshot.params.boId;
   }
 
@@ -32,7 +33,7 @@ export class PublishereditComponent implements OnInit {
 
 
   save() {
-    const url: string = "http://localhost:8082/operation/editPublisher";
+    const url: string = this.ics.apiRoute + "/operation/editPublisher";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
@@ -51,7 +52,7 @@ export class PublishereditComponent implements OnInit {
       boId: this.boId
     }
 
-    const url: string = "http://localhost:8082/publisher/boId";
+    const url: string = this.ics.apiRoute + "/publisher/boId";
     this.http.post(url, json).subscribe(
       (data: any) => {
         console.warn("data: ", data);

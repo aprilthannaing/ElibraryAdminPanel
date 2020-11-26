@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { IntercomService } from '../framework/intercom.service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -27,6 +28,7 @@ constructor(
   private router: Router,
   private http: HttpClient,
   private route: ActivatedRoute,
+  private ics: IntercomService
 ) { 
 }
 
@@ -44,7 +46,7 @@ ngOnInit() {
   }
 
   goReadByKey(id){
-    const url = 'http://localhost:8082/user/selectUserbykey';
+    const url = this.ics.apiRoute + '/user/selectUserbykey';
     try {
         this.http.post(url,id).subscribe(
             (data:any) => {
@@ -66,7 +68,7 @@ ngOnInit() {
   }
 
 getHluttaw() {
-  const url = 'http://localhost:8082/setUp/getHluttaw';
+  const url = this.ics.apiRoute + '/setUp/getHluttaw';
   const json = {"":""}
   try {
       this.http.post(url,json).subscribe(
@@ -92,7 +94,7 @@ getHluttaw() {
 }
 
 getDepartment() {
-  const url = 'http://localhost:8082/setUp/getDepartment';
+  const url = this.ics.apiRoute + '/setUp/getDepartment';
   try {
       this.http.post(url,this.json.hlutawType).subscribe(
           (data:any) => {
@@ -116,7 +118,7 @@ getDepartment() {
 }
 
 getPosition() {
-  const url = 'http://localhost:8082/setUp/getPosition';
+  const url = this.ics.apiRoute + '/setUp/getPosition';
   const json = {"":""}
   try {
       this.http.post(url,json).subscribe(
@@ -147,7 +149,7 @@ goSave() {
     }else{
 
     }
-  const url = 'http://localhost:8082/user/setuserinfo';
+  const url = this.ics.apiRoute + '/user/setuserinfo';
   try {
       this.http.post(url,this.json).subscribe(
           (data:any) => {

@@ -27,7 +27,7 @@ export class UserLoginComponent implements OnInit {
     this._result = "";
    this.goValidation();
    if(this._result == ""){
-      const url = 'http://localhost:8082/user/getLogin';
+      const url = this.ics.apiRoute + '/user/getLogin';
       let json = {
         "_email": this._email,
         "_psw": this._pw

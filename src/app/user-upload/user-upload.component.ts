@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { IntercomService } from '../framework/intercom.service';
+
 @Component({
   selector: 'app-user-upload',
   templateUrl: './user-upload.component.html',
@@ -19,6 +21,7 @@ export class UserUploadComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private route: ActivatedRoute,
+    private ics: IntercomService
   ) { }
 
   ngOnInit(): void {
@@ -46,7 +49,7 @@ export class UserUploadComponent implements OnInit {
     reader.readAsBinaryString(target.files[0]);
   }
   getHluttaw() {
-    const url = 'http://localhost:8082/setUp/getHluttaw';
+    const url = this.ics.apiRoute + '/setUp/getHluttaw';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(
@@ -71,7 +74,7 @@ export class UserUploadComponent implements OnInit {
   }
   
   getDepartment() {
-    const url = 'http://localhost:8082/setUp/getDepartmentAll';
+    const url = this.ics.apiRoute + '/setUp/getDepartmentAll';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(
@@ -100,7 +103,7 @@ export class UserUploadComponent implements OnInit {
   }
   
   getPosition() {
-    const url = 'http://localhost:8082/setUp/getPosition';
+    const url = this.ics.apiRoute + '/setUp/getPosition';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(

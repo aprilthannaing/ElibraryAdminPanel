@@ -170,7 +170,7 @@ export class BookeditComponent implements OnInit {
   }
 
   getAllCategories() {
-    const url: string = "http://localhost:8082/category/all";
+    const url: string = this.ics.apiRoute + "/category/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         this.categories = data.categories;
@@ -182,7 +182,7 @@ export class BookeditComponent implements OnInit {
   }
 
   getAllPublishers() {
-    const url: string = "http://localhost:8082/publisher/all";
+    const url: string = this.ics.apiRoute + "/publisher/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         this.publishers = data.publishers;
@@ -193,7 +193,7 @@ export class BookeditComponent implements OnInit {
   }
 
   getAllAuthors() {
-    const url: string = "http://localhost:8082/author/all";
+    const url: string = this.ics.apiRoute + "/author/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         this.authors = data.authors;
@@ -209,7 +209,7 @@ export class BookeditComponent implements OnInit {
 
 
   changeCategory(e) {
-    const url: string = "http://localhost:8082/category/boId";
+    const url: string = this.ics.apiRoute + "/category/boId";
     this.http.post(url, this.form.value).subscribe(
       (data: any) => {
         this.subcategories = data.subcategories;
@@ -270,7 +270,7 @@ export class BookeditComponent implements OnInit {
     this.json.subCategory = this.selectedEntry == undefined ? this.subCategoryBoId : this.selectedEntry;
 
     console.log("this.json: ", this.json)
-    const url: string = "http://localhost:8082/operation/editBook";
+    const url: string = this.ics.apiRoute + "/operation/editBook";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         if (data.status == "1")
@@ -281,6 +281,7 @@ export class BookeditComponent implements OnInit {
         console.warn("error: ", error);
         this.failDialog(this.emptyData);
       });
+
   }
 
   findByBoId() {
@@ -291,7 +292,7 @@ export class BookeditComponent implements OnInit {
       boId: this.boId
     }
 
-    const url: string = "http://localhost:8082/book/boId";
+    const url: string = this.ics.apiRoute + "/book/boId";
     this.http.post(url, json).subscribe(
       (data: any) => {
         console.log("book by boId: ", data.book)
@@ -300,7 +301,7 @@ export class BookeditComponent implements OnInit {
         this.json = data.book;
         //this.json.downloadApproval = data.book.downloadApproval == "false" ? "" : "true";
         this.json.description = data.book.comment == null ? "" : data.book.comment.description;
-        this.imageSrc = "http://localhost:8082" + data.book.coverPhoto;
+        this.imageSrc = this.ics.apiRoute + data.book.coverPhoto;
         this.json.profileName = data.book.coverPhoto;
         this.json.pdfName = data.book.path;
 

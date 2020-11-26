@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
   }
 
   getAllBooks() {
-    const url: string = "http://localhost:8082/book/all";
+    const url: string = this.ics.apiRoute + "/book/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         console.warn("data: ", data);

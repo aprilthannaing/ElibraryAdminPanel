@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-
+import { IntercomService } from '../framework/intercom.service';
 @Component({
   selector: 'app-booksupervisorpanel',
   templateUrl: './booksupervisorpanel.component.html',
@@ -20,6 +20,7 @@ export class BooksupervisorpanelComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private location: Location,
+    private ics: IntercomService
   ) {
     this.form = this.formBuilder.group({
       bookRes: this.formBuilder.array([], [Validators.required])
@@ -32,7 +33,7 @@ export class BooksupervisorpanelComponent implements OnInit {
   }
 
   getAllBooks() {
-    const url: string = "http://localhost:8082/book/all";
+    const url: string = this.ics.apiRoute + "/book/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         console.warn("data: ", data);

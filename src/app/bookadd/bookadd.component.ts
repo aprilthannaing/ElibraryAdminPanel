@@ -5,6 +5,7 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IntercomService } from '../framework/intercom.service';
 
 @Component({
   selector: 'app-bookadd',
@@ -101,7 +102,8 @@ export class BookaddComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private formBuilder: FormBuilder,
-    public dialog: MatDialog,) {
+    public dialog: MatDialog,
+    private ics: IntercomService) {
 
     this.publisherForm = this.formBuilder.group({
       pubs: this.formBuilder.array([], [Validators.required])
@@ -139,7 +141,7 @@ export class BookaddComponent implements OnInit {
   }
 
   getAllCategories() {
-    const url: string = "http://localhost:8082/category/all";
+    const url: string = this.ics.apiRoute + "/category/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         console.warn("data: ", data);
@@ -153,7 +155,7 @@ export class BookaddComponent implements OnInit {
   }
 
   getAllPublishers() {
-    const url: string = "http://localhost:8082/publisher/all";
+    const url: string = this.ics.apiRoute + "/publisher/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         console.warn("data: ", data);
@@ -165,7 +167,7 @@ export class BookaddComponent implements OnInit {
   }
 
   getAllAuthors() {
-    const url: string = "http://localhost:8082/author/all";
+    const url: string = this.ics.apiRoute + "/author/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         console.warn("data: ", data);
@@ -213,7 +215,7 @@ export class BookaddComponent implements OnInit {
   changeCategory(e) {
     console.log("form vlaue: ", e.target.value);
     console.log("form vlaue: ", this.form.value);
-    const url: string = "http://localhost:8082/category/boId";
+    const url: string = this.ics.apiRoute + "/category/boId";
     this.http.post(url, this.form.value).subscribe(
       (data: any) => {
         console.warn("data: ", data);
@@ -235,7 +237,7 @@ export class BookaddComponent implements OnInit {
     this.json.subCategory = this.subCategoryTerm;
 
     console.log("json", this.json)
-    const url: string = "http://localhost:8082/operation/saveBook";
+    const url: string = this.ics.apiRoute + "/operation/saveBook";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
