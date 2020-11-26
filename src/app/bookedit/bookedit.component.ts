@@ -299,7 +299,7 @@ export class BookeditComponent implements OnInit {
         this.json = data.book;
         //this.json.downloadApproval = data.book.downloadApproval == "false" ? "" : "true";
         this.json.description = data.book.comment == null ? "" : data.book.comment.description;
-        this.imageSrc = "http://localhost:8080" + data.book.coverPhoto;
+        this.imageSrc = "http://localhost:8082" + data.book.coverPhoto;
         this.json.profileName = data.book.coverPhoto;
         this.json.pdfName = data.book.path;
 

@@ -47,7 +47,7 @@ export class AuthoreditComponent implements OnInit {
         this.json = data.author;
         this.json.authorType = (data.author.authorType + "").toLowerCase();
 
-        this.imageSrc = "http://localhost:8080"+ data.author.profilePicture;
+        this.imageSrc = "http://localhost:8082"+ data.author.profilePicture;
 
       },
       error => {

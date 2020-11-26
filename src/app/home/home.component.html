@@ -11,7 +11,7 @@
         <li><a  (click)="manageBooks()"> <!--[routerLink]="['/book']"-->
                 <i class="fa fa-book" aria-hidden="true" style="margin-top: 3px;"></i>
                 <span style="margin-left: 6%;">Book</span>
-                <span style="margin-left: 6%;background-color: blue;margin-bottom: 2%;" class="badge list">{{books.length}}</span>
+                <span *ngIf="userRole != 'Admin'" style="margin-left: 6%;background-color: blue;margin-bottom: 2%;" class="badge list">{{books.length}}</span>
 
             </a>
         </li>

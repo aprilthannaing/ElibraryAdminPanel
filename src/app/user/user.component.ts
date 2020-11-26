@@ -44,7 +44,7 @@ ngOnInit() {
   }
 
   goReadByKey(id){
-    const url = 'http://localhost:8080/user/selectUserbykey';
+    const url = 'http://localhost:8082/user/selectUserbykey';
     try {
         this.http.post(url,id).subscribe(
             (data:any) => {
@@ -66,7 +66,7 @@ ngOnInit() {
   }
 
 getHluttaw() {
-  const url = 'http://localhost:8080/setUp/getHluttaw';
+  const url = 'http://localhost:8082/setUp/getHluttaw';
   const json = {"":""}
   try {
       this.http.post(url,json).subscribe(
@@ -92,7 +92,7 @@ getHluttaw() {
 }
 
 getDepartment() {
-  const url = 'http://localhost:8080/setUp/getDepartment';
+  const url = 'http://localhost:8082/setUp/getDepartment';
   try {
       this.http.post(url,this.json.hlutawType).subscribe(
           (data:any) => {
@@ -116,7 +116,7 @@ getDepartment() {
 }
 
 getPosition() {
-  const url = 'http://localhost:8080/setUp/getPosition';
+  const url = 'http://localhost:8082/setUp/getPosition';
   const json = {"":""}
   try {
       this.http.post(url,json).subscribe(
@@ -147,7 +147,7 @@ goSave() {
     }else{
 
     }
-  const url = 'http://localhost:8080/user/setuserinfo';
+  const url = 'http://localhost:8082/user/setuserinfo';
   try {
       this.http.post(url,this.json).subscribe(
           (data:any) => {

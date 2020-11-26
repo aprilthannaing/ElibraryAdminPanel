@@ -31,9 +31,9 @@ export class HomeComponent implements OnInit {
     console.log("manage book")
     console.log("userRole", this.ics.userRole)
 
-    if (this.userRole == "SUPERVISOR")
+    if (this.userRole == "Supervisor")
       this.router.navigate(['booksupervisor']);
-    if (this.userRole == "ADMIN")
+    if (this.userRole == "Admin")
       this.router.navigate(['book']);
   }
 

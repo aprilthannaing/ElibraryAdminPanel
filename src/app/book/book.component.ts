@@ -136,7 +136,7 @@ export class BookComponent implements OnInit {
         console.warn("data: ", data);
         this.authors = data.authors;
         data.authors.forEach(element => {
-          console.log("http://localhost:8080/" + element.profilePicture)
+          console.log("http://localhost:8082/" + element.profilePicture)
         });
         this.loading= "false";
       },

@@ -53,7 +53,7 @@ export class SetupComponent implements OnInit {
   
   }
   getPosition() {
-    const url = 'http://localhost:8080/setUp/getPosition';
+    const url = 'http://localhost:8082/setUp/getPosition';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(
@@ -84,7 +84,7 @@ export class SetupComponent implements OnInit {
       this.setDepartment();
   }
   setDepartment(){
-    const url = 'http://localhost:8080/setUp/departmentSetup';
+    const url = 'http://localhost:8082/setUp/departmentSetup';
     let json = {
         "code": this.hlutawType,
         "lov": this.lov.ref
@@ -110,7 +110,7 @@ export class SetupComponent implements OnInit {
   }
 
   setPosition(){
-    const url = 'http://localhost:8080/setUp/positionSetup';
+    const url = 'http://localhost:8082/setUp/positionSetup';
     let json = {
       "lov": this.lov.ref
     }
@@ -135,7 +135,7 @@ export class SetupComponent implements OnInit {
   }
 
   getDepartment() {
-    const url = 'http://localhost:8080/setUp/getDepartment';
+    const url = 'http://localhost:8082/setUp/getDepartment';
     try {
         this.http.post(url,this.hlutawType).subscribe(
             (data:any) => {
@@ -157,7 +157,7 @@ export class SetupComponent implements OnInit {
   }
 
   getHluttaw() {
-    const url = 'http://localhost:8080/setUp/getHluttaw';
+    const url = 'http://localhost:8082/setUp/getHluttaw';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(

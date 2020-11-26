@@ -19,7 +19,7 @@ export class BookaddComponent implements OnInit {
   pdf: string;
   publisherForm: FormGroup;
   authorForm: FormGroup;
-  json = { "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "callNumber": "", "description": "" };
+  json = { "userId" : "", "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "callNumber": "", "description": "" };
   categories = [];
   subcategories = [];
   publishers = [];

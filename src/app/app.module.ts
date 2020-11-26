@@ -84,9 +84,9 @@ import { SetupComponent } from './setup/setup.component';
 import { UserUploadComponent } from './user-upload/user-upload.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserChangepwdComponent } from './user-changepwd/user-changepwd.component';
-
+import { NgApexchartsModule} from "ng-apexcharts";
 const routes: Routes = [
-  { path: '',redirectTo: 'login',pathMatch: 'full'},
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: UserLoginComponent },
   { path: 'home', component: HomeComponent },
   { path: 'header', component: HeaderComponent },
@@ -156,6 +156,7 @@ const routes: Routes = [
     UserChangepwdComponent,
   ],
   imports: [
+    NgApexchartsModule,
     Ng2SearchPipeModule,
     MatFormFieldModule,
     HttpClientModule,
@@ -212,7 +213,7 @@ const routes: Routes = [
     OverlayModule,
     PortalModule,
     ScrollingModule,
-  
+
   ],
   providers: [
   ],

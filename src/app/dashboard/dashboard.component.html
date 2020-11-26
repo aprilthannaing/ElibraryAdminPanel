@@ -1,14 +1,16 @@
 <app-home></app-home>
-<div class="content">
-    <div>
-        <h1>Dashboard</h1>
-
-   
-        <h2>Responsive Images</h2>
-
-        <p>If you want the image to scale both up and down on responsiveness, set the CSS width property to 100% and height to auto.</p>
-        <p>Resize the browser window to see the effect.</p>
-        
-        <img src="img_nature.jpg" alt="Nature" class="responsive" width="600" height="400">
-     </div>
+<div class="content">      
+    <div id="chart">
+        <apx-chart
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [dataLabels]="chartOptions.dataLabels"
+          [plotOptions]="chartOptions.plotOptions"
+          [yaxis]="chartOptions.yaxis"
+          [xaxis]="chartOptions.xaxis"
+          [legend]="chartOptions.legend"
+          [colors]="chartOptions.colors"
+          [grid]="chartOptions.grid"
+        ></apx-chart>
+      </div>
 </div>

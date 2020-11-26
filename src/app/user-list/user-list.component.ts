@@ -41,7 +41,7 @@ export class UserListComponent implements OnInit {
     this.getDepartment(value);
   }
   Searching(){
-    const url = 'http://localhost:8080/user/selectUserInfo';
+    const url = 'http://localhost:8082/user/selectUserInfo';
     try {
         this.http.post(url,this.jsonReq).subscribe(
             (data:any) => {
@@ -74,7 +74,7 @@ export class UserListComponent implements OnInit {
   }
 
   getHluttaw() {
-    const url = 'http://localhost:8080/setUp/getHluttaw';
+    const url = 'http://localhost:8082/setUp/getHluttaw';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(
@@ -99,7 +99,7 @@ export class UserListComponent implements OnInit {
   }
   
   getDepartment(obj) {
-    const url = 'http://localhost:8080/setUp/getDepartment';
+    const url = 'http://localhost:8082/setUp/getDepartment';
     try {
         this.http.post(url,obj).subscribe(
             (data:any) => {
@@ -121,7 +121,7 @@ export class UserListComponent implements OnInit {
   }
   
   getPosition() {
-    const url = 'http://localhost:8080/setUp/getPosition';
+    const url = 'http://localhost:8082/setUp/getPosition';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(

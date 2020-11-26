@@ -46,7 +46,7 @@ export class UserUploadComponent implements OnInit {
     reader.readAsBinaryString(target.files[0]);
   }
   getHluttaw() {
-    const url = 'http://localhost:8080/setUp/getHluttaw';
+    const url = 'http://localhost:8082/setUp/getHluttaw';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(
@@ -71,7 +71,7 @@ export class UserUploadComponent implements OnInit {
   }
   
   getDepartment() {
-    const url = 'http://localhost:8080/setUp/getDepartmentAll';
+    const url = 'http://localhost:8082/setUp/getDepartmentAll';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(
@@ -100,7 +100,7 @@ export class UserUploadComponent implements OnInit {
   }
   
   getPosition() {
-    const url = 'http://localhost:8080/setUp/getPosition';
+    const url = 'http://localhost:8082/setUp/getPosition';
     const json = {"":""}
     try {
         this.http.post(url,json).subscribe(
