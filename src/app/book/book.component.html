@@ -37,7 +37,7 @@
 
 
 
-    <div style="height: 500px;overflow-y: auto;width:90%;overflow-x:auto;" *ngIf="showBook == 'true' ">
+    <div style="margin-left:10%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;" *ngIf="showBook == 'true' ">
         <mat-form-field style="width: 50%;margin-top: 2%;width: 30%;">
             <mat-label> Search Here</mat-label>
             <input matInput placeholder="Book" [(ngModel)]="term">
@@ -89,7 +89,7 @@
         </table>
     </div>
 
-    <div style="height: 500px;overflow-y: auto;width:90%;overflow-x:auto;" *ngIf="showAuthor == 'true' ">
+    <div style="margin-left:10%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;" *ngIf="showAuthor == 'true' ">
         <mat-form-field style="width: 50%;margin-top: 2%;width: 30%;">
             <mat-label> Search Here</mat-label>
             <input matInput placeholder="Author" [(ngModel)]="authorTerm">
