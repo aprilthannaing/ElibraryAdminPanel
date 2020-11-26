@@ -188,7 +188,7 @@
                             <tr *ngFor="let item of subcategories | filter:subCategoryTerm;">
                                 <td>
                                     <input type="radio" name="subcategory" value="{{item.boId}}"
-                                        formControlName="subcategory">
+                                        formControlName="subcategory" (change)="onSelectionChange(item.boId)" >
                                 </td>
                                 <td>{{item.name}}
                                 </td>

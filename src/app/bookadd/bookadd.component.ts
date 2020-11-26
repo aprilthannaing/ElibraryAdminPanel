@@ -29,6 +29,8 @@ export class BookaddComponent implements OnInit {
   publisherTerm: string;
   authorTerm: string;
   subCategoryTerm: string;
+  selectedEntry;
+
 
   emptyData = {};
 
@@ -213,7 +215,6 @@ export class BookaddComponent implements OnInit {
   })
 
   changeCategory(e) {
-    console.log("form vlaue: ", e.target.value);
     console.log("form vlaue: ", this.form.value);
     const url: string = this.ics.apiRoute + "/category/boId";
     this.http.post(url, this.form.value).subscribe(
@@ -226,6 +227,11 @@ export class BookaddComponent implements OnInit {
       });
   }
 
+  
+  onSelectionChange(entry) {
+    this.selectedEntry = entry;
+  }
+
   save() {
     this.json.imageSrc = this.imageSrc;
     this.json.pdf = this.pdf;
@@ -233,8 +239,9 @@ export class BookaddComponent implements OnInit {
     this.json.publishers = this.publisherForm.value.pubs;
     this.json.profileName = this.myForm.value.file;
     this.json.pdfName = this.pdfForm.value.file;
-    this.json.category = this.term;
-    this.json.subCategory = this.subCategoryTerm;
+    this.json.category = this.form.value;
+    this.json.subCategory = this.selectedEntry;
+    this.json.userId = this.ics.userId;
 
     console.log("json", this.json)
     const url: string = this.ics.apiRoute + "/operation/saveBook";

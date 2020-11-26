@@ -39,13 +39,7 @@ export class BookComponent implements OnInit {
     private ics: IntercomService) { }
 
   ngOnInit(): void {
-    //  this.loading = "true";
-    // this.getAllBooks();
-    // this.getAllAuthors();
-    // this.getAllPublishers();
-    // this.getAllCategories();
-    // this.getAllSubCategories();
-    this.getBookCount();
+     this.getBookCount();
     this.getAuthorCount();
     this.getPublisherCount();
     this.getCategoryCount();
