@@ -11,7 +11,7 @@
         <li><a  (click)="manageBooks()"> <!--[routerLink]="['/book']"-->
                 <i class="fa fa-book" aria-hidden="true" style="margin-top: 3px;"></i>
                 <span style="margin-left: 6%;">Book</span>
-                <span *ngIf="userRole == 'SUPERVISOR'" style="margin-left: 6%;background-color: blue;margin-bottom: 2%;" class="badge list">{{books.length}}</span>
+                <span style="margin-left: 6%;background-color: blue;margin-bottom: 2%;" class="badge list">{{books.length}}</span>
 
             </a>
         </li>
@@ -40,7 +40,13 @@
                 </svg>
                 <span style="margin-left: 4%;">Position</span>
             </a>
-        </li>      
+        </li>
+        <li>
+            <a [routerLink]="['/librarian']">
+                <i class="fa fa-user-plus" aria-hidden="true" style="font-size:15px"></i>
+                <span style="margin-left: 4%;">Librarian</span>
+            </a>
+        </li>     
         <li>
             <a [routerLink]="['/export']">
                 <i class="fa fa-download" aria-hidden="true"></i>

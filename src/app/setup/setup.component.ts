@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class SetupComponent implements OnInit {
   hlutawType = "";
   formid = "";
+  title = "";
   constructor(
   private router: Router,
   private http: HttpClient,
@@ -21,10 +22,14 @@ export class SetupComponent implements OnInit {
       let cmd = params['cmd'];
       if (cmd != null && cmd != "" && cmd == "read") {
         this.formid = params['id'];
-        if(this.formid == 'lov2')
-          this.getPosition();
-        else if(this.formid == 'lov1')
-          this.getHluttaw();
+        if(this.formid == 'lov2'){
+            this.getPosition();
+            this.title = "Position Setup Form"
+        }
+        else if(this.formid == 'lov1'){
+            this.title = "Department Setup Form";
+            this.getHluttaw();
+        }
       }
     });
   

@@ -1,11 +1,11 @@
-<div style="max-width: 100%;">
-
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#6C63FF">
-        <div class="col-md-12">
-
-            <img src="assets/images/State_seal.png" width="100" height="100" class="pull-left">
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+<div style="max-width: 100%;">      
+   
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#6C63FF">
+            <div class="col-md-12" style = "margin-bottom: 0px !important;">
+                
+                <img src="assets/images/State_seal.png" width="100" height="100" class="pull-left">
+                
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -15,12 +15,10 @@
                 <div style="margin-top: 10px;">
                     <span style="font-family:sans-serif;color:lavender;font-size: 15px;"> Pyidaungsy Hluttaw </span>
                 </div>
-                <h3 class="rightHeader">{{userName}}</h3>
+                <!-- <h3 class="rightHeader"></h3> -->
             </div>
 
-            <div style="margin-top: 80px;text-align: right;">
-                <span style="font-family:sans-serif;color:lavender;font-size: 17px;"> Admin Panel </span>
-            </div>
+            <h3 *ngIf="role!=''" class="rightHeader"> {{userName}}&nbsp;({{role}})</h3>
         </div>
         
     </nav>
