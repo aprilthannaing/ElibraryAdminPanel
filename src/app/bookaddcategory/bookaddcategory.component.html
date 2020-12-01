@@ -15,6 +15,11 @@
             <input matInput placeholder="Myanmar books" [(ngModel)]="engName" required>
         </mat-form-field>
         <br>
+        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+            <mat-label> Priority</mat-label>
+            <input matInput placeholder="1 (ASC)" [(ngModel)]="priority" required>
+        </mat-form-field>
+        <br>
         <mat-form-field class="mat" style="width: 40%; margin-left: 5%">
             <mat-label> Sub-Categories</mat-label>
             <input matInput placeholder="Search Here" [(ngModel)]="term">

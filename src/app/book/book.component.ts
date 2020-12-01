@@ -153,11 +153,14 @@ export class BookComponent implements OnInit {
   }
 
   getAllSubCategories() {
+    
     const url: string = this.ics.apiRoute + "/subcategory/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         this.subcategories = data.subcategories;
         this.loading= "false";
+        console.log("categories: ", data.subcategories)
+
       },
       error => {
         console.warn("error: ", error);

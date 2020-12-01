@@ -17,7 +17,7 @@ export class CategoryeditComponent implements OnInit {
   subcategories = [];
   categories = [];
   form: FormGroup;
-  json = { "myanmarName": "", "engName": "" ,"categories": ""}
+  json = { "myanmarName": "", "engName": "" ,"categories": "", "priority": ""}
 
   constructor(
     private router: Router,
@@ -91,7 +91,7 @@ export class CategoryeditComponent implements OnInit {
 
     this.json.categories = this.form.value.subs;
     console.log("json: " , this.json);
-    const url: string = this.ics.apiRoute + "/operation/editsubcategory";
+    const url: string = this.ics.apiRoute + "/operation/editcategory";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);

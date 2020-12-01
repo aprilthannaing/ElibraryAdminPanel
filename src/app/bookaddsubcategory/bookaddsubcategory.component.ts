@@ -11,6 +11,7 @@ import { IntercomService } from '../framework/intercom.service';
 export class BookaddsubcategoryComponent implements OnInit {
 
   description: String = '';
+  priority: string = '';
   constructor(
     private router: Router,
     private dialog: MatDialog,
@@ -31,6 +32,8 @@ export class BookaddsubcategoryComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/operation/savesubcategory";
     const json = {
       name: this.description,
+      priority: this.priority,
+
     }
     this.http.post(url, json).subscribe(
       (data: any) => {

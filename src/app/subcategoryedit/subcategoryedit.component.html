@@ -6,6 +6,11 @@
         <mat-form-field style="width: 40%;">
             <input matInput placeholder="For eg. Eduction" [(ngModel)]="json.name">
         </mat-form-field>
+        <br>
+        <mat-form-field class="mat" style="width: 40%;">
+            <mat-label> Priority</mat-label>
+            <input matInput placeholder="1 (ASC)" [(ngModel)]="json.priority" required>
+        </mat-form-field>
 
 
 

@@ -16,6 +16,7 @@ export class BookaddcategoryComponent implements OnInit {
   myaName: String = '';
   engName: String = '';
   form: FormGroup;
+  priority = '';
 
   constructor(
     private router: Router,
@@ -64,8 +65,9 @@ export class BookaddcategoryComponent implements OnInit {
     const json =
     {
       categories: this.form.value.subs,
-      myaName: this.myaName,
-      engName: this.engName
+      myanmarName: this.myaName,
+      engName: this.engName,
+      priority: this.priority,
     };
 
     console.log("json : " , json)
