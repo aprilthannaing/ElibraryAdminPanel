@@ -53,14 +53,14 @@ export class UserLoginComponent implements OnInit {
               },
               error => {
                   if (error._body.type == 'error') {
-                      alert("Connection Timed Out!");
+                    this._result = "Connection Timed Out!";
                   }
                   else {
   
                   }
               }, () => { });
       } catch (e) {
-          alert(e);
+        this._result = "Server Time Out";
       }
    }
    

@@ -9,6 +9,6 @@ export class IntercomService {
   uesrName: string = "";
   sessionId: string = "";
   userId: string = "";
-  apiRoute: string = "http://localhost:8080";
+  apiRoute: string = "http://localhost:8082";
   constructor() { }
 }

@@ -180,9 +180,7 @@ goSetup(id){
     this.router.navigate(['setup', 'read', id]);
 }
 goNew() {
-    this.json = this.userObj();
-    this.getHluttaw();
-    this.getPosition();
+    this.router.navigate(['user']);
 }
 goUpload(){
     this.router.navigate(['user-upload']);

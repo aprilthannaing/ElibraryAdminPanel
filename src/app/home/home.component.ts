@@ -51,5 +51,8 @@ export class HomeComponent implements OnInit {
   goLogout(){
     this.router.navigate(['login']);
   }
+  goSetup(id){
+    this.router.navigate(['setup', 'read', id]);
+  }
 
 }
