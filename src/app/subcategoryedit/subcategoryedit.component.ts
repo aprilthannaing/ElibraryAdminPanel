@@ -10,7 +10,7 @@ import { IntercomService } from '../framework/intercom.service';
 })
 export class SubcategoryeditComponent implements OnInit {
 
-  json = {"name":""};
+  json = {"name":"", "priority": ""};
   boId: string;
   constructor(
     private router: Router,

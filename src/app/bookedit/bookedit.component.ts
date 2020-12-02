@@ -295,11 +295,11 @@ export class BookeditComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/book/boId";
     this.http.post(url, json).subscribe(
       (data: any) => {
-        console.log("book by boId: ", data.book)
         this.subcategories = data.book.category.subCategories;
+        this.json.publishedDate = data.book.publishedDate
+        console.log("book by boId: ",  this.json.publishedDate)
 
         this.json = data.book;
-        //this.json.downloadApproval = data.book.downloadApproval == "false" ? "" : "true";
         this.json.description = data.book.comment == null ? "" : data.book.comment.description;
         this.imageSrc = this.ics.apiRoute + data.book.coverPhoto;
         this.json.profileName = data.book.coverPhoto;
@@ -318,6 +318,7 @@ export class BookeditComponent implements OnInit {
 
         this.form.value.category = data.book.category.boId;
         this.categoryTerm = data.book.category.myanmarName;
+        this.subCategoryTerm = data.book.subCategory.name;
         this.categoryBoId = data.book.category.boId;
         this.subCategoryBoId = data.book.subCategory.boId;
         data.book.publishers.forEach(element => {
