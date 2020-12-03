@@ -75,9 +75,10 @@ export class DashboardComponent implements OnInit {
         type: "bar",
         events: {
 
-          click: function (event, chartContext, config) {
+          dataPointSelection: function (event, chartContext, config) {
             document.getElementById("loading").style.display = "block";
 
+            console.log("config.dataPointIndex : " , config.dataPointIndex )
             /* get book list from api by bar index*/
             var http = new XMLHttpRequest();
             var url = "http://localhost:8082/dashboard/librarian/booklist";
@@ -96,8 +97,6 @@ export class DashboardComponent implements OnInit {
                 tblBody.innerHTML = '';
 
                 JSON.parse(this.responseText).bookList.forEach(element => {
-                  console.log("element.downloadApproval: ", element.downloadApproval)
-
                   var row = document.createElement("tr");
                   var title = document.createElement("td");
                   var cellTitle = document.createTextNode(element.title);
@@ -140,8 +139,8 @@ export class DashboardComponent implements OnInit {
                 });
 
               } else {
+                document.getElementById("loading").style.display = "none";
                 console.log("error !!!!!!!!!!!!!!")
-               // alert("Error, Any book not found!");
               }
             }
             http.send(params);
@@ -217,5 +216,65 @@ export class DashboardComponent implements OnInit {
 
   search(){
     console.log("term:", this.term);
+    const url: string = this.ics.apiRoute + "/search/book";
+    const json = {
+      searchTerms : this.term,
+    }
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        console.warn("data: ", data);
+        document.getElementById("count").textContent = data.bookList.length;
+
+        var table = document.getElementById("myTable");
+        var tblBody = document.getElementById("mytbody");
+        tblBody.innerHTML = '';
+
+        data.bookList.forEach(element => {
+          console.log("element.downloadApproval: ", element.downloadApproval)
+
+          var row = document.createElement("tr");
+          var title = document.createElement("td");
+          var cellTitle = document.createTextNode(element.title);
+          title.appendChild(cellTitle);
+          row.appendChild(title);
+
+          var accessionNo = document.createElement("td");
+          var cellAccessionNo = document.createTextNode(element.accessionNo);
+          accessionNo.appendChild(cellAccessionNo);
+          row.appendChild(accessionNo);
+
+          var state = document.createElement("td");
+          var cellState = document.createTextNode(element.state);
+          state.appendChild(cellState);
+          row.appendChild(state);
+
+          var createdDate = document.createElement("td");
+          var cell = document.createTextNode(element.createdDate);
+          createdDate.appendChild(cell);
+          row.appendChild(createdDate);
+
+          var size = document.createElement("td");
+          var cell = document.createTextNode(element.size);
+          size.appendChild(cell);
+          row.appendChild(size);
+
+          var downloadApproval = document.createElement("td");
+
+          var checkbox = document.createElement("INPUT");
+          checkbox.setAttribute("type", "checkbox");
+          if (element.downloadApproval != "") {
+            checkbox.setAttribute("checked", "true");
+          }
+          downloadApproval.appendChild(checkbox);
+          row.appendChild(downloadApproval);
+
+
+          tblBody.appendChild(row);
+          table.appendChild(tblBody);
+        });
+      },
+      error => {
+        console.warn("error: ", error);
+      });
   }
 }
