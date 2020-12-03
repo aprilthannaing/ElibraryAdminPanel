@@ -6,6 +6,7 @@
     <div class="row  col-md-12">    
         <button class="btn btn-primary" type="button"  (click)="goNew()">New</button>
         <button class="btn btn-primary" type="button"  (click)="goSave()">Save</button>
+        <button class="btn btn-primary" type="button"  (click)="goDelete()" [disabled]="deleteFlag">Delete</button>
         <button class="btn btn-primary" type="button"  (click)="goList()">List</button>
         <button class="btn btn-primary" type="button"  (click)="goUpload()">Upload</button>
     </div>
@@ -25,7 +26,7 @@
 
         <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
             <mat-label> Email</mat-label>
-            <input matInput placeholder="aaa@gmail.com" [(ngModel)]="json.email" required>
+            <input matInput placeholder="aaa@gmail.com" [(ngModel)]="json.email" [disabled]="emailFlag" required>
         </mat-form-field>
 
         <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
@@ -41,7 +42,7 @@
         </mat-form-field>
 
         <mat-form-field style="width: 40%; margin-left: 5%;">
-            <mat-label >Choose User Type</mat-label>
+            <mat-label >Choose User Level</mat-label>
             <select  matNativeControl required [(ngModel)]="json.type">
                 <option *ngFor="let item of lov.refUserType" value="{{item.value}}">{{item.caption}}</option>
             </select>

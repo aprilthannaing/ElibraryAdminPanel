@@ -18,7 +18,7 @@
             <div class="col-md-2">
                 <mat-form-field>
                     <mat-label>Hluttaw Type</mat-label>
-                    <select (change)="changeModule($event)" matNativeControl [(ngModel)]="jsonReq.hlutawType">
+                    <select (change)="changeHluttaw($event)" matNativeControl [(ngModel)]="jsonReq.text1">
                         <option *ngFor="let item of lov.refHluttaw" value="{{item.value}}">{{item.caption}}</option>
                     </select>
                 </mat-form-field>
@@ -26,7 +26,7 @@
             <div class="col-md-2">
                 <mat-form-field>
                     <mat-label >Department Type</mat-label>
-                    <select  matNativeControl [(ngModel)]="jsonReq.deptType">
+                    <select (change)="changeDepartment($event)" matNativeControl [(ngModel)]="jsonReq.text2">
                         <option *ngFor="let item of lov.refDept" value="{{item.value}}">{{item.caption}}</option>
                     </select>
                 </mat-form-field>
@@ -34,27 +34,27 @@
             <div class="col-md-2">
                 <mat-form-field>
                     <mat-label>Position</mat-label>
-                    <select  matNativeControl [(ngModel)]="jsonReq.positionType">
+                    <select  (change)="changePosition($event)" matNativeControl [(ngModel)]="jsonReq.text3">
                         <option *ngFor="let item of lov.refPosition" value="{{item.value}}">{{item.caption}}</option>
                     </select>
                 </mat-form-field>
             </div>
             <div class="col-md-2">
                 <mat-form-field class="mat" color="accent">
-                    <input matInput [matDatepicker]="picker1" placeholder="From Date" [(ngModel)]="jsonReq.fromDate">
+                    <input matInput [max]="jsonReq.toDate" [matDatepicker]="picker1" placeholder="From Date" [(ngModel)]="jsonReq.fromDate">
                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                     <mat-datepicker #picker1></mat-datepicker>
                 </mat-form-field>
             </div>
             <div class="col-md-2">
                 <mat-form-field class="mat" color="accent">
-                    <input matInput [matDatepicker]="picker1" placeholder="To Date" [(ngModel)]="jsonReq.toDate">
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
+                    <input matInput [min]="jsonReq.fromDate" [matDatepicker]="picker2" placeholder="To Date" [(ngModel)]="jsonReq.toDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
             </div>
         </div>
-        <div class="col-md-12" style="overflow-x:auto">
+        <div class="col-md-12" style="overflow-x:auto" *ngIf="userObj.length > 0">
             <table class="table table-striped table-condensed table-hover tblborder">
                 <thead>
                 <tr>

@@ -10,13 +10,20 @@ import { IntercomService } from '../framework/intercom.service';
   styleUrls: ['./user-upload.component.styl']
 })
 export class UserUploadComponent implements OnInit {
-  data:[][];
-  reqData:any;
+  data = [];
   lov: any = {
     "refHluttaw": [{ "value": "", "caption": "" }],
     "refDept": [{ "value": "", "caption": "" }],
     "refPosition": [{ "value": "", "caption": "" }],
   };
+  userArrayList:any = this.getObj();
+  checkArrayList:any = [];
+  getObj() {
+    return {
+      "userArray":[]
+    }
+  }
+  userObj = {"flag": false,"sessionId":"","boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":"","roleType":""} 
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -29,12 +36,35 @@ export class UserUploadComponent implements OnInit {
     this.getDepartment();
     this.getPosition();
   }
+  selectAllChk(event) {
+    this.checkArrayList = [];
+    if (event) {
+      for(let i=0; i< this.userArrayList.userArray.length; i++){
+        this.checkArrayList.push(this.userArrayList.userArray[i]);
+        this.userArrayList.userArray[i].flag = true;
+      }
+      
+    }else{
+      for(let i=0; i< this.userArrayList.userArray.length; i++){
+        this.checkArrayList.splice(this.checkArrayList.indexOf(i),1);
+        this.userArrayList.userArray[i].flag = false;
+      }
+    }
+  }
+  changeType(event, obj, j) {
+    if (event.target.checked) {
+        this.checkArrayList.push(obj);
+    }else{
+      this.checkArrayList.splice(this.checkArrayList.indexOf(j),1);
+    }
+  }
+  //old
   onFileChange(evt:any){
+    this.checkArrayList = [];
+    this.userArrayList = this.getObj();
     const target:DataTransfer =<DataTransfer>(evt.target);
-
     if(target.files.length != 1) throw new Error("Cannot use multiple files");
     const reader :FileReader = new FileReader();
-
     reader.onload = (e:any) =>{
       const bstr   : string         = e.target.result;
       const wb     : XLSX.WorkBook  = XLSX.read(bstr, {type: 'binary'});
@@ -44,7 +74,32 @@ export class UserUploadComponent implements OnInit {
 
       this.data = (XLSX.utils.sheet_to_json(ws,{header: 1}))
       this.data = this.data.splice(1, this.data.length);
-      console.log(this.data);
+      
+      //User
+      for(let i=0;i<this.data.length;i++){
+        this.userObj = {"flag": false,"sessionId":"","boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":"","roleType":""} 
+  
+        for(let j=0;j<this.data[i].length+1;j++){
+          if(j==0)
+          this.userObj.name  = this.data[i][j];
+          else if(j==1)
+          this.userObj.email  = this.data[i][j];
+          else if(j==2)
+          this.userObj.phoneNo  = this.data[i][j];
+          else if(j==3)
+          this.userObj.hlutawType  = (this.data[i][j]==undefined ? "" : this.data[i][j]);
+          else if(j==4)
+          this.userObj.deptType  = (this.data[i][j]==undefined ? "" : this.data[i][j]);
+          else if(j==5)
+          this.userObj.positionType  = (this.data[i][j]==undefined ? "" : this.data[i][j]);
+          else if(j==6)
+          this.userObj.type  = this.data[i][j];
+          else
+          this.userObj.flag  = false;
+        }
+        this.userArrayList.userArray.push(this.userObj);
+        console.log(this.userArrayList);
+      }
     };
     reader.readAsBinaryString(target.files[0]);
   }
@@ -125,31 +180,76 @@ export class UserUploadComponent implements OnInit {
     }
   }
   goSave(){
-    this.Validation();
+    let valid = false;
+    if(this.userArrayList.userArray.length > 0){
+      for(let i=0;i< this.userArrayList.userArray.length;i++){
+        if(this.userArrayList.userArray[i].flag){
+          valid = true;
+          this.changeLOV();
+          this.saveURL();
+          return;
+        } 
+      }
+      if(!valid)
+        this.showMessage("At least one checkbox must be selected.",false);
+    }else{
+      this.showMessage("No file chosen.",false);
+    }
   }
-  Validation(){
-    this.reqData = this.data;
-    for(let i = 0; i<this.lov.refHluttaw.length; i++){
-      for(let j = 0; j<this.reqData.length; j++){
-        if(this.lov.refHluttaw[i].caption == this.reqData[j][3]){
-          this.reqData[j][3] = this.lov.refHluttaw[i].value;
+  saveURL(){
+    const url = this.ics.apiRoute + '/user/setusers?sessionId=' + this.ics.sessionId;
+        try {
+            this.http.post(url,this.checkArrayList).subscribe(
+                (data:any) => {
+                    if (data != null && data != undefined) {
+                        if(data.code == "000"){
+                          this.showMessage(data.desc,true);
+                        }else{
+                          this.showMessage(data.desc,false);
+                        }
+                        
+                      console.log(data.desc);
+                    }
+                },
+                error => {
+                    if (error._body.type == 'error') {
+                        alert("Connection Timed Out!");
+                    }
+                    else {
 
-          for(let k = 0; k<this.lov.refDept.length; k++){
-                if( this.reqData[j][3] == this.lov.refDept[k].joinid ){
-                  if(this.lov.refDept[k].caption == this.reqData[j][4])
-                  this.reqData[j][4] = this.lov.refDept[k].value;
+                    }
+                }, () => { });
+        } catch (e) {
+            alert(e);
+        }
+  }
+    changeLOV(){
+      for(let i = 0; i<this.lov.refHluttaw.length; i++){
+        for(let j = 0; j<this.checkArrayList.length; j++){
+          if(this.lov.refHluttaw[i].caption == this.checkArrayList[j].hlutawType){
+            this.checkArrayList[j].hlutawType = this.lov.refHluttaw[i].value;
+              for (let k = 0; k < this.lov.refDept.length; k++) {
+                if (this.checkArrayList[j].hlutawType == this.lov.refDept[k].joinid) {
+                  if(this.checkArrayList[j].type != "Representative"){
+                    if(this.lov.refDept[k].caption == this.checkArrayList[j].deptType)
+                      this.checkArrayList[j].deptType = this.lov.refDept[k].value;
+                  }else{
+                    if(this.lov.refDept[k].code == "0")
+                    this.checkArrayList[j].deptType = this.lov.refDept[k].value;
+                  }
+                }
               }
-            }
+            
           }
         }
       }
       for(let i = 0; i<this.lov.refPosition.length; i++){
-        for(let j = 0; j< this.reqData.length; j++){
-          if(this.lov.refPosition[i].caption == this.reqData[j][5])
-          this.reqData[j][5] = this.lov.refPosition[i].value;
+        for(let j = 0; j< this.checkArrayList.length; j++){
+          if(this.lov.refPosition[i].caption == this.checkArrayList[j].positionType)
+          this.checkArrayList[j].positionType = this.lov.refPosition[i].value;
         }
       }
-    }
+      }
 //checkbox
 task = {
   name: 'Indeterminate',
@@ -180,5 +280,11 @@ setAll(completed: boolean) {
     return;
   }
   this.task.subtasks.forEach(t => t.completed = completed);
+}
+
+showMessage(msg, bool) {
+  if (bool == true) { this.ics.sendBean({ "t1": "rp-alert", "t2": "success", "t3": msg }); }
+  if (bool == false) { this.ics.sendBean({ "t1": "rp-alert", "t2": "warning", "t3": msg }); }
+  if (bool == undefined) { this.ics.sendBean({ "t1": "rp-alert", "t2": "primary", "t3": msg }); }
 }
 }

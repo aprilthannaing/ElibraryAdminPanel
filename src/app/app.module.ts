@@ -1,9 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { Component, NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 import { Route, RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -11,7 +9,6 @@ import { MatSliderModule } from '@angular/material/slider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
 import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ClipboardModule } from '@angular/cdk/clipboard';
@@ -86,7 +83,9 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { UserChangepwdComponent } from './user-changepwd/user-changepwd.component';
 import { NgApexchartsModule} from "ng-apexcharts";
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-
+import {MomentModule} from "ngx-moment";
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: UserLoginComponent },
@@ -124,6 +123,17 @@ const routes: Routes = [
   { path: 'changePwd', component: UserChangepwdComponent },
 
 ];
+export const ISO_FORMAT = {
+  parse: {
+    dateInput: ['DD-MM-YYYY']
+},
+display: {
+    dateInput: 'DD-MM-YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+},
+};
 
 @NgModule({
   declarations: [
@@ -161,6 +171,7 @@ const routes: Routes = [
   ],
 
   imports: [
+    MomentModule,
     NgApexchartsModule,
     MatFormFieldModule,
     HttpClientModule,
@@ -173,7 +184,6 @@ const routes: Routes = [
     BrowserAnimationsModule,
     MatDatepickerModule,
     MatInputModule,
-    MatNativeDateModule,
     A11yModule,
     ClipboardModule,
     CdkStepperModule,
@@ -198,7 +208,6 @@ const routes: Routes = [
     MatInputModule,
     MatListModule,
     MatMenuModule,
-    MatNativeDateModule,
     MatPaginatorModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
@@ -221,6 +230,8 @@ const routes: Routes = [
 
   ],
   providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+        {provide: MAT_DATE_FORMATS, useValue: ISO_FORMAT},
   ],
   bootstrap: [AppComponent],
   entryComponents: []

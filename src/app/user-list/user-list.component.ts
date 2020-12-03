@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
+
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -11,8 +12,8 @@ export class UserListComponent implements OnInit {
   date:any;
   maxDate:any;
   minDate:any;
-
-  jsonReq = {"searchText":"","hlutawType":"", "deptType":"", "positionType":"","fromDate":"","toDate":""}
+  dateobj: { date: { year: number, month: number, day: number } };
+  jsonReq = {"searchText":"","text1":"", "text2":"", "text3":"","fromDate":"","toDate":""}
   userObj:any = {};
   lov: any = {
     "refHluttaw": [{ "value": "", "caption": "" }],
@@ -35,13 +36,13 @@ export class UserListComponent implements OnInit {
   goBack(){
     this.router.navigate(['user']);  
   }
-  changeModule(event){
-    let options = event.target.options;
-    let k = options.selectedIndex;//Get Selected Index
-    let value = options[options.selectedIndex].value;//Get Selected Index's Value
-    this.getDepartment(value);
-  }
   Searching(){
+    if(this.jsonReq.fromDate != ""){
+        this.jsonReq.fromDate = this.convert(this.jsonReq.fromDate);
+    }
+    if(this.jsonReq.toDate != ""){
+        this.jsonReq.toDate = this.convert(this.jsonReq.toDate);
+    }
     const url = this.ics.apiRoute + '/user/selectUserInfo';
     try {
         this.http.post(url,this.jsonReq).subscribe(
@@ -144,4 +145,45 @@ export class UserListComponent implements OnInit {
         alert(e);
     }
   }
+  changeHluttaw(event) {
+        let options = event.target.options;
+        let k = options.selectedIndex;
+        let value = options[options.selectedIndex].value;
+        for (let i = 0; i < this.lov.refHluttaw.length; i++) {
+            if(value == this.lov.refHluttaw[i].value){
+                if(this.lov.refHluttaw[i].caption === "")
+                this.jsonReq.text1 = "";
+            }
+        }
+        this.getDepartment(value);
+    }
+    changeDepartment(event) {
+        let options = event.target.options;
+        let k = options.selectedIndex;
+        let value = options[options.selectedIndex].value;
+        for (let i = 0; i < this.lov.refDept.length; i++) {
+            if(value == this.lov.refDept[i].value){
+                if(this.lov.refDept[i].caption === "")
+                this.jsonReq.text2 = "";
+            }
+        }
+    }
+    changePosition(event) {
+        let options = event.target.options;
+        let k = options.selectedIndex;
+        let value = options[options.selectedIndex].value;
+        for (let i = 0; i < this.lov.refPosition.length; i++) {
+            if(value == this.lov.refPosition[i].value){
+                if(this.lov.refPosition[i].caption === "")
+                this.jsonReq.text3 = "";
+            }
+        }
+    }
+    convert(str) {
+        var date = new Date(str),
+          mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+          day = ("0" + date.getDate()).slice(-2);
+        return [date.getFullYear(), mnth, day].join("-");
+      }
+
 }

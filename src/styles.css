@@ -42,3 +42,44 @@ nav[_ngcontent-gxc-c290] {
   text-align: left;
    font-size: 14px !important;
 }
+
+/* snackbar */
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  width: 250px;
+  margin-left: -125px;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  top: 100px;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  overflow-wrap: break-word;
+  border-top-width: 5px;
+  margin-top: 5px;
+}
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+#snackbar.msg-danger {
+  background-color: #e44c5b;
+}
+
+#snackbar.msg-info {
+  background-color: #269abc;
+}
+
+#snackbar.msg-success {
+  background-color: #3b5998;
+}
+
+#snackbar.msg-warning {
+  background-color: #ec971f;
+}
