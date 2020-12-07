@@ -149,7 +149,7 @@ getPosition() {
 }
 goDelete(){
     this.loading = true;
-    this.json.sessionId = this.ics.sessionId;
+    this.json.sessionId = this.ics.token;
     if(this.json.boId == ""){
         console.log("User Id not Found");
         this.showMessage("User Id not Found",false);   
@@ -185,7 +185,7 @@ goDelete(){
     }
 }
 goSave(){
-    this.json.sessionId = this.ics.sessionId;
+    this.json.sessionId = this.ics.token;
     if(this.json.name === ""){
         this.showMessage("Please fill correct User Name",false);   
         console.log("Please fill correct User Name");

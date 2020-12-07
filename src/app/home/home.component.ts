@@ -50,6 +50,11 @@ export class HomeComponent implements OnInit {
   }
   goLogout(){
     this.router.navigate(['login']);
+    this.ics.userRole = "";
+    this.ics.token = "";
+    this.ics.uesrName = "";
+    this.ics.userId = "";
+    this.ics.email = "";
   }
   goSetup(id){
     this.router.navigate(['setup', 'read', id]);

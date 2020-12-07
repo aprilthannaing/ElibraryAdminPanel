@@ -28,22 +28,19 @@ export class UserChangepwdComponent implements OnInit {
     if(this._result == ""){
        const url = this.ics.apiRoute + '/user/goChangepwd';
        let json = {
-         "oldpwd": this.oldpwd,
-         "newpwd": this.newpwd,
-         "userId": this.ics.userId
+         "old_password": this.oldpwd,
+         "new_password": this.newpwd,
+         "token": this.ics.token
        }
        try {
            this.http.post(url,json).subscribe(
                (data:any) => {
                    if (data != null && data != undefined) {
-                       if(data.code ==="001")
-                         this._result = data.desc;
+                       if(!data.status)
+                         this._result = data.message;
                        else{
-                         this.router.navigate(['home']); 
-                         this.ics.userRole = data.role;
-                         this.ics.uesrName = data.name;
-                         this.ics.sessionId = data.sessionId;
-                         this.ics.userId = data.userId;
+                         this.router.navigate(['login']); 
+                         this.showMessage("Your password was changed.Please login with this password.",true);
                        }
                    }
                },
@@ -63,4 +60,9 @@ export class UserChangepwdComponent implements OnInit {
    }
    goValidation(){
    }
+   showMessage(msg, bool) {
+    if (bool == true) { this.ics.sendBean({ "t1": "rp-alert", "t2": "success", "t3": msg }); }
+    if (bool == false) { this.ics.sendBean({ "t1": "rp-alert", "t2": "warning", "t3": msg }); }
+    if (bool == undefined) { this.ics.sendBean({ "t1": "rp-alert", "t2": "primary", "t3": msg }); }
+}
 }

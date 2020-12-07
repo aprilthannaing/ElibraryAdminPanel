@@ -31,18 +31,18 @@ export class UserForgotPassword2Component implements OnInit {
       this.loading = true;
        const url = this.ics.apiRoute + '/user/goResetPassword';
        let json = {
-         "newpwd": this.newpwd,
-         "sessionId": this.ics.sessionId
+         "password": this.newpwd,
+         "token": this.ics.token
        }
        try {
            this.http.post(url,json).subscribe(
                (data:any) => {
                  this.loading = false;
                    if (data != null && data != undefined) {
-                       if(data.code ==="001")
-                         this._result = data.desc;
+                       if(!data.status)
+                         this._result = data.message;
                        else{
-                        this.showMessage("Password changed Successfully",true);
+                        this.showMessage(data.message,true);
                          this.router.navigate(['login']); 
                        }
                    }

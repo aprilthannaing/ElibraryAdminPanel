@@ -18,7 +18,7 @@ export class UserForgotPasswordComponent implements OnInit {
   private route: ActivatedRoute,
   private ics: IntercomService
   ) {
-    if(this.ics.sessionId === "" || this.ics.sessionId == null){
+    if(this.ics.token === "" || this.ics.token == null){
       this.router.navigate(['login']);
       this.showMessage("Session Time Out",false);
     }
@@ -32,15 +32,16 @@ export class UserForgotPasswordComponent implements OnInit {
     }else{
         this.loading = true;
           const url = this.ics.apiRoute + '/user/verifyCode';
-          const json = {"email" : this.ics.email,"code" : this.verifyCode,"sessionId": this.ics.sessionId}
+          const json = {"email" : this.ics.email,"code" : this.verifyCode,"token": this.ics.token}
           try {
               this.http.post(url,json).subscribe(
                   (data:any) => {
                       if (data != null && data != undefined) {
-                          if(data.code ==="001")
-                            this._result = data.desc;
+                          if(!data.status)
+                            this._result = data.message;
                           else{
                             this.router.navigate(['userforgotPwd2']); 
+                            this.showMessage(data.message,true);
                           }
                       }
                       this.loading = false;

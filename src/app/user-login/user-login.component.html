@@ -15,7 +15,7 @@
                         <span class="input-group-addon">
                             <i class="glyphicon glyphicon-user"></i>
                         </span>
-                        <input id="email" class="form-control" Required type="text" [(ngModel)]="_email" [ngModelOptions]="{standalone: true}" placeholder="Email"
+                        <input id="email" class="form-control" Required type="text" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" placeholder="Email"
                             autofocus>
                     </div>
 
@@ -24,7 +24,7 @@
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-lock"></i>
                             </span>
-                            <input id="itemid" class="form-control" Required type="password" [(ngModel)]="_pw" [ngModelOptions]="{standalone: true}"
+                            <input id="itemid" class="form-control" Required type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"
                                 placeholder="Password">
                         </div>
                         <a class="blue-text d-flex justify-content-end" style="font-size: 0.1" (click)="goForgotPwd()">forgot Password? </a>

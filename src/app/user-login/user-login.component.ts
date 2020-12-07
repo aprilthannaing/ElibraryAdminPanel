@@ -11,8 +11,8 @@ import { IntercomService } from '../framework/intercom.service';
 export class UserLoginComponent implements OnInit {
   loading = false;
   _signintext:string = "Elibrary Admin Console";
-  _email: string = "";
-  _pw: string = "";
+  email: string = "";
+  password: string = "";
   _result: string = "";
   constructor(
   private router: Router,
@@ -31,8 +31,8 @@ export class UserLoginComponent implements OnInit {
     this.loading = true;
       const url = this.ics.apiRoute + '/user/getLogin';
       let json = {
-        "email": this._email,
-        "password": this._pw
+        "email": this.email,
+        "password": this.password
       }
       try {
           this.http.post(url,json).subscribe(
@@ -41,13 +41,15 @@ export class UserLoginComponent implements OnInit {
                       if(data.status){
                         if(data.changePwd){
                           this.router.navigate(['changePwd']); 
+                          this.ics.token = data.token;
                         }else{
                           this.router.navigate(['home']); 
-                          this.ics.userRole = data.role;
-                          this.ics.uesrName = data.name;
-                          this.ics.sessionId = data.sessionId;
+                          this.ics.userId = data.data.id;
+                          this.ics.userRole = data.data.role;
+                          this.ics.uesrName = data.data.name;
+                          this.ics.token = data.token;
                         }
-                        this.ics.userId = data.userId;
+                      
                       }else{
                         this._result = data.message;
                         this.ics.userId = data.userId;
@@ -71,33 +73,34 @@ export class UserLoginComponent implements OnInit {
    }
   }
   goValidation(){
-    if(this._pw === "" && this._email === ""){
+    if(this.password === "" && this.email === ""){
       return this._result = "Please enter your email address and password";
     }
-    if(this._email === ""){
+    if(this.email === ""){
       return this._result = "Please enter your email address";
     }
-    if (!(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(this._email)) {
+    if (!(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(this.email)) {
       return this._result = "Your email address is incorrect";
     }
 
-    if(this._pw === ""){
+    if(this.password === ""){
       return this._result = "Please enter your password";
     }
   }
   goForgotPwd(){
-    if(this._email != ""){
+    if(this.email != ""){
       this.loading = true;
       const url = this.ics.apiRoute + '/user/verifyEmail';
       try {
-          this.http.post(url,this._email).subscribe(
+          this.http.post(url,this.email).subscribe(
               (data:any) => {
                   if (data != null && data != undefined) {
-                      if(data.code ==="001")
-                        this._result = data.desc;
+                      if(!data.status)
+                        this._result = data.message;
                       else{
+                        this.showMessage(data.message,true);
                         this.router.navigate(['userforgotPwd']);
-                        this.ics.sessionId = data.sessionId;
+                        this.ics.token = data.token;
                       }
                   }
                   this.loading = false;
@@ -118,5 +121,10 @@ export class UserLoginComponent implements OnInit {
     }else{
       this._result = "Please enter your email address";
     }
+  }
+  showMessage(msg, bool) {
+    if (bool == true) { this.ics.sendBean({ "t1": "rp-alert", "t2": "success", "t3": msg }); }
+    if (bool == false) { this.ics.sendBean({ "t1": "rp-alert", "t2": "warning", "t3": msg }); }
+    if (bool == undefined) { this.ics.sendBean({ "t1": "rp-alert", "t2": "primary", "t3": msg }); }
   }
 }

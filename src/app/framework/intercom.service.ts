@@ -8,7 +8,7 @@ export class IntercomService {
   email: string = "";
   userRole: string = "";
   uesrName: string = "";
-  sessionId: string = "";
+  token: string = "";
   userId: string = "";
   apiRoute: string = "http://localhost:8082";
   private _rpbeanSource = new Subject<any>();

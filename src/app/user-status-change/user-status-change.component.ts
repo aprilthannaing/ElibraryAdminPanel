@@ -78,7 +78,7 @@ export class UserStatusChangeComponent implements OnInit {
     }
     goChangeStatusURL(){
       this.loading = true;
-      const url = this.ics.apiRoute + '/user/changeStatus?sessionId=' + this.ics.sessionId;
+      const url = this.ics.apiRoute + '/user/changeStatus?sessionId=' + this.ics.token;
       this.loading = true;
       try {
           this.http.post(url,this.checkArrayList).subscribe(

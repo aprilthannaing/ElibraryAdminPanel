@@ -205,7 +205,7 @@ export class UserUploadComponent implements OnInit {
   }
   saveURL(){
     this.loading = true;
-    const url = this.ics.apiRoute + '/user/setusers?sessionId=' + this.ics.sessionId;
+    const url = this.ics.apiRoute + '/user/setusers?sessionId=' + this.ics.token;
         try {
             this.http.post(url,this.checkArrayList).subscribe(
                 (data:any) => {
