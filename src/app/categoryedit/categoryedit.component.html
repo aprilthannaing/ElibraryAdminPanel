@@ -33,17 +33,20 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Name</th>
+                                <th></th>
+                                <th scope="col">Myanmar Name</th>
+                                <th scope="col">English Name</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of subcategories | filter:term;">
-                                <td>{{item.name}}
-                                </td>
+                                
                                 <td>
                                     <input type="checkbox" value="{{item.boId}}" (change)="onChange(item.boId, $event.target.checked)" 
                                     [checked]="checkCategoryContainOrNot(item.boId)">
                                 </td>
+                                <td>{{item.myanmarName}}</td>
+                                <td>{{item.engName}}</td>
                             </tr>
                         </tbody>
                     </table>

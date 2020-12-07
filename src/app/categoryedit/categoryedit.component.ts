@@ -19,6 +19,8 @@ export class CategoryeditComponent implements OnInit {
   form: FormGroup;
   json = { "myanmarName": "", "engName": "" ,"categories": "", "priority": ""}
 
+  subcategoryId: string;
+
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -36,8 +38,9 @@ export class CategoryeditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getSubCategories();
+    
     this.findByBoId();
+    // this.getSubCategories();
   }
 
   checkCategoryContainOrNot(boId) {
@@ -54,15 +57,19 @@ export class CategoryeditComponent implements OnInit {
     this.http.post(url, json).subscribe(
       (data: any) => {
         this.json = data.category;
+        this.subcategories = data.category.subCategories;
         data.category.subCategories.forEach(element => {
           this.categories.push(element.boId);
           this.onChange(element.boId, true);
         });
+        // this.subcategoryId = data.category.subCategories.boId;
+        
+        console.log(data.category.subCategories)
       },
       error => {
         console.warn("error: ", error);
       });
-
+      
   }
 
   onChange(boId: string, isChecked: boolean) {
@@ -77,10 +84,12 @@ export class CategoryeditComponent implements OnInit {
 
 
   getSubCategories() {
+
     const url: string = this.ics.apiRoute + "/subcategory/all";
-    this.http.request('get', url).subscribe(
+    this.http.request('get',url).subscribe(
       (data: any) => {
-        this.subcategories = data.subcategories;      
+        this.subcategories = data.subcategories; 
+        console.log(data.subcategories)     
       },
       error => {
         console.warn("error: ", error);

@@ -70,7 +70,7 @@ import { BookaddsubcategoryComponent } from './bookaddsubcategory/bookaddsubcate
 import { BookaddpublisherComponent } from './bookaddpublisher/bookaddpublisher.component';
 import { BookaddComponent } from './bookadd/bookadd.component';
 import { UserListComponent } from './user-list/user-list.component';
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { BookeditComponent } from './bookedit/bookedit.component';
 import { AuthoreditComponent } from './authoredit/authoredit.component';
 import { PublishereditComponent } from './publisheredit/publisheredit.component';
@@ -82,8 +82,6 @@ import { UserUploadComponent } from './user-upload/user-upload.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserChangepwdComponent } from './user-changepwd/user-changepwd.component';
 import { NgApexchartsModule} from "ng-apexcharts";
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import {MomentModule} from "ngx-moment";
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { UserStatusChangeComponent } from './user-status-change/user-status-change.component';
@@ -179,7 +177,6 @@ display: {
   ],
 
   imports: [
-    MomentModule,
     NgApexchartsModule,
     MatFormFieldModule,
     HttpClientModule,
@@ -235,7 +232,7 @@ display: {
     PortalModule,
     ScrollingModule,
     Ng2SearchPipeModule, 
-
+    
   ],
   providers: [
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},

@@ -90,6 +90,7 @@ getHluttaw() {
               if (error.name == "HttpErrorResponse") {
                   alert("Connection Timed Out!");
               }
+              
               else {
 
               }

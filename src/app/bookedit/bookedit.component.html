@@ -72,17 +72,28 @@
             <mat-label>Volume</mat-label>
             <input matInput placeholder="3" required [(ngModel)]="json.volume">
         </mat-form-field>
-        <mat-form-field class="mat">
-            <mat-label>Series Index</mat-label>
-            <input matInput placeholder="1.0" required [(ngModel)]="json.seriesIndex">
-        </mat-form-field>
 
-        <mat-form-field class="mat" color="accent">
-            <input matInput [matDatepicker]="picker1" placeholder="Published Date" [(ngModel)]="json.publishedDate">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-
+        <div class="row" style="margin-left: 5.3%;">
+            <div class="col-3 col-md-3">
+                <mat-form-field>
+                    <mat-label>Series Index</mat-label>
+                    <input matInput placeholder="1.0" required [(ngModel)]="json.seriesIndex">
+                </mat-form-field>
+            </div>
+            <div class="col-6 col-md-6">
+                <form [formGroup]="datePickerForm" class="datePicker">
+                    <mat-form-field color="accent">
+                        <input matInput [matDatepicker]="picker1" placeholder="Published Date" formControlName="selectedDate" required [(ngModel)]="json.publishedDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </form>
+            </div>
+        </div>
+        
+        
+        
+    
         <label class="container">Download Approval
             <input type="checkbox" [(ngModel)]="json.downloadApproval">
             <span class="checkmark"></span>
@@ -179,8 +190,8 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Name</th>
+                        <th scope="col">Myanmar Name</th>
+                        <th scope="col">English Name</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -191,7 +202,8 @@
                                 [checked]="item.boId === subCategoryBoId" (change)="onSelectionChange(item)">
 
                         </td>
-                        <td>{{item.name}}</td>
+                        <td>{{item.myanmarName}}</td>
+                        <td>{{item.engName}}</td>
 
                     </tr>
                 </tbody>

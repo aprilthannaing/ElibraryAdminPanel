@@ -4,20 +4,58 @@
         <p style="margin-left: 5%;color: blue;">Sub-Category Form</p>
 
         <mat-form-field style="width: 40%;">
-            <input matInput placeholder="For eg. Eduction" [(ngModel)]="description">
+            <input matInput placeholder="For eg. ပညာေရး" [(ngModel)]="myanmarName">
+        </mat-form-field>
+        <br>
+        <mat-form-field style="width: 40%;">
+            <input matInput placeholder="For eg. Eduction" [(ngModel)]="engName">
         </mat-form-field>
         <br>
         <mat-form-field class="mat" style="width: 40%;">
             <mat-label> Priority</mat-label>
             <input matInput placeholder="1 (ASC)" [(ngModel)]="priority" required>
         </mat-form-field>
+    
         <br>
-
-
-
-    <div style="margin-left: 5%;">
+        <mat-form-field class="mat" style="width: 40%;">
+            <mat-label style="font-weight: bold;">Choose Category</mat-label>
+            <select matNativeControl required [(ngModel)]="json.category">
+                <option *ngFor="let item of categories" value="item.myanmarName">{{item.myanmarName}}({{item.engName}})</option>   
+            </select>
+        </mat-form-field>
+    <div style="margin-left: 30%;">
         <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
         <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Submit</button>
     </div>
-    </div>
 </div>
+</div>
+
+<!-- <form [formGroup]="form" style="width:40%;margin-left: 25%;">
+
+    <div class="form-group">
+        <div style="overflow: auto; height:150px;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+
+                        <th scope="col">Myanmar Name</th>
+                        <th scope="col">English Name</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of categories">
+                        <td>
+                            <input type="radio" name="category" value="{{item.boId}}" (change)="changeCategory($event)">
+                        </td>
+                        <td>{{item.myanmarName}}
+                        <td>{{item.engName}}
+                        </td>
+                       
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form> -->

@@ -179,9 +179,8 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col"></th>
-                                <th scope="col">Name</th>
-
+                                <th scope="col">Myanmar Name</th>
+                                <th scope="col">English Name</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -190,9 +189,8 @@
                                     <input type="radio" name="subcategory" value="{{item.boId}}"
                                         formControlName="subcategory" (change)="onSelectionChange(item.boId)" >
                                 </td>
-                                <td>{{item.name}}
-                                </td>
-                                
+                                <td>{{item.myanmarName}}</td>
+                                <td>{{item.engName}}</td>
                             </tr>
                         </tbody>
                     </table>

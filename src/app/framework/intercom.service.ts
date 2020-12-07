@@ -10,7 +10,8 @@ export class IntercomService {
   uesrName: string = "";
   token: string = "";
   userId: string = "";
-  apiRoute: string = "http://localhost:8082";
+
+  apiRoute: string = "http://localhost:8080";
   private _rpbeanSource = new Subject<any>();
   rpbean$ = this._rpbeanSource.asObservable();
   private _mybean: any;
@@ -18,5 +19,6 @@ export class IntercomService {
     this._mybean = x;
     this._rpbeanSource.next(x);
 }
+
   constructor() { }
 }

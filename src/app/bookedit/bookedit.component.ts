@@ -5,15 +5,19 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IntercomService } from '../framework/intercom.service';
-
+import { IntercomService } from '../framework/intercom.service'
+import { DatePipe } from '@angular/common';
+import { MatDateRangePickerInput } from '@angular/material/datepicker/date-range-picker';
 @Component({
   selector: 'app-bookedit',
   templateUrl: './bookedit.component.html',
-  styleUrls: ['./bookedit.component.styl']
+  styleUrls: ['./bookedit.component.styl'],
+  providers:[DatePipe]
 })
+
 export class BookeditComponent implements OnInit {
 
+  
   boId: string;
   json = { "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "callNo": "", "description": "" };
   categories = [];
@@ -86,12 +90,17 @@ export class BookeditComponent implements OnInit {
 
   });
 
+  datePickerForm = new FormGroup({
+    selectedDate : new FormControl('', [Validators.required])
+  })
+
   constructor(
     private router: Router,
     private http: HttpClient,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
     private actRoute: ActivatedRoute,
+    public datePipe: DatePipe,
     private ics: IntercomService) {
 
     this.userRole = this.ics.userRole;
@@ -105,7 +114,7 @@ export class BookeditComponent implements OnInit {
       auths: this.formBuilder.array([], [Validators.required])
 
     })
-
+    
   }
 
   ngOnInit(): void {
@@ -268,6 +277,7 @@ export class BookeditComponent implements OnInit {
     this.json.authors = this.authorForm.value.auths;
     this.json.category = this.form.value.category == '' ? this.categoryBoId : this.form.value.category;
     this.json.subCategory = this.selectedEntry == undefined ? this.subCategoryBoId : this.selectedEntry;
+    // this.json.publishedDate = this.datePipe.transform(this.json.publishedDate, 'MM/dd/yyyy');
 
     console.log("this.json: ", this.json)
     const url: string = this.ics.apiRoute + "/operation/editBook";
@@ -297,14 +307,24 @@ export class BookeditComponent implements OnInit {
       (data: any) => {
         this.subcategories = data.book.category.subCategories;
         this.json.publishedDate = data.book.publishedDate
-        console.log("book by boId: ",  this.json.publishedDate)
+        console.log("book by boId: ",  data.book.boId)
 
         this.json = data.book;
+
+        this.json.publishedDate = this.datePipe.transform(this.json.publishedDate, 'MM/dd/yyyy');
+
+        console.log("PUBLISHED DATE:", this.json.publishedDate)
+        this.datePickerForm.setValue({
+          'selectedDate': this.json.publishedDate
+        });
+
+        //this.json.downloadApproval = data.book.downloadApproval == "false" ? "" : "true";
+
         this.json.description = data.book.comment == null ? "" : data.book.comment.description;
         this.imageSrc = this.ics.apiRoute + data.book.coverPhoto;
         this.json.profileName = data.book.coverPhoto;
         this.json.pdfName = data.book.path;
-
+        
         data.book.authors.forEach(element => {
           this.authorList.push(element.boId);
           this.authorTerm = element.name;
