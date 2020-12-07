@@ -1,45 +1,48 @@
 <app-header></app-header>
 <div class="container">
-        <div class="row clearfix">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  column col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
-                <form class="form-horizontal" (ngSubmit)="goPost()">
-                    <div class="card card-container">
-                        <div class="row col-md-12">&nbsp;</div>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  column col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
-                                <h2 style="text-align:center;">{{_signintext}}</h2>
-                            </div>
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  column col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
+            <form class="form-horizontal" (ngSubmit)="goPost()">
+                <div class="card card-container">
+                    <div class="row col-md-12">&nbsp;</div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  column col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
+                            <h2 style="text-align:center;">{{_signintext}}</h2>
                         </div>
-    
-                        <div style="margin-bottom: 30px" class="input-group">
-                            <span class="input-group-addon">
-                                <i class="glyphicon glyphicon-user"></i>
-                            </span>
-                            <input id="email" class="form-control" Required type="text" [(ngModel)]="_email" [ngModelOptions]="{standalone: true}" placeholder="Email"
-                                autofocus>
-                        </div>
-
-                        <div style="margin-bottom: 30px">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="glyphicon glyphicon-lock"></i>
-                                </span>
-                                <input id="itemid" class="form-control" Required type="password" [(ngModel)]="_pw" [ngModelOptions]="{standalone: true}"
-                                    placeholder="Password">
-                            </div>
-                            <a class="blue-text d-flex justify-content-end" style="font-size: 0.1">forgot Password? </a>
-                        </div>
-                        
-    
-                       <div class="form-group" align="center" style="margin-bottom: 1rem;">
-                            <button class="btn input-sm btn-primary btn-block" style="width:91%" type="submit">Sign In</button>
-                        </div>
-                        <div align="center">
-                            <span *ngIf="_result !=null" class="label" style="color: red;">{{_result}} </span>
-                        </div>
-                        <div class="row col-md-12">&nbsp;</div>
                     </div>
-                </form>
-            </div>
+                    <br>
+                    <div style="margin-bottom: 30px" class="input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-user"></i>
+                        </span>
+                        <input id="email" class="form-control" Required type="text" [(ngModel)]="_email" [ngModelOptions]="{standalone: true}" placeholder="Email"
+                            autofocus>
+                    </div>
+
+                    <div style="margin-bottom: 30px">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-lock"></i>
+                            </span>
+                            <input id="itemid" class="form-control" Required type="password" [(ngModel)]="_pw" [ngModelOptions]="{standalone: true}"
+                                placeholder="Password">
+                        </div>
+                        <a class="blue-text d-flex justify-content-end" style="font-size: 0.1" (click)="goForgotPwd()">forgot Password? </a>
+                    </div>
+                    
+
+                    <div class="form-group" align="center" style="margin-bottom: 1rem;">
+                        <button class="btn input-sm btn-primary btn-block" style="width:91%" type="submit">Sign In</button>
+                    </div>
+                    <div align="center">
+                        <span *ngIf="_result !=null" class="label" style="color: red;">{{_result}} </span>
+                    </div>
+                    <div class="row col-md-12">&nbsp;</div>
+                    <div *ngIf="loading" class="lds-default" style="margin-left: 8%;">
+                            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                        </div>
+                </div>
+            </form>
         </div>
-      </div>
+    </div>
+    </div>

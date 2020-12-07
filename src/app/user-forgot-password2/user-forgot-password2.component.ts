@@ -4,15 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
 
 @Component({
-  selector: 'app-user-changepwd',
-  templateUrl: './user-changepwd.component.html',
-  styleUrls: ['./user-changepwd.component.styl']
+  selector: 'app-user-forgot-password2',
+  templateUrl: './user-forgot-password2.component.html',
+  styleUrls: ['./user-forgot-password2.component.styl']
 })
-export class UserChangepwdComponent implements OnInit {
+export class UserForgotPassword2Component implements OnInit {
   _result: string = "";
   newpwd1: string = "";
   newpwd : string = "";
-  oldpwd : string = "";
+  loading= false;
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -22,32 +22,33 @@ export class UserChangepwdComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  goChangePwd(){
+  goResetPassword(){
     this._result = "";
-    this.goValidation();
+    if(this.newpwd != this.newpwd1){
+      this._result = "Your new password and confirm password must be same.";
+    }
     if(this._result == ""){
-       const url = this.ics.apiRoute + '/user/goChangepwd';
+      this.loading = true;
+       const url = this.ics.apiRoute + '/user/goResetPassword';
        let json = {
-         "oldpwd": this.oldpwd,
          "newpwd": this.newpwd,
-         "userId": this.ics.userId
+         "sessionId": this.ics.sessionId
        }
        try {
            this.http.post(url,json).subscribe(
                (data:any) => {
+                 this.loading = false;
                    if (data != null && data != undefined) {
                        if(data.code ==="001")
                          this._result = data.desc;
                        else{
-                         this.router.navigate(['home']); 
-                         this.ics.userRole = data.role;
-                         this.ics.uesrName = data.name;
-                         this.ics.sessionId = data.sessionId;
-                         this.ics.userId = data.userId;
+                        this.showMessage("Password changed Successfully",true);
+                         this.router.navigate(['login']); 
                        }
                    }
                },
                error => {
+                this.loading = false;
                    if (error.name == "HttpErrorResponse") {
                        alert("Connection Timed Out!");
                    }
@@ -56,11 +57,15 @@ export class UserChangepwdComponent implements OnInit {
                    }
                }, () => { });
        } catch (e) {
+        this.loading = false;
            alert(e);
        }
     }
     
    }
-   goValidation(){
-   }
+   showMessage(msg, bool) {
+    if (bool == true) { this.ics.sendBean({ "t1": "rp-alert", "t2": "success", "t3": msg }); }
+    if (bool == false) { this.ics.sendBean({ "t1": "rp-alert", "t2": "warning", "t3": msg }); }
+    if (bool == undefined) { this.ics.sendBean({ "t1": "rp-alert", "t2": "primary", "t3": msg }); }
+  }
 }

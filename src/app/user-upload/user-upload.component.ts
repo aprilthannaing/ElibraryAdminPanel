@@ -10,6 +10,7 @@ import { IntercomService } from '../framework/intercom.service';
   styleUrls: ['./user-upload.component.styl']
 })
 export class UserUploadComponent implements OnInit {
+  loading = false;
   data = [];
   lov: any = {
     "refHluttaw": [{ "value": "", "caption": "" }],
@@ -36,6 +37,12 @@ export class UserUploadComponent implements OnInit {
     this.getDepartment();
     this.getPosition();
   }
+  goClear(){
+    this.data = [];
+    this.userArrayList = this.getObj();
+    this.checkArrayList = [];
+  }
+
   selectAllChk(event) {
     this.checkArrayList = [];
     if (event) {
@@ -60,48 +67,48 @@ export class UserUploadComponent implements OnInit {
   }
   //old
   onFileChange(evt:any){
-    this.checkArrayList = [];
-    this.userArrayList = this.getObj();
-    const target:DataTransfer =<DataTransfer>(evt.target);
-    if(target.files.length != 1) throw new Error("Cannot use multiple files");
-    const reader :FileReader = new FileReader();
-    reader.onload = (e:any) =>{
-      const bstr   : string         = e.target.result;
-      const wb     : XLSX.WorkBook  = XLSX.read(bstr, {type: 'binary'});
-      const wsname : string         = wb.SheetNames[0];
-      const ws     : XLSX.WorkSheet = wb.Sheets[wsname];
-      console.log(ws);
+      this.checkArrayList = [];
+      this.userArrayList = this.getObj();
+      const target:DataTransfer =<DataTransfer>(evt.target);
+      if(target.files.length != 1) throw new Error("Cannot use multiple files");
+      const reader :FileReader = new FileReader();
+      reader.onload = (e:any) =>{
+        const bstr   : string         = e.target.result;
+        const wb     : XLSX.WorkBook  = XLSX.read(bstr, {type: 'binary'});
+        const wsname : string         = wb.SheetNames[0];
+        const ws     : XLSX.WorkSheet = wb.Sheets[wsname];
+        console.log(ws);
 
-      this.data = (XLSX.utils.sheet_to_json(ws,{header: 1}))
-      this.data = this.data.splice(1, this.data.length);
-      
-      //User
-      for(let i=0;i<this.data.length;i++){
-        this.userObj = {"flag": false,"sessionId":"","boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":"","roleType":""} 
-  
-        for(let j=0;j<this.data[i].length+1;j++){
-          if(j==0)
-          this.userObj.name  = this.data[i][j];
-          else if(j==1)
-          this.userObj.email  = this.data[i][j];
-          else if(j==2)
-          this.userObj.phoneNo  = this.data[i][j];
-          else if(j==3)
-          this.userObj.hlutawType  = (this.data[i][j]==undefined ? "" : this.data[i][j]);
-          else if(j==4)
-          this.userObj.deptType  = (this.data[i][j]==undefined ? "" : this.data[i][j]);
-          else if(j==5)
-          this.userObj.positionType  = (this.data[i][j]==undefined ? "" : this.data[i][j]);
-          else if(j==6)
-          this.userObj.type  = this.data[i][j];
-          else
-          this.userObj.flag  = false;
+        this.data = (XLSX.utils.sheet_to_json(ws,{header: 1}))
+        this.data = this.data.splice(1, this.data.length);
+        
+        //User
+        for(let i=0;i<this.data.length;i++){
+          this.userObj = {"flag": false,"sessionId":"","boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":"","roleType":""} 
+    
+          for(let j=0;j<this.data[i].length+1;j++){
+            if(j==0)
+            this.userObj.name  = this.data[i][j];
+            else if(j==1)
+            this.userObj.email  = this.data[i][j];
+            else if(j==2)
+            this.userObj.phoneNo  = this.data[i][j];
+            else if(j==3)
+            this.userObj.hlutawType  = (this.data[i][j]==undefined ? "" : this.data[i][j]);
+            else if(j==4)
+            this.userObj.deptType  = (this.data[i][j]==undefined ? "" : this.data[i][j]);
+            else if(j==5)
+            this.userObj.positionType  = (this.data[i][j]==undefined ? "" : this.data[i][j]);
+            else if(j==6)
+            this.userObj.type  = this.data[i][j];
+            else
+            this.userObj.flag  = false;
+          }
+          this.userArrayList.userArray.push(this.userObj);
+          console.log(this.userArrayList);
         }
-        this.userArrayList.userArray.push(this.userObj);
-        console.log(this.userArrayList);
-      }
-    };
-    reader.readAsBinaryString(target.files[0]);
+      };
+      reader.readAsBinaryString(target.files[0]);
   }
   getHluttaw() {
     const url = this.ics.apiRoute + '/setUp/getHluttaw';
@@ -116,7 +123,7 @@ export class UserUploadComponent implements OnInit {
                 }
             },
             error => {
-                if (error._body.type == 'error') {
+                if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
                 else {
@@ -145,7 +152,7 @@ export class UserUploadComponent implements OnInit {
               }
             },
             error => {
-                if (error._body.type == 'error') {
+                if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
                 else {
@@ -168,7 +175,7 @@ export class UserUploadComponent implements OnInit {
                 }
             },
             error => {
-                if (error._body.type == 'error') {
+                if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
                 else {
@@ -197,6 +204,7 @@ export class UserUploadComponent implements OnInit {
     }
   }
   saveURL(){
+    this.loading = true;
     const url = this.ics.apiRoute + '/user/setusers?sessionId=' + this.ics.sessionId;
         try {
             this.http.post(url,this.checkArrayList).subscribe(
@@ -210,44 +218,60 @@ export class UserUploadComponent implements OnInit {
                         
                       console.log(data.desc);
                     }
+                    this.loading = false;
                 },
                 error => {
-                    if (error._body.type == 'error') {
-                        alert("Connection Timed Out!");
+                    if (error.name == "HttpErrorResponse") {
+                      console.log(error.error.message);
+                      let errorMessage = error.error.message;
+                      let message = errorMessage.substring(errorMessage.indexOf(":")+1,errorMessage.length);
+                          message = message.substring(0,message.indexOf(":"));
+                      alert(message);
                     }
                     else {
 
                     }
+                    this.loading = false;
                 }, () => { });
         } catch (e) {
+          this.loading = false;
             alert(e);
         }
   }
     changeLOV(){
-      for(let i = 0; i<this.lov.refHluttaw.length; i++){
-        for(let j = 0; j<this.checkArrayList.length; j++){
-          if(this.lov.refHluttaw[i].caption == this.checkArrayList[j].hlutawType){
-            this.checkArrayList[j].hlutawType = this.lov.refHluttaw[i].value;
-              for (let k = 0; k < this.lov.refDept.length; k++) {
-                if (this.checkArrayList[j].hlutawType == this.lov.refDept[k].joinid) {
-                  if(this.checkArrayList[j].type != "Representative"){
-                    if(this.lov.refDept[k].caption == this.checkArrayList[j].deptType)
+      if(this.lov.refHluttaw.length > 0){
+        for(let i = 0; i<this.lov.refHluttaw.length; i++){
+          for(let j = 0; j<this.checkArrayList.length; j++){
+            if(this.lov.refHluttaw[i].caption == this.checkArrayList[j].hlutawType){
+              this.checkArrayList[j].hlutawType = this.lov.refHluttaw[i].value;
+                for (let k = 0; k < this.lov.refDept.length; k++) {
+                  if (this.checkArrayList[j].hlutawType == this.lov.refDept[k].joinid) {
+                    if(this.checkArrayList[j].type != "Representative"){
+                      if(this.lov.refDept[k].caption == this.checkArrayList[j].deptType)
+                        this.checkArrayList[j].deptType = this.lov.refDept[k].value;
+                    }else{
+                      if(this.lov.refDept[k].code == "0")
                       this.checkArrayList[j].deptType = this.lov.refDept[k].value;
-                  }else{
-                    if(this.lov.refDept[k].code == "0")
-                    this.checkArrayList[j].deptType = this.lov.refDept[k].value;
+                    }
                   }
                 }
-              }
-            
+              
+            }
           }
         }
-      }
-      for(let i = 0; i<this.lov.refPosition.length; i++){
-        for(let j = 0; j< this.checkArrayList.length; j++){
-          if(this.lov.refPosition[i].caption == this.checkArrayList[j].positionType)
-          this.checkArrayList[j].positionType = this.lov.refPosition[i].value;
+        for(let i = 0; i<this.lov.refPosition.length; i++){
+          for(let j = 0; j< this.checkArrayList.length; j++){
+            if(this.checkArrayList[j].type != "Representative"){
+              if(this.lov.refPosition[i].caption == this.checkArrayList[j].positionType)
+                this.checkArrayList[j].positionType = this.lov.refPosition[i].value;
+            }else{
+              if(this.lov.refPosition[j].code == "0")
+              this.checkArrayList[j].positionType = this.lov.refPosition[j].value;
+            }
+          }
         }
+      }else{
+        this.showMessage("Connection Time Out",false);
       }
       }
 //checkbox

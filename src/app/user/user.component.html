@@ -1,9 +1,9 @@
 <app-home></app-home>
 <div class="cardview">
-    <div clas="row col-md-12">
-        <h2>User Form</h2>
-    </div> 
-    <div class="row  col-md-12">    
+        <div class="col-md-12">
+            <h2>User Form</h2>
+        </div> 
+        <div class="col-md-12" style="margin-bottom: 20px;">  
         <button class="btn btn-primary" type="button"  (click)="goNew()">New</button>
         <button class="btn btn-primary" type="button"  (click)="goSave()">Save</button>
         <button class="btn btn-primary" type="button"  (click)="goDelete()" [disabled]="deleteFlag">Delete</button>
@@ -81,5 +81,8 @@
             </select>
         </mat-form-field> -->
     </div>
+    </div>
+    <div *ngIf="loading" class="lds-default" style="margin-top: 10%; margin-left: 30%;">
+        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
     </div>
 </div>

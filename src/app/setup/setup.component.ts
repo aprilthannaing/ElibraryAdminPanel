@@ -64,7 +64,7 @@ export class SetupComponent implements OnInit {
                 }
             },
             error => {
-                if (error._body.type == 'error') {
+                if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
                 else {
@@ -98,7 +98,7 @@ export class SetupComponent implements OnInit {
                 }
             },
             error => {
-                if (error._body.type == 'error') {
+                if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
                 else {
@@ -123,7 +123,7 @@ export class SetupComponent implements OnInit {
                 }
             },
             error => {
-                if (error._body.type == 'error') {
+                if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
                 else {
@@ -145,7 +145,7 @@ export class SetupComponent implements OnInit {
                 }
             },
             error => {
-                if (error._body.type == 'error') {
+                if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
                 else {
@@ -171,7 +171,7 @@ export class SetupComponent implements OnInit {
                 }
             },
             error => {
-                if (error._body.type == 'error') {
+                if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
                 else {

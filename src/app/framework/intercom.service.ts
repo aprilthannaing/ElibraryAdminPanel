@@ -5,7 +5,7 @@ import {Subject}    from 'rxjs';
   providedIn: 'root'
 })
 export class IntercomService {
-
+  email: string = "";
   userRole: string = "";
   uesrName: string = "";
   sessionId: string = "";

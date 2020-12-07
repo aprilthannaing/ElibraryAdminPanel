@@ -9,6 +9,7 @@ import { IntercomService } from '../framework/intercom.service';
   styleUrls: ['./user.component.styl']
 })
 export class UserComponent implements OnInit {
+  loading = false;
   deleteFlag:boolean = true;
   emailFlag:boolean = false;
   json:any = this.userObj();
@@ -50,6 +51,7 @@ ngOnInit() {
   }
 
   goReadByKey(id){
+    this.loading = true;
     const url = this.ics.apiRoute + '/user/selectUserbykey';
     try {
         this.http.post(url,id).subscribe(
@@ -57,17 +59,17 @@ ngOnInit() {
                 if (data != null && data != undefined) {
                     this.json = data;
                 }
+            this.loading = false;
             },
             error => {
-                if (error._body.type == 'error') {
+                if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
-                else {
-
-                }
+                this.loading = false;
             }, () => { });
     } catch (e) {
         alert(e);
+        this.loading = false;
     }
   }
 
@@ -85,7 +87,7 @@ getHluttaw() {
               }
           },
           error => {
-              if (error._body.type == 'error') {
+              if (error.name == "HttpErrorResponse") {
                   alert("Connection Timed Out!");
               }
               else {
@@ -109,7 +111,7 @@ getDepartment() {
               }
           },
           error => {
-              if (error._body.type == 'error') {
+              if (error.name == "HttpErrorResponse") {
                   alert("Connection Timed Out!");
               }
               else {
@@ -134,7 +136,7 @@ getPosition() {
               }
           },
           error => {
-              if (error._body.type == 'error') {
+              if (error.name == "HttpErrorResponse") {
                   alert("Connection Timed Out!");
               }
               else {
@@ -146,6 +148,7 @@ getPosition() {
   }
 }
 goDelete(){
+    this.loading = true;
     this.json.sessionId = this.ics.sessionId;
     if(this.json.boId == ""){
         console.log("User Id not Found");
@@ -155,6 +158,7 @@ goDelete(){
         try {
             this.http.post(url,this.json).subscribe(
                 (data:any) => {
+                    this.loading = false;
                     if (data != null && data != undefined) {
                         if(data.code == "000"){
                             this.json = data;
@@ -166,7 +170,8 @@ goDelete(){
                     }
                 },
                 error => {
-                    if (error._body.type == 'error') {
+                    this.loading = false;
+                    if (error.name == "HttpErrorResponse") {
                         alert("Connection Timed Out!");
                     }
                     else {
@@ -174,6 +179,7 @@ goDelete(){
                     }
                 }, () => { });
         } catch (e) {
+            this.loading = false;
             alert(e);
         }
     }
@@ -229,11 +235,12 @@ goSave(){
         this.goSaveURL();
 }
 goSaveURL() {
-    
+    this.loading = true;
     const url = this.ics.apiRoute + '/user/setuserinfo';
   try {
       this.http.post(url,this.json).subscribe(
           (data:any) => {
+            this.loading = false;
               if (data != null && data != undefined) {
                   if(data.code == "000"){
                     this.deleteFlag = false;
@@ -247,7 +254,8 @@ goSaveURL() {
               }
           },
           error => {
-              if (error._body.type == 'error') {
+            this.loading = false;
+              if (error.name == "HttpErrorResponse") {
                   alert("Connection Timed Out!");
               }
               else {
@@ -255,6 +263,7 @@ goSaveURL() {
               }
           }, () => { });
   } catch (e) {
+    this.loading = false;
       alert(e);
   }
 }

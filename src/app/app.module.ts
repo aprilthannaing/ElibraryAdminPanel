@@ -86,6 +86,9 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import {MomentModule} from "ngx-moment";
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { UserStatusChangeComponent } from './user-status-change/user-status-change.component';
+import { UserForgotPasswordComponent } from './user-forgot-password/user-forgot-password.component';
+import { UserForgotPassword2Component } from './user-forgot-password2/user-forgot-password2.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: UserLoginComponent },
@@ -121,7 +124,9 @@ const routes: Routes = [
   { path: 'setup/:cmd/:id', component: SetupComponent },
   { path: 'user-upload', component: UserUploadComponent },
   { path: 'changePwd', component: UserChangepwdComponent },
-
+  { path: 'changeStatus', component: UserStatusChangeComponent },
+  { path: 'userforgotPwd', component: UserForgotPasswordComponent },
+  { path: 'userforgotPwd2', component: UserForgotPassword2Component },
 ];
 export const ISO_FORMAT = {
   parse: {
@@ -168,6 +173,9 @@ display: {
     UserUploadComponent,
     UserLoginComponent,
     UserChangepwdComponent,
+    UserStatusChangeComponent,
+    UserForgotPasswordComponent,
+    UserForgotPassword2Component,
   ],
 
   imports: [

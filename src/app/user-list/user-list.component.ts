@@ -9,6 +9,7 @@ import { IntercomService } from '../framework/intercom.service';
   styleUrls: ['./user-list.component.styl']
 })
 export class UserListComponent implements OnInit {
+  loading = false;
   date:any;
   maxDate:any;
   minDate:any;
@@ -44,22 +45,23 @@ export class UserListComponent implements OnInit {
         this.jsonReq.toDate = this.convert(this.jsonReq.toDate);
     }
     const url = this.ics.apiRoute + '/user/selectUserInfo';
+    this.loading = true;
     try {
         this.http.post(url,this.jsonReq).subscribe(
             (data:any) => {
                 if (data != null && data != undefined) {
                   this.userObj = data;
                 }
+            this.loading = false;
             },
             error => {
-                if (error._body.type == 'error') {
+                if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
-                else {
-  
-                }
+                this.loading = false;
             }, () => { });
     } catch (e) {
+        this.loading = false;
         alert(e);
     }
   }
@@ -88,7 +90,7 @@ export class UserListComponent implements OnInit {
                 }
             },
             error => {
-                if (error._body.type == 'error') {
+                if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
                 else {
@@ -110,7 +112,7 @@ export class UserListComponent implements OnInit {
                 }
             },
             error => {
-                if (error._body.type == 'error') {
+                if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
                 else {
@@ -134,7 +136,7 @@ export class UserListComponent implements OnInit {
                 }
             },
             error => {
-                if (error._body.type == 'error') {
+                if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
                 else {

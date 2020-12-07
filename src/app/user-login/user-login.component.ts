@@ -9,6 +9,7 @@ import { IntercomService } from '../framework/intercom.service';
   styleUrls: ['./user-login.component.styl']
 })
 export class UserLoginComponent implements OnInit {
+  loading = false;
   _signintext:string = "Elibrary Admin Console";
   _email: string = "";
   _pw: string = "";
@@ -27,43 +28,47 @@ export class UserLoginComponent implements OnInit {
     this._result = "";
    this.goValidation();
    if(this._result == ""){
+    this.loading = true;
       const url = this.ics.apiRoute + '/user/getLogin';
       let json = {
-        "_email": this._email,
-        "_psw": this._pw
+        "email": this._email,
+        "password": this._pw
       }
       try {
           this.http.post(url,json).subscribe(
               (data:any) => {
                   if (data != null && data != undefined) {
-                      if(data.code ==="001")
-                        this._result = data.desc;
-                      else  if(data.code ==="002"){
-                        this.router.navigate(['changePwd']); 
+                      if(data.status){
+                        if(data.changePwd){
+                          this.router.navigate(['changePwd']); 
+                        }else{
+                          this.router.navigate(['home']); 
+                          this.ics.userRole = data.role;
+                          this.ics.uesrName = data.name;
+                          this.ics.sessionId = data.sessionId;
+                        }
                         this.ics.userId = data.userId;
-                      }
-                      else{
-                        this.router.navigate(['home']); 
-                        this.ics.userRole = data.role;
-                        this.ics.uesrName = data.name;
-                        this.ics.sessionId = data.sessionId;
+                      }else{
+                        this._result = data.message;
                         this.ics.userId = data.userId;
                       }
                   }
+                  this.loading = false;
               },
               error => {
-                  if (error._body.type == 'error') {
+                  if (error.name == "HttpErrorResponse") {
                     this._result = "Connection Timed Out!";
                   }
                   else {
   
                   }
+                  this.loading = false;
               }, () => { });
       } catch (e) {
+        this.loading = false;
         this._result = "Server Time Out";
       }
    }
-   
   }
   goValidation(){
     if(this._pw === "" && this._email === ""){
@@ -80,5 +85,38 @@ export class UserLoginComponent implements OnInit {
       return this._result = "Please enter your password";
     }
   }
-
+  goForgotPwd(){
+    if(this._email != ""){
+      this.loading = true;
+      const url = this.ics.apiRoute + '/user/verifyEmail';
+      try {
+          this.http.post(url,this._email).subscribe(
+              (data:any) => {
+                  if (data != null && data != undefined) {
+                      if(data.code ==="001")
+                        this._result = data.desc;
+                      else{
+                        this.router.navigate(['userforgotPwd']);
+                        this.ics.sessionId = data.sessionId;
+                      }
+                  }
+                  this.loading = false;
+              },
+              error => {
+                  if (error.name == "HttpErrorResponse") {
+                    this._result = "Connection Timed Out!";
+                  }
+                  else {
+  
+                  }
+                  this.loading = false;
+              }, () => { });
+      } catch (e) {
+        this.loading = false;
+        this._result = "Server Time Out";
+      }
+    }else{
+      this._result = "Please enter your email address";
+    }
+  }
 }
