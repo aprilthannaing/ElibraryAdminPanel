@@ -4,16 +4,24 @@
         <p style="margin-left: 5%;color: blue;">Sub-Category Edit Form</p>
 
         <mat-form-field style="width: 40%;">
-            <input matInput placeholder="For eg. Eduction" [(ngModel)]="json.name">
+            <input matInput placeholder="ပညာေ၇း" [(ngModel)]="json.myanmarName">
+        </mat-form-field>
+        <br>
+        <mat-form-field style="width: 40%;">
+            <input matInput placeholder="For eg. Eduction" [(ngModel)]="json.engName">
         </mat-form-field>
         <br>
         <mat-form-field class="mat" style="width: 40%;">
             <mat-label> Priority</mat-label>
             <input matInput placeholder="1 (ASC)" [(ngModel)]="json.priority" required>
         </mat-form-field>
-
-
-
+        <br>
+        <mat-form-field class="mat" style="width: 40%;">
+            <mat-label style="font-weight: bold;">Choose Categories</mat-label>
+            <select matNativeControl required [(ngModel)]="category">
+                <option value="{{category}}" selected>{{category}}</option>
+            </select>
+        </mat-form-field>
     <div style="margin-left: 5%;">
         <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
         <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Submit</button>

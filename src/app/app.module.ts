@@ -82,11 +82,13 @@ import { UserUploadComponent } from './user-upload/user-upload.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserChangepwdComponent } from './user-changepwd/user-changepwd.component';
 import { NgApexchartsModule} from "ng-apexcharts";
-import {MomentDateAdapter} from '@angular/material-moment-adapter';
+// import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { UserStatusChangeComponent } from './user-status-change/user-status-change.component';
 import { UserForgotPasswordComponent } from './user-forgot-password/user-forgot-password.component';
 import { UserForgotPassword2Component } from './user-forgot-password2/user-forgot-password2.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: UserLoginComponent },
@@ -177,6 +179,7 @@ display: {
   ],
 
   imports: [
+    NgxPaginationModule,
     NgApexchartsModule,
     MatFormFieldModule,
     HttpClientModule,
@@ -234,10 +237,10 @@ display: {
     Ng2SearchPipeModule, 
     
   ],
-  providers: [
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-        {provide: MAT_DATE_FORMATS, useValue: ISO_FORMAT},
-  ],
+  // providers: [
+  //   {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+  //       {provide: MAT_DATE_FORMATS, useValue: ISO_FORMAT},
+  // ],
   bootstrap: [AppComponent],
   entryComponents: []
 })

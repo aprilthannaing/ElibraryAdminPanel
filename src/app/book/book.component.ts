@@ -6,6 +6,7 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-book',
@@ -24,7 +25,12 @@ export class BookComponent implements OnInit {
   showPublisher = "false";
   showCategory = "false";
   showSubCategory = "false";
+  countNext = "false";
   loading = "false";
+
+
+  config: any;
+  
 
   bookCount = 0;
   authorCount = 0;
@@ -32,14 +38,34 @@ export class BookComponent implements OnInit {
   categoryCount = 0;
   subcategoryCount = 0;
 
+  lastPage: string;
+  totalCount: string;
+  
+  last:string;
+  count:string;
+
+  currentPage:any;
+
+  
   constructor(
     private http: HttpClient,
     public dialog: MatDialog,
     private router: Router,
-    private ics: IntercomService) { }
+    private ics: IntercomService) { 
+      this.config = {
+        itemsPerPage: 10,
+        currentPage: this.currentPage,
+        totalItems: 0
+      }
+    }
+    
 
   ngOnInit(): void {
-     this.getBookCount();
+    this.currentPage = "1";
+    this.config.currentPage = this.currentPage;
+    
+    console.log(this.config.currentPage)
+    this.getBookCount();
     this.getAuthorCount();
     this.getPublisherCount();
     this.getCategoryCount();
@@ -166,17 +192,45 @@ export class BookComponent implements OnInit {
         console.warn("error: ", error);
       });
   }
+  
+  
+
+  
 
   getAllBooks() {
-    const url: string = this.ics.apiRoute + "/book/all";
-    this.http.request('get', url).subscribe(
+    const json = {
+      "page":this.config.currentPage,
+      "title":"all"
+    }
+    const header: HttpHeaders = new HttpHeaders({
+      token: '7M8N3SLQ8QIKDJOSEPXJKJDFOZIN1NBO'
+    });
+    const url: string = this.ics.apiRoute + "/book";
+    this.http.post(url,json,
+      {
+      headers: header
+      }
+    ).subscribe(
       (data: any) => {
+        console.log(data)
         this.books = data.books;
+        this.last = data.last_page;
+        this.count = data.total_count;
+        this.config.totalItems = data.total_count;
+        console.log(this.last)
+        console.log(this.count)
         this.loading= "false";
+        
       },
       error => {
         console.warn("error: ", error);
       });
+      console.log("COUNT :",this.count)
+  }
+  
+  pageChanged(event){
+    this.config.currentPage = event;
+    this.getAllBooks();
   }
 
   showBooks() {
@@ -187,6 +241,20 @@ export class BookComponent implements OnInit {
     this.showCategory = "false"
     this.showSubCategory = "false"
     this.showPublisher = "false"
+  }
+
+  countNextPage() {
+    this.loading = "true";
+    this.getNextPage();
+    this.countNext = "true";
+    this.showBook = "false";
+    this.showAuthor = "false"
+    this.showCategory = "false"
+    this.showSubCategory = "false"
+    this.showPublisher = "false"
+  }
+  getNextPage(){
+    
   }
 
   showAuthors() {
