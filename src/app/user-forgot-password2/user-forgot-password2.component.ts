@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
 
 @Component({
@@ -32,10 +32,11 @@ export class UserForgotPassword2Component implements OnInit {
        const url = this.ics.apiRoute + '/user/goResetPassword';
        let json = {
          "password": this.newpwd,
-         "token": this.ics.token
+         "code" : this.ics.verifyCode,
+         "email" : this.ics.email
        }
        try {
-           this.http.post(url,json).subscribe(
+           this.http.post(url,json,{headers: new HttpHeaders().set('token', this.ics.token)}).subscribe(
                (data:any) => {
                  this.loading = false;
                    if (data != null && data != undefined) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
@@ -9,6 +9,7 @@ import { IntercomService } from '../framework/intercom.service';
   styleUrls: ['./user-list.component.styl']
 })
 export class UserListComponent implements OnInit {
+  sub:any;
   loading = false;
   date:any;
   maxDate:any;

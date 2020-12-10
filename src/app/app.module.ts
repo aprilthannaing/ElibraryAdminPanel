@@ -82,13 +82,13 @@ import { UserUploadComponent } from './user-upload/user-upload.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserChangepwdComponent } from './user-changepwd/user-changepwd.component';
 import { NgApexchartsModule} from "ng-apexcharts";
-// import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { UserStatusChangeComponent } from './user-status-change/user-status-change.component';
 import { UserForgotPasswordComponent } from './user-forgot-password/user-forgot-password.component';
 import { UserForgotPassword2Component } from './user-forgot-password2/user-forgot-password2.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { UserChangepwd2Component } from './user-changepwd2/user-changepwd2.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: UserLoginComponent },
@@ -124,6 +124,7 @@ const routes: Routes = [
   { path: 'setup/:cmd/:id', component: SetupComponent },
   { path: 'user-upload', component: UserUploadComponent },
   { path: 'changePwd', component: UserChangepwdComponent },
+  { path: 'changePwd2', component: UserChangepwd2Component },
   { path: 'changeStatus', component: UserStatusChangeComponent },
   { path: 'userforgotPwd', component: UserForgotPasswordComponent },
   { path: 'userforgotPwd2', component: UserForgotPassword2Component },
@@ -176,6 +177,7 @@ display: {
     UserStatusChangeComponent,
     UserForgotPasswordComponent,
     UserForgotPassword2Component,
+    UserChangepwd2Component
   ],
 
   imports: [
@@ -237,10 +239,10 @@ display: {
     Ng2SearchPipeModule, 
     
   ],
-  // providers: [
-  //   {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-  //       {provide: MAT_DATE_FORMATS, useValue: ISO_FORMAT},
-  // ],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+        {provide: MAT_DATE_FORMATS, useValue: ISO_FORMAT},
+  ],
   bootstrap: [AppComponent],
   entryComponents: []
 })

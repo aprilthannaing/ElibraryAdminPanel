@@ -1,0 +1,42 @@
+<app-home></app-home>
+<div class="cardview">
+	<div class="col-md-12">
+		<h2>Password Change Form</h2>
+	</div> 
+	<div class="col-md-12" style="margin-bottom: 20px;">  
+		<button class="btn btn-primary" type="button"  (click)="goChangePwd()">Change</button>
+	</div>
+	<div class="col-md-12" style="margin-bottom: 20px;">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="col-md-4"><label>Old Password</label></div>
+                <div class="col-md-6">
+                    <input id="oldpwd" class="form-control" Required type="password" [(ngModel)]="oldpwd" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" style="margin-bottom: 20px;">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="col-md-4"><label>New Password</label></div>
+				<div class="col-md-6">
+					<input id="newpwd" class="form-control" Required type="password" [(ngModel)]="newpwd" [ngModelOptions]="{standalone: true}">
+				</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" style="margin-bottom: 20px;">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="col-md-4"><label>Confirm Password</label></div>
+                <div class="col-md-6">
+					<input id="newpwd1" class="form-control" Required type="password" [(ngModel)]="newpwd1" [ngModelOptions]="{standalone: true}">
+				</div>
+            </div>
+        </div>
+    </div>
+		<div *ngIf="loading" class="lds-default" style="margin-top: 10%; margin-left: 30%;">
+			<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
+</div>

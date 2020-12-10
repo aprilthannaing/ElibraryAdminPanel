@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
@@ -29,7 +29,7 @@ export class UserLoginComponent implements OnInit {
    this.goValidation();
    if(this._result == ""){
     this.loading = true;
-      const url = this.ics.apiRoute + '/user/getLogin';
+      const url = this.ics.apiRoute + '/user/goLogin';
       let json = {
         "email": this.email,
         "password": this.password
@@ -43,11 +43,12 @@ export class UserLoginComponent implements OnInit {
                           this.router.navigate(['changePwd']); 
                           this.ics.token = data.token;
                         }else{
-                          this.router.navigate(['home']); 
+                          this.router.navigate(['userList']); 
                           this.ics.userId = data.data.id;
                           this.ics.userRole = data.data.role;
                           this.ics.uesrName = data.data.name;
                           this.ics.token = data.token;
+                          this.ics.email = this.email;
                         }
                       
                       }else{
@@ -90,9 +91,9 @@ export class UserLoginComponent implements OnInit {
   goForgotPwd(){
     if(this.email != ""){
       this.loading = true;
-      const url = this.ics.apiRoute + '/user/verifyEmail';
+      const url = this.ics.apiRoute + '/user/verifyEmail?email='+this.email;
       try {
-          this.http.post(url,this.email).subscribe(
+          this.http.post(url,"").subscribe(
               (data:any) => {
                   if (data != null && data != undefined) {
                       if(!data.status)
@@ -101,6 +102,7 @@ export class UserLoginComponent implements OnInit {
                         this.showMessage(data.message,true);
                         this.router.navigate(['userforgotPwd']);
                         this.ics.token = data.token;
+                        this.ics.email = this.email;
                       }
                   }
                   this.loading = false;

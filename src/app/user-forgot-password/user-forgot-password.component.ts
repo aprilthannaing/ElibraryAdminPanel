@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
 
 @Component({
@@ -32,15 +32,17 @@ export class UserForgotPasswordComponent implements OnInit {
     }else{
         this.loading = true;
           const url = this.ics.apiRoute + '/user/verifyCode';
-          const json = {"email" : this.ics.email,"code" : this.verifyCode,"token": this.ics.token}
+          const json = {"code" : this.verifyCode,"email": this.ics.email}
           try {
-              this.http.post(url,json).subscribe(
+              this.http.post(url,json,
+                {headers: new HttpHeaders().set('token', this.ics.token)}).subscribe(
                   (data:any) => {
                       if (data != null && data != undefined) {
                           if(!data.status)
                             this._result = data.message;
                           else{
-                            this.router.navigate(['userforgotPwd2']); 
+                            this.router.navigate(['userforgotPwd2']);
+                            this.ics.verifyCode = this.verifyCode; 
                             this.showMessage(data.message,true);
                           }
                       }

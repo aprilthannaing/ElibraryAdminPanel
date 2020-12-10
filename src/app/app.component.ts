@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { IntercomService } from './framework/intercom.service';
-import { bean } from './framework/bean';
+import { Router } from '@angular/router';
+import { timer } from 'rxjs';
 declare var jQuery: any;
 @Component({
   selector: 'app-root',
@@ -12,7 +13,8 @@ export class AppComponent {
   _alertflag = true;
   _alertmsg = "";
   constructor(
-    private ics: IntercomService
+    private ics: IntercomService,
+    private router: Router,
   ) {
     ics.rpbean$.subscribe(x => {
       if (x.t1 !== null && x.t1 == "rp-popup") {
@@ -55,4 +57,29 @@ export class AppComponent {
       }
     });
    }
+  ngOnInit() {
+    setInterval(() => this.chkActive(), 10000);
+  }
+  docChanges(_doc) {
+    if (this.ics.userRole != "") {
+      let dt = new Date();
+      let _time: number = (dt.getHours() * 3600) + (dt.getMinutes() * 60) + dt.getSeconds();
+      this.ics._activeTimeout = _time;
+    }
+  }
+  chkActive() {
+    if (this.ics.userRole != "" &&  this.ics._activeTimeout != 0) {
+      let dt = new Date();
+      let _time: number = (dt.getHours() * 3600) + (dt.getMinutes() * 60) + dt.getSeconds();
+      if ((_time - this.ics._activeTimeout) > (parseInt(this.ics._sessiontime) * 60)) {
+        jQuery("#timeoutalert").modal();
+        timer(3000).subscribe(() => {
+          this.ics.userRole = "";
+          this.ics._activeTimeout = 0;
+          this.router.navigate(['login']);
+        });
+
+      }
+    }
+  }
 }

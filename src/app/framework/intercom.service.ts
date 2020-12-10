@@ -10,8 +10,12 @@ export class IntercomService {
   uesrName: string = "";
   token: string = "";
   userId: string = "";
+  _activeTimeout:number = 0;
+  _sessiontime:string = "10";
+  verifyCode: string = "";
 
-  apiRoute: string = "http://localhost:8080";
+  //apiRoute: string = "http://192.168.3.15:8080/elibrary";
+  apiRoute: string = "http://localhost:8083";
   private _rpbeanSource = new Subject<any>();
   rpbean$ = this._rpbeanSource.asObservable();
   private _mybean: any;

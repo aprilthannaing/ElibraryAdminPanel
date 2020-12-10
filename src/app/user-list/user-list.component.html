@@ -1,10 +1,10 @@
 <app-home></app-home>
 <div class="cardview">
         <div class="col-md-4" style="margin-bottom: 20px;">
-            <h2 clas="col-md-12" >User List Form</h2>
+            <h2 clas="col-md-12" >User Management Form</h2>
             <div class="input-group">
                 <span class="input-group-btn" >
-                    <button class="btn btn-primary" type="button" (click)="goBack();">Back</button>
+                    <button class="btn btn-primary" type="button" (click)="goBack();">New</button>
                 </span>
                 <input id="textinput" name="textinput" type="text" placeholder="Search" [(ngModel)]="jsonReq.searchText" (keyup)="searchKeyup($event)" class="form-control">
                 <span class="input-group-btn">
@@ -58,6 +58,7 @@
             <table class="table table-striped table-condensed table-hover tblborder">
                 <thead>
                 <tr>
+                    <th>Edit</th>
                     <th>Name </th>
                     <th>Email </th>      
                     <th>Phone No</th> 
@@ -71,7 +72,10 @@
                 </tr>
                 </thead>
                 <tbody *ngFor="let obj of userObj">
-                <tr (click)="goto(obj.boId)">
+                <tr>
+                    <td>
+                        <i (click)="goto(obj.boId)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </td>
                     <td>{{obj.name}}</td>
                     <td>{{obj.email}}</td>
                     <td>{{obj.phoneNo}}</td>
