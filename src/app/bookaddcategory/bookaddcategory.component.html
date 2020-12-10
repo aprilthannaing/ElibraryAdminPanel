@@ -38,7 +38,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of subcategories | filter:term;">
-                                <td>{{item.name}}
+                                <td>{{item.myanmarName}}({{item.engName}})
                                 </td>
                                 <td>
                                     <input type="checkbox" value="{{item.boId}}" (change)="onCheckboxChange($event)">

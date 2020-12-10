@@ -46,7 +46,12 @@ export class BookaddsubcategoryComponent implements OnInit {
 
   getAllCategories(){
     const url: string = this.ics.apiRoute + "/category/all";
-    this.http.request('get', url).subscribe(
+    const header: HttpHeaders = new HttpHeaders({
+      token: '7M8N3SLQ8QIKDJOSEPXJKJDFOZIN1NBO'
+    });
+    this.http.request('get', url,{
+      headers:header
+    }).subscribe(
       (data: any) => {
         console.warn("data: ", data);
         this.categories = data.categories;

@@ -94,6 +94,7 @@ getHluttaw() {
 
               }
           }, () => { });
+
   } catch (e) {
       alert(e);
   }
@@ -186,6 +187,7 @@ goDelete(){
 }
 goSave(){
     this.json.sessionId = this.ics.token;
+    console.log("session Id : " ,this.ics.token)
     if(this.json.name === ""){
         this.showMessage("Please fill correct User Name",false);   
         console.log("Please fill correct User Name");
