@@ -38,10 +38,16 @@
     
 
     <div style="margin-left:10%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;" *ngIf="showBook == 'true' ">
+       <div class="row">
         <mat-form-field style="width: 50%;margin-top: 2%;width: 30%;">
             <mat-label> Search Here</mat-label>
             <input matInput placeholder="Book" [(ngModel)]="term">
         </mat-form-field>
+        
+        <div style="padding-top: 20px;">
+            <button type="submit" (click)="search()" (changedBySearch)="changedBySearch($event)"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
         
     <div>
         <table class="table table-striped table-condensed table-hover tblborder">
@@ -235,7 +241,8 @@
                 <tr>
                     <th scope="col" style="width: 5%;text-align: left;text-align: center;">Edit</th>
                     <th scope="col" style="width: 5%;text-align: left;">Priority (ASC)</th>
-                    <th scope="col" style="width: 10%;text-align: left;text-align: center;">Name</th>
+                    <th scope="col" style="width: 10%;text-align: left;text-align: center;">Myanmar Name</th>
+                    <th scope="col" style="width: 10%;text-align: left;text-align: center;">English Name</th>
                     <th scope="col" style="width: 5%;text-align: left;text-align: center;">Delete</th>
 
                 </tr>
@@ -248,7 +255,8 @@
 
                     </td>
                     <td style="text-align: center;">{{item.priority}}</td>
-                    <td style="text-align: center;">{{item.name}}</td>
+                    <td style="text-align: center;">{{item.myanmarName}}</td>
+                    <td style="text-align: center;">{{item.engName}}</td>
                     <td>
                         <i style="margin-left:12%" value="{{item.boId}}" (click)="deleteSubCategory($event)" class="fa fa-trash" aria-hidden="true"></i>
                   

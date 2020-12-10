@@ -30,8 +30,9 @@ export class BookComponent implements OnInit {
 
 
   config: any;
-  
 
+  // term:string;
+  // searchBook:any;
   bookCount = 0;
   authorCount = 0;
   publisherCount = 0;
@@ -72,6 +73,22 @@ export class BookComponent implements OnInit {
     this.getSubCategoryCount();
     }
 
+  // search(){
+  //   console.log(this.term)
+  //   const json = {
+  //     "bookTitle": this.term
+  //   }
+  //   const url: string = this.ics.apiRoute + "/book/search";
+  //   this.http.post(url,json).subscribe(
+  //     (data:any) => {
+  //       console.warn("data");
+  //       this.searchBook = data;
+  //     }
+  //   )
+  // }
+  // changedBySearch(event){
+  //   console.log(event)
+  // }
   getBookCount() {
     const url: string = this.ics.apiRoute + "/book/count";
     this.http.request('get', url).subscribe(
@@ -167,8 +184,13 @@ export class BookComponent implements OnInit {
   }
 
   getAllCategories() {
+    const header: HttpHeaders = new HttpHeaders({
+      token: '7M8N3SLQ8QIKDJOSEPXJKJDFOZIN1NBO'
+    });
     const url: string = this.ics.apiRoute + "/category/all";
-    this.http.request('get', url).subscribe(
+    this.http.request('get', url ,{
+      headers: header
+      }).subscribe(
       (data: any) => {
         this.categories = data.categories;
         this.loading= "false";
@@ -198,6 +220,7 @@ export class BookComponent implements OnInit {
   
 
   getAllBooks() {
+
     const json = {
       "page":this.config.currentPage,
       "title":"all"
