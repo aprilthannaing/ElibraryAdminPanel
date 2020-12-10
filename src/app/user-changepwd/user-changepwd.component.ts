@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
 
 @Component({
@@ -28,12 +28,12 @@ export class UserChangepwdComponent implements OnInit {
     if(this._result == ""){
        const url = this.ics.apiRoute + '/user/goChangepwd';
        let json = {
-         "old_password": this.oldpwd,
-         "new_password": this.newpwd,
-         "token": this.ics.token
-       }
-       try {
-           this.http.post(url,json).subscribe(
+        "old_password": this.oldpwd,
+        "new_password": this.newpwd,
+        "email": this.ics.email
+      }
+      try {
+          this.http.post(url,json,{headers: new HttpHeaders().set('token', this.ics.token)}).subscribe(
                (data:any) => {
                    if (data != null && data != undefined) {
                        if(!data.status)
@@ -41,7 +41,12 @@ export class UserChangepwdComponent implements OnInit {
                        else{
                          this.router.navigate(['login']); 
                          this.showMessage("Your password was changed.Please login with this password.",true);
-                       }
+                         this.ics.userRole = "";
+                         this.ics.token = "";
+                         this.ics.uesrName = "";
+                         this.ics.userId = "";
+                         this.ics.email = "";
+                        }
                    }
                },
                error => {

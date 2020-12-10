@@ -91,9 +91,10 @@ export class UserLoginComponent implements OnInit {
   goForgotPwd(){
     if(this.email != ""){
       this.loading = true;
-      const url = this.ics.apiRoute + '/user/verifyEmail?email='+this.email;
+      const url = this.ics.apiRoute + '/user/verifyEmail';
+      let json = {"email":this.email}
       try {
-          this.http.post(url,"").subscribe(
+          this.http.post(url,json).subscribe(
               (data:any) => {
                   if (data != null && data != undefined) {
                       if(!data.status)
