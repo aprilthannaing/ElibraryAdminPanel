@@ -2,11 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.styl']
+  styleUrls: ['./user-list.component.styl'],
+  providers:[DatePipe]
 })
 export class UserListComponent implements OnInit {
   sub:any;
@@ -15,7 +17,7 @@ export class UserListComponent implements OnInit {
   maxDate:any;
   minDate:any;
   dateobj: { date: { year: number, month: number, day: number } };
-  jsonReq = {"searchText":"","text1":"", "text2":"", "text3":"","fromDate":"","toDate":""}
+  jsonReq = {"searchText":"","text1":"", "text2":"", "text3":"","fromDate":"","toDate":"","page":""}
   userObj:any = {};
   lov: any = {
     "refHluttaw": [{ "value": "", "caption": "" }],
@@ -24,13 +26,26 @@ export class UserListComponent implements OnInit {
     "refStatus": [{ "value": "NEW", "caption": "new" },{ "value": "ACTIVE", "caption": "active" },{ "value": "EXPIRED", "caption": "expired" }],
     "refUserType": [{ "value": "Representative", "caption": "representative" },{ "value": "Staff", "caption": "staff" }],
   };
+
+  config: any;
+  currentPage: string;
+
   constructor( 
     private router: Router,
     private http: HttpClient,
-    private ics: IntercomService
-    ) { }
+    private ics: IntercomService,
+    public datePipe: DatePipe
+    ) {
+        this.config = {
+            itemsPerPage: 10,
+            currentPage: this.currentPage,
+            totalItems: 0,
+        }
+     }
 
   ngOnInit(): void {
+    this.currentPage = "1";
+    this.config.currentPage = this.currentPage;
     this.Searching();
     this.getHluttaw();
     this.getPosition();
@@ -39,6 +54,7 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['user']);  
   }
   Searching(){
+    this.jsonReq.page = this.config.currentPage;
     if(this.jsonReq.fromDate != ""){
         this.jsonReq.fromDate = this.convert(this.jsonReq.fromDate);
     }
@@ -47,11 +63,18 @@ export class UserListComponent implements OnInit {
     }
     const url = this.ics.apiRoute + '/user/selectUserInfo';
     this.loading = true;
+    console.log(this.jsonReq)
     try {
         this.http.post(url,this.jsonReq).subscribe(
+        
             (data:any) => {
                 if (data != null && data != undefined) {
-                  this.userObj = data;
+                    console.log(data.users.modifiedDate)
+                    this.userObj = data.users;
+                    for(let user of this.userObj){
+                        user.modifiedDate = this.datePipe.transform(user.modifiedDate, 'dd/MM/yyyy');
+                    }
+                    this.config.totalItems = data.totalCount;
                 }
             this.loading = false;
             },
@@ -71,8 +94,9 @@ export class UserListComponent implements OnInit {
       this.Searching();
     }
   }
-  pageChanged(){
-
+  pageChanged(event){
+    this.config.currentPage = event;
+    this.Searching();
   }
   goto(key){
     this.router.navigate(['user', 'read', key]);

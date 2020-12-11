@@ -16,11 +16,13 @@ export class UserStatusChangeComponent implements OnInit {
   dateobj: { date: { year: number, month: number, day: number } };
   jsonReq = {"searchText":"","text1":"", "text2":"", "text3":"","fromDate":"","toDate":""}
   userObj:any = {};
+
   constructor( 
     private router: Router,
     private http: HttpClient,
     private ics: IntercomService
     ) { }
+    
 
   ngOnInit(): void {
     this.Searching();

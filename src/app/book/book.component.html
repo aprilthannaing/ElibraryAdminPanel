@@ -44,8 +44,8 @@
             <input matInput placeholder="Book" [(ngModel)]="term">
         </mat-form-field>
         
-        <div style="padding-top: 20px;">
-            <button type="submit" (click)="search()" (changedBySearch)="changedBySearch($event)"><i class="fa fa-search"></i></button>
+        <div style="padding-top: 10px;">
+            <button type="submit" (click)="searchByKeywords()" (changedBySearch)="changedBySearch($event)"><i class="fa fa-search"></i></button>
         </div>
     </div>
         
@@ -94,16 +94,12 @@
                 </tr>
             </tbody>
         </table>
-<<<<<<< Updated upstream
+        <div style="text-align: center;">
+            <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls> 
+        </div>
+    </div>
+    
         
-    </div>  
-    </div>
-    <div *ngIf="this.config.totalItems != 0" style="text-align: center;">
-        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
-=======
-        <at-pagination at-list="list" at-config="config"></at-pagination>
->>>>>>> Stashed changes
-    </div>
     <div style="margin-left:10%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;" *ngIf="showAuthor == 'true' ">
         <mat-form-field style="width: 50%;margin-top: 2%;width: 30%;">
             <mat-label> Search Here</mat-label>

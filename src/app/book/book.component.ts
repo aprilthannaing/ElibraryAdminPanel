@@ -31,8 +31,9 @@ export class BookComponent implements OnInit {
 
   config: any;
 
-  // term:string;
-  // searchBook:any;
+  term:string;
+  searchBooks = [];
+
   bookCount = 0;
   authorCount = 0;
   publisherCount = 0;
@@ -73,22 +74,42 @@ export class BookComponent implements OnInit {
     this.getSubCategoryCount();
     }
 
-  // search(){
-  //   console.log(this.term)
-  //   const json = {
-  //     "bookTitle": this.term
-  //   }
-  //   const url: string = this.ics.apiRoute + "/book/search";
-  //   this.http.post(url,json).subscribe(
-  //     (data:any) => {
-  //       console.warn("data");
-  //       this.searchBook = data;
-  //     }
-  //   )
-  // }
-  // changedBySearch(event){
-  //   console.log(event)
-  // }
+  searchByKeywords(){
+    console.log(this.term)
+    const json = {
+      "page": this.config.currentPage,
+      "user_id":"USR2",
+      "category_id":"",
+      "sub_category_id":"",
+      "author_id":"",
+      "start_date":"",
+      "end_date":"",
+      "searchTerms":this.term 
+    }
+    console.log(json)
+    const header: HttpHeaders = new HttpHeaders({
+      token: '7M8N3SLQ8QIKDJOSEPXJKJDFOZIN1NBO'
+    });
+    const url: string = "http://192.168.3.18:8080/elibrary/search/book";
+    this.http.post(url,json,{
+      headers:header
+    }).subscribe(
+      (data:any) => {
+        this.searchBooks = data.books;
+        this.books= this.searchBooks;
+        console.log(this.books)
+      },
+      error => {
+        console.warn("error:",error);
+      }
+    )
+    return this.searchBooks;
+  }
+  changedBySearch(event){
+    this.books = this.searchByKeywords();
+    console.log(this.books)
+
+  }
   getBookCount() {
     const url: string = this.ics.apiRoute + "/book/count";
     this.http.request('get', url).subscribe(
@@ -223,11 +244,15 @@ export class BookComponent implements OnInit {
 
     const json = {
       "page":this.config.currentPage,
-      "title":"all"
+      "title":"all",
+      "user_id":"USR1"
     }
+    console.log(json)
     const header: HttpHeaders = new HttpHeaders({
-      token: '7M8N3SLQ8QIKDJOSEPXJKJDFOZIN1NBO'
+      token: '7584491bd16084688c1c1f74498177d9'
     });
+    // 7M8N3SLQ8QIKDJOSEPXJKJDFOZIN1NBO
+    // 7584491bd16084688c1c1f74498177d9
     const url: string = this.ics.apiRoute + "/book";
     this.http.post(url,json,
       {
@@ -248,7 +273,6 @@ export class BookComponent implements OnInit {
       error => {
         console.warn("error: ", error);
       });
-      console.log("COUNT :",this.count)
   }
   
   pageChanged(event){
