@@ -13,6 +13,11 @@ export class UserForgotPassword2Component implements OnInit {
   newpwd1: string = "";
   newpwd : string = "";
   loading= false;
+
+  iv = 'AODVNUASDNVVAOVF';
+  key = 'mykey@91mykey@91';
+  encryptedPassword :string;
+
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -22,7 +27,24 @@ export class UserForgotPassword2Component implements OnInit {
 
   ngOnInit(): void {
   }
+  
+  encrypt(stringToEncrypt){
+    var forge = require('node-forge');
+
+    var plaintext = stringToEncrypt;
+
+    var cipher = forge.cipher.createCipher('AES-CBC', this.key);
+    cipher.start({iv: this.iv});
+    cipher.update(forge.util.createBuffer(plaintext));
+    cipher.finish();
+    var encrypted = cipher.output;
+
+    var encodedB64 = forge.util.encode64(encrypted.data);
+    
+    return encodedB64;
+  }
   goResetPassword(){
+    this.encryptedPassword = this.encrypt(this.newpwd);
     this._result = "";
     if(this.newpwd != this.newpwd1){
       this._result = "Your new password and confirm password must be same.";
@@ -31,7 +53,7 @@ export class UserForgotPassword2Component implements OnInit {
       this.loading = true;
        const url = this.ics.apiRoute + '/user/goResetPassword';
        let json = {
-         "password": this.newpwd,
+         "password": this.encryptedPassword,
          "code" : this.ics.verifyCode,
          "email" : this.ics.email
        }

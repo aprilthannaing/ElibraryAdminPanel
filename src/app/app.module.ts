@@ -181,6 +181,7 @@ display: {
   ],
 
   imports: [
+
     NgxPaginationModule,
     NgApexchartsModule,
     MatFormFieldModule,

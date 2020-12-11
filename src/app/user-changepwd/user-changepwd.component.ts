@@ -13,6 +13,12 @@ export class UserChangepwdComponent implements OnInit {
   newpwd1: string = "";
   newpwd : string = "";
   oldpwd : string = "";
+
+  iv = 'AODVNUASDNVVAOVF';
+  key = 'mykey@91mykey@91';
+  encryptedOldPassword : string;
+  encryptedNewPassword : string;
+  
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -22,16 +28,37 @@ export class UserChangepwdComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  encryt(stringToEncrypt){
+    var forge = require('node-forge');
+
+    var plaintext = stringToEncrypt;
+
+    var cipher = forge.cipher.createCipher('AES-CBC', this.key);
+    cipher.start({iv: this.iv});
+    cipher.update(forge.util.createBuffer(plaintext));
+    cipher.finish();
+    var encrypted = cipher.output;
+
+    var encodedB64 = forge.util.encode64(encrypted.data);
+
+    return encodedB64;
+  }
   goChangePwd(){
+    this.encryptedOldPassword = this.encryt(this.oldpwd);
+    this.encryptedNewPassword = this.encryt(this.newpwd);
+    console.log(this.encryptedOldPassword)
+    console.log(this.encryptedNewPassword)
     this._result = "";
     this.goValidation();
     if(this._result == ""){
        const url = this.ics.apiRoute + '/user/goChangepwd';
        let json = {
-        "old_password": this.oldpwd,
-        "new_password": this.newpwd,
+        "old_password": this.encryptedOldPassword,
+        "new_password": this.encryptedNewPassword,
         "email": this.ics.email
       }
+      console.log(json)
       try {
           this.http.post(url,json,{headers: new HttpHeaders().set('token', this.ics.token)}).subscribe(
                (data:any) => {

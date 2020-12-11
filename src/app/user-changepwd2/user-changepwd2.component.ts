@@ -13,6 +13,12 @@ export class UserChangepwd2Component implements OnInit {
   newpwd1: string = "";
   newpwd : string = "";
   oldpwd : string = "";
+
+  iv = 'AODVNUASDNVVAOVF';
+  key = 'mykey@91mykey@91';
+  encryptedOldPassword : string;
+  encryptedNewPassword : string;
+
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -22,14 +28,31 @@ export class UserChangepwd2Component implements OnInit {
 
   ngOnInit(): void {
   }
+  encrypt(stringToEncrypt){
+    var forge = require('node-forge');
+
+    var plaintext = stringToEncrypt;
+
+    var cipher = forge.cipher.createCipher('AES-CBC', this.key);
+    cipher.start({iv: this.iv});
+    cipher.update(forge.util.createBuffer(plaintext));
+    cipher.finish();
+    var encrypted = cipher.output;
+
+    var encodedB64 = forge.util.encode64(encrypted.data);
+
+    return encodedB64;
+  }
   goChangePwd(){
+    this.encryptedOldPassword = this.encrypt(this.oldpwd);
+    this.encryptedNewPassword = this.encrypt(this.newpwd);
     this._result = "";
     if(this.goValidation()){
       this.loading = true;
        const url = this.ics.apiRoute + '/user/goChangepwd';
        let json = {
-         "old_password": this.oldpwd,
-         "new_password": this.newpwd,
+         "old_password": this.encryptedOldPassword,
+         "new_password": this.encryptedNewPassword,
          "email": this.ics.email
        }
        try {

@@ -14,6 +14,11 @@ export class UserLoginComponent implements OnInit {
   email: string = "";
   password: string = "";
   _result: string = "";
+
+  iv = 'AODVNUASDNVVAOVF';
+  key = 'mykey@91mykey@91';
+  encryptedPassword: string;
+
   constructor(
   private router: Router,
   private http: HttpClient,
@@ -24,7 +29,25 @@ export class UserLoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  encrypt(stringToEncrypt){
+    var forge = require('node-forge');
+
+    var plaintext = stringToEncrypt;
+
+    var cipher = forge.cipher.createCipher('AES-CBC', this.key);
+    cipher.start({iv: this.iv});
+    cipher.update(forge.util.createBuffer(plaintext));
+    cipher.finish();
+    var encrypted = cipher.output;
+
+    var encodedB64 = forge.util.encode64(encrypted.data);
+
+    return encodedB64;
+  }
+
   goPost(){
+    this.encryptedPassword = this.encrypt(this.password);
     this._result = "";
    this.goValidation();
    if(this._result == ""){
@@ -32,11 +55,14 @@ export class UserLoginComponent implements OnInit {
       const url = this.ics.apiRoute + '/user/goLogin';
       let json = {
         "email": this.email,
-        "password": this.password
+        "password": this.encryptedPassword
       }
+      console.log(this.password)
+      console.log(json)
       try {
           this.http.post(url,json).subscribe(
               (data:any) => {
+                console.log(data)
                   if (data != null && data != undefined) {
                       if(data.status){
                         if(data.changePwd){

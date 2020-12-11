@@ -15,7 +15,7 @@ export class IntercomService {
   verifyCode: string = "";
 
   //apiRoute: string = "http://192.168.3.18:8080/elibrary";
-  apiRoute: string = "http://localhost:8083";
+  apiRoute: string = "http://localhost:8080";
   private _rpbeanSource = new Subject<any>();
   rpbean$ = this._rpbeanSource.asObservable();
   private _mybean: any;
