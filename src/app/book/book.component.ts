@@ -88,7 +88,7 @@ export class BookComponent implements OnInit {
     }
     console.log(json)
     const header: HttpHeaders = new HttpHeaders({
-      token: '7M8N3SLQ8QIKDJOSEPXJKJDFOZIN1NBO'
+      token: this.ics.token
     });
     const url: string = "http://192.168.3.18:8080/elibrary/search/book";
     this.http.post(url,json,{
@@ -206,7 +206,7 @@ export class BookComponent implements OnInit {
 
   getAllCategories() {
     const header: HttpHeaders = new HttpHeaders({
-      token: '7M8N3SLQ8QIKDJOSEPXJKJDFOZIN1NBO'
+      token: this.ics.token
     });
     const url: string = this.ics.apiRoute + "/category/all";
     this.http.request('get', url ,{
@@ -249,7 +249,7 @@ export class BookComponent implements OnInit {
     }
     console.log(json)
     const header: HttpHeaders = new HttpHeaders({
-      token: '7584491bd16084688c1c1f74498177d9'
+      token: this.ics.token
     });
     // 7M8N3SLQ8QIKDJOSEPXJKJDFOZIN1NBO
     // 7584491bd16084688c1c1f74498177d9

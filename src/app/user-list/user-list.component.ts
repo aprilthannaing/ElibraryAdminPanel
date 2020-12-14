@@ -69,7 +69,6 @@ export class UserListComponent implements OnInit {
         
             (data:any) => {
                 if (data != null && data != undefined) {
-                    console.log(data.users.modifiedDate)
                     this.userObj = data.users;
                     for(let user of this.userObj){
                         user.modifiedDate = this.datePipe.transform(user.modifiedDate, 'dd/MM/yyyy');
