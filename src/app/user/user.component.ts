@@ -11,6 +11,7 @@ export class UserComponent implements OnInit {
   loading = false;
   deleteFlag:boolean = true;
   emailFlag:boolean = false;
+  radioFlag:boolean = false;
   json:any = this.userObj();
   userObj(){ 
       return { "sessionId":"","boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":"","roleType":""
@@ -44,6 +45,10 @@ ngOnInit() {
         this.emailFlag = true;
       }
     });
+    if(this.ics.userRole == "Admin" || this.ics.userRole == "SuperLibrarian")
+        this.radioFlag = false;
+    else
+        this.radioFlag = true;
     this.json.status = this.lov.refStatus[0].value;
     this.getHluttaw();
     this.getPosition();
@@ -162,7 +167,7 @@ goDelete(){
                     this.loading = false;
                     if (data != null && data != undefined) {
                         if(data.code == "000"){
-                            this.json = data;
+                            this.goNew();
                             this.showMessage(data.desc,true);   
                         }else
                             this.showMessage(data.desc,false);   

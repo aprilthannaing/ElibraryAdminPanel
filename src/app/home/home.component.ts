@@ -49,13 +49,23 @@ export class HomeComponent implements OnInit {
       });
   }
   goLogout(){
-    this.router.navigate(['login']);
-    this.ics.userRole = "";
-    this.ics.token = "";
-    this.ics.uesrName = "";
+      let url = this.ics.apiRoute + '/user/signout'
+      let json = {"userid": this.ics.userId}
+        this.http.post(url,json,{headers: new HttpHeaders().set('token', this.ics.token)}).subscribe(
+          data  => {
+            this.clearICS();
+            this.router.navigate(['login']);
+          },
+          error => {}, () => { });
+  }
+  clearICS(){
     this.ics.userId = "";
     this.ics.email = "";
-  }
+    this.ics.userRole = "";
+    this.ics.uesrName = "";
+    this.ics.token = "";
+    this.ics.userId = "";
+    }
   goSetup(id){
     this.router.navigate(['setup', 'read', id]);
   }

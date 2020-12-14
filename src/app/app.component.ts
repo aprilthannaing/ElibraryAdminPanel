@@ -2,6 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { IntercomService } from './framework/intercom.service';
 import { Router } from '@angular/router';
 import { timer } from 'rxjs';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 declare var jQuery: any;
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ export class AppComponent {
   constructor(
     private ics: IntercomService,
     private router: Router,
+    private http: HttpClient,
   ) {
     ics.rpbean$.subscribe(x => {
       if (x.t1 !== null && x.t1 == "rp-popup") {
@@ -53,7 +55,7 @@ export class AppComponent {
         document.getElementById("snackbar").innerHTML = this._alertmsg;
         let snackbar = document.getElementById("snackbar");
         snackbar.className = "show " + _snack_style;
-        setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+        setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 6000);
       }
     });
    }
@@ -82,4 +84,37 @@ export class AppComponent {
       }
     }
   }
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunloadHandler(event) {
+    let url = this.ics.apiRoute + 'user/signout'
+    let json = {"userid": this.ics.userId}
+      this.http.post(url,json,{headers: new HttpHeaders().set('token', this.ics.token)}).subscribe(
+        data  => {
+          this.clearICS();
+          this.router.navigate(['login']);
+          jQuery("#timeoutalert").modal();
+        },
+        error => {}, () => { });
+  }
+  // @HostListener('window:popstate', ['$event'])
+  // onPopState(event) {
+  //   let url = this.ics.apiRoute + '/user/signout'
+  //   let json = {"userid": this.ics.userId}
+  //     this.http.post(url,json,{headers: new HttpHeaders().set('token', this.ics.token)}).subscribe(
+  //       data  => {
+  //         this.clearICS();
+  //         this.router.navigate(['login']);
+  //         jQuery("#timeoutalert").modal();
+  //       },
+  //       error => {}, () => { });
+  // }
+  clearICS(){
+  this.ics.userId = "";
+  this.ics.email = "";
+  this.ics.userRole = "";
+  this.ics.uesrName = "";
+  this.ics.token = "";
+  this.ics.userId = "";
+  }
+
 }

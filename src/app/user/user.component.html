@@ -14,7 +14,7 @@
     <div class="row col-md-12" style="margin-left: 3%;" >
         <div *ngFor="let item of lov.refStatus" style="margin-right: 10px;">
             <label class="radio-inline">
-            <input #c [checked]="json.status == c.value" (click)="json.status = c.value" type="radio" name="_encashobj.field1" value="{{item.value}}">{{item.caption}}</label>
+            <input #c [disabled]="radioFlag" [checked]="json.status == c.value" (click)="json.status = c.value" type="radio" name="_encashobj.field1" value="{{item.value}}">{{item.caption}}</label>
         </div>
     </div>
     <div class="col-md-12 row">
@@ -55,25 +55,25 @@
             </select>
         </mat-form-field>
         
-        <mat-form-field style="width: 35%; margin-left: 5%;" *ngIf="json.type == 'Staff'">
+        <mat-form-field style="width: 40%; margin-left: 5%;" *ngIf="json.type == 'Staff'">
             <mat-label >Choose Department Type</mat-label>
             <select  matNativeControl required [(ngModel)]="json.deptType">
                 <option *ngFor="let item of lov.refDept" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field>
-        <div (click)="goSetup('lov1')" *ngIf="json.type == 'Staff'"  style="margin-top: 16px;margin-left: 35px;">
+        <!-- <div (click)="goSetup('lov1')" *ngIf="json.type == 'Staff'"  style="margin-top: 16px;margin-left: 35px;">
             <i class="glyphicon glyphicon-plus-sign" style="font-size: 21px;color: #2e6da4;" aria-hidden="true"></i>
-        </div>
+        </div> -->
 
-        <mat-form-field style="width: 35%; margin-left: 5%;" *ngIf="json.type == 'Staff'">
+        <mat-form-field style="width: 40%; margin-left: 5%;" *ngIf="json.type == 'Staff'">
             <mat-label >Choose Position</mat-label>
             <select  matNativeControl required [(ngModel)]="json.positionType">
                 <option *ngFor="let item of lov.refPosition" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field>
-        <div (click)="goSetup('lov2')" *ngIf="json.type == 'Staff'" style="margin-top: 16px;margin-left: 35px;">
+        <!-- <div (click)="goSetup('lov2')" *ngIf="json.type == 'Staff'" style="margin-top: 16px;margin-left: 35px;">
             <i class="glyphicon glyphicon-plus-sign" style="font-size: 21px;color: #2e6da4;" aria-hidden="true"></i>
-        </div>
+        </div> -->
         <!-- <mat-form-field style="width: 40%; margin-left: 5%;">
             <mat-label >Choose Status</mat-label>
             <select  matNativeControl required [(ngModel)]="json.status">
