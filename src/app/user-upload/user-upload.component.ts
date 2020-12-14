@@ -264,13 +264,8 @@ export class UserUploadComponent implements OnInit {
       }
       for(let i = 0; i<this.lov.refPosition.length; i++){
         for(let j = 0; j< this.checkArrayList.length; j++){
-          if(this.checkArrayList[j].type != "Representative"){
-            if(this.lov.refPosition[i].caption == this.checkArrayList[j].positionType)
-              this.checkArrayList[j].positionType = this.lov.refPosition[i].value;
-          }else{
-            if(this.lov.refPosition[j].code == "0")
-            this.checkArrayList[j].positionType = this.lov.refPosition[j].value;
-          }
+          if(this.lov.refPosition[i].caption == this.checkArrayList[j].positionType)
+            this.checkArrayList[j].positionType = this.lov.refPosition[i].value;
         }
       }
       }

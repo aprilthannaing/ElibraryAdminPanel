@@ -166,7 +166,7 @@ export class SetupComponent implements OnInit {
                 if (data != null && data != undefined) {
                     this.lov.refHluttaw = data.refHluttaw;
                     if(this.hlutawType == "")
-                      this.hlutawType=this.lov.refHluttaw[0].value;
+                      this.hlutawType=this.lov.refHluttaw[1].value;
                     this.getDepartment();
                 }
             },

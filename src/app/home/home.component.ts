@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
 
     if (this.userRole == "Supervisor")
       this.router.navigate(['booksupervisor']);
-    if (this.userRole == "Admin")
+    if (this.userRole == "Admin" || this.userRole == "SuperLibrarian")
       this.router.navigate(['book']);
   }
 
