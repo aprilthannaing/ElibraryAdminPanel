@@ -203,11 +203,11 @@ export class BookComponent implements OnInit {
       (data: any) => {
         console.warn("data: ", data);
         this.authors = data.authors;
-<<<<<<< Updated upstream
+
         console.log("getAllAuthors authors:!!!!!!!" , this.authors)
-=======
+
         this.authorConfig.totalItems = data.total_count;
->>>>>>> Stashed changes
+
         data.authors.forEach(element => {
           console.log(this.ics.apiRoute + "/" + element.profilePicture)
         });
