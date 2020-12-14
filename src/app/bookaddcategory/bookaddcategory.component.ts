@@ -53,6 +53,7 @@ export class BookaddcategoryComponent implements OnInit {
       (data: any) => {
         console.warn("data: ", data);
         this.subcategories = data.subcategories;
+        console.log(this.subcategories)
 
       },
       error => {

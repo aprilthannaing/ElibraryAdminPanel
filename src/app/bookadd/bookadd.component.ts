@@ -143,8 +143,13 @@ export class BookaddComponent implements OnInit {
   }
 
   getAllCategories() {
+    const header: HttpHeaders = new HttpHeaders({
+      token: this.ics.token
+    });
     const url: string = this.ics.apiRoute + "/category/all";
-    this.http.request('get', url).subscribe(
+    this.http.request('get', url, {
+      headers: header
+    }).subscribe(
       (data: any) => {
         console.warn("data: ", data);
         this.categories = data.categories;
@@ -221,6 +226,7 @@ export class BookaddComponent implements OnInit {
       (data: any) => {
         console.warn("data: ", data);
         this.subcategories = data.subcategories;
+        console.log(this.subcategories)
       },
       error => {
         console.warn("error: ", error);

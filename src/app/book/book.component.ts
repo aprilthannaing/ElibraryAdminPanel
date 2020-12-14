@@ -30,6 +30,7 @@ export class BookComponent implements OnInit {
 
 
   config: any;
+  authorConfig: any;
 
   term:string;
   searchBooks = [];
@@ -58,6 +59,11 @@ export class BookComponent implements OnInit {
         itemsPerPage: 10,
         currentPage: this.currentPage,
         totalItems: 0
+      },
+      this.authorConfig = {
+        itemsPerPage : 10,
+        currentPage: this.currentPage,
+        totalItems:0
       }
     }
     
@@ -65,8 +71,8 @@ export class BookComponent implements OnInit {
   ngOnInit(): void {
     this.currentPage = "1";
     this.config.currentPage = this.currentPage;
+    this.authorConfig.currentPage = this.currentPage;
     
-    console.log(this.config.currentPage)
     this.getBookCount();
     this.getAuthorCount();
     this.getPublisherCount();
@@ -189,12 +195,19 @@ export class BookComponent implements OnInit {
   }
 
   getAllAuthors() {
+    const json = {
+      "page":this.authorConfig.currentPage
+    }
     const url: string = this.ics.apiRoute + "/author/all";
-    this.http.request('get', url).subscribe(
+    this.http.post(url, json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
         this.authors = data.authors;
+<<<<<<< Updated upstream
         console.log("getAllAuthors authors:!!!!!!!" , this.authors)
+=======
+        this.authorConfig.totalItems = data.total_count;
+>>>>>>> Stashed changes
         data.authors.forEach(element => {
           console.log(this.ics.apiRoute + "/" + element.profilePicture)
         });
@@ -203,6 +216,10 @@ export class BookComponent implements OnInit {
       error => {
         console.warn("error: ", error);
       });
+  }
+  authorPageChanged(event){
+    this.authorConfig.currentPage = event;
+    this.getAllAuthors();
   }
 
   getAllCategories() {

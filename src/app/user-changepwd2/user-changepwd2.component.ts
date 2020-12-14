@@ -49,7 +49,7 @@ export class UserChangepwd2Component implements OnInit {
     this._result = "";
     if(this.goValidation()){
       this.loading = true;
-       const url = this.ics.apiRoute + '/user/goChangepwd';
+       const url = this.ics.apiRoute + '/user/goChangepwdByAdmin';
        let json = {
          "old_password": this.encryptedOldPassword,
          "new_password": this.encryptedNewPassword,

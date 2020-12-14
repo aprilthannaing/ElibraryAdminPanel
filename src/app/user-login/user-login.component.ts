@@ -23,8 +23,7 @@ export class UserLoginComponent implements OnInit {
   private router: Router,
   private http: HttpClient,
   private route: ActivatedRoute,
-  private ics: IntercomService
-  ) {
+ private ics: IntercomService  ) {
    }
 
   ngOnInit(): void {
@@ -52,7 +51,7 @@ export class UserLoginComponent implements OnInit {
    this.goValidation();
    if(this._result == ""){
     this.loading = true;
-      const url = this.ics.apiRoute + '/user/goLogin';
+      const url = this.ics.apiRoute + '/user/goLoginByAdmin';
       let json = {
         "email": this.email,
         "password": this.encryptedPassword

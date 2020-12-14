@@ -89,6 +89,7 @@ import { UserForgotPasswordComponent } from './user-forgot-password/user-forgot-
 import { UserForgotPassword2Component } from './user-forgot-password2/user-forgot-password2.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UserChangepwd2Component } from './user-changepwd2/user-changepwd2.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: UserLoginComponent },

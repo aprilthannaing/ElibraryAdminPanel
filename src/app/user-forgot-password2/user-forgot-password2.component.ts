@@ -51,7 +51,7 @@ export class UserForgotPassword2Component implements OnInit {
     }
     if(this._result == ""){
       this.loading = true;
-       const url = this.ics.apiRoute + '/user/goResetPassword';
+       const url = this.ics.apiRoute + '/user/goResetPasswordByAdmin';
        let json = {
          "password": this.encryptedPassword,
          "code" : this.ics.verifyCode,

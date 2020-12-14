@@ -179,8 +179,13 @@ export class BookeditComponent implements OnInit {
   }
 
   getAllCategories() {
+    const header: HttpHeaders = new HttpHeaders({
+      token: this.ics.token
+    });
     const url: string = this.ics.apiRoute + "/category/all";
-    this.http.request('get', url).subscribe(
+    this.http.request('get', url ,{
+      headers: header
+      }).subscribe(
       (data: any) => {
         this.categories = data.categories;
         console.log(" this.categories: ", this.categories)
