@@ -38,9 +38,7 @@ export class CategoryeditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
     this.findByBoId();
-    // this.getSubCategories();
   }
 
   checkCategoryContainOrNot(boId) {

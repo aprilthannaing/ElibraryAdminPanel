@@ -194,6 +194,7 @@ export class BookComponent implements OnInit {
       (data: any) => {
         console.warn("data: ", data);
         this.authors = data.authors;
+        console.log("getAllAuthors authors:!!!!!!!" , this.authors)
         data.authors.forEach(element => {
           console.log(this.ics.apiRoute + "/" + element.profilePicture)
         });
@@ -205,6 +206,7 @@ export class BookComponent implements OnInit {
   }
 
   getAllCategories() {
+    console.log
     const header: HttpHeaders = new HttpHeaders({
       token: this.ics.token
     });
@@ -214,6 +216,9 @@ export class BookComponent implements OnInit {
       }).subscribe(
       (data: any) => {
         this.categories = data.categories;
+        console.log(" data.categories!!!" +  data.categories)
+
+
         this.loading= "false";
       },
       error => {
@@ -325,6 +330,7 @@ export class BookComponent implements OnInit {
   }
 
   showCategories() {
+    console.log("show categories!!!!!!!!!!!!!!")
     this.loading = "true"
     this.getAllCategories();
     this.showCategory = "true";
