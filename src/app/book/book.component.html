@@ -37,68 +37,69 @@
 
     
 
-    <div style="margin-left:10%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;" *ngIf="showBook == 'true' ">
-       <div class="row">
-        <mat-form-field style="width: 50%;margin-top: 2%;width: 30%;">
-            <mat-label> Search Here</mat-label>
-            <input matInput placeholder="Book" [(ngModel)]="term">
-        </mat-form-field>
-        
-        <div style="padding-top: 10px;">
-            <button type="submit" (click)="searchByKeywords()" (changedBySearch)="changedBySearch($event)"><i class="fa fa-search"></i></button>
-        </div>
-    </div>
-        
-    <div>
-        <table class="table table-striped table-condensed table-hover tblborder">
+    <div style="margin-left:10%;" *ngIf="showBook == 'true' ">
+        <div class="row">
+            <mat-form-field style="width: 50%;margin-top: 2%;width: 30%;">
+                <mat-label> Search Here</mat-label>
+                <input matInput placeholder="Book" [(ngModel)]="term">
+            </mat-form-field>
             
-            <thead>
-                <tr>
-                    <td style="color:blue;font-weight: bold;" colspan="12">Book List</td>
-                </tr>               
-                <tr>
-                    <th style="width: 5%;text-align: left;">Edit</th>
-                    <th style="width: 10%;text-align: left;">BookTitle </th>
-                    <th style="width: 10%;text-align: left;">Accession No</th>
-                    <th style="width: 10%;text-align: left;">State</th>
-                    <th style="width: 10%;text-align: left;">Created Date</th>
-                    <th style="width: 10%;text-align: left;">Size</th>
-                    <th style="width: 10%;text-align: left;">Download Approval</th>
-                    <th style="width: 5%;text-align: left;">Delete</th>
-                 </tr>
+            <div style="padding-top: 10px;">
+                <button type="submit" (click)="searchByKeywords()" (changedBySearch)="changedBySearch($event)"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+        
+        <div style="height: 500px; width:90%;overflow-y: auto;overflow-x:auto;">
+            <table class="table table-striped table-condensed table-hover tblborder">
+                
+                <thead>
+                    <tr>
+                        <td style="color:blue;font-weight: bold;" colspan="12">Book List</td>
+                    </tr>               
+                    <tr>
+                        <th style="width: 5%;text-align: left;">Edit</th>
+                        <th style="width: 10%;text-align: left;">BookTitle </th>
+                        <th style="width: 10%;text-align: left;">Accession No</th>
+                        <th style="width: 10%;text-align: left;">State</th>
+                        <th style="width: 10%;text-align: left;">Created Date</th>
+                        <th style="width: 10%;text-align: left;">Size</th>
+                        <th style="width: 10%;text-align: left;">Download Approval</th>
+                        <th style="width: 5%;text-align: left;">Delete</th>
+                    </tr>
 
-            </thead>
-            <tbody>
-                <tr *ngFor="let obj of books | paginate:config">
-                    <td style="width: 5%;text-align: left;">
-                        <i style="margin-left:12%" value="{{obj.boId}}" [routerLink]="['/editbook/', obj.boId]"
-                            class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let obj of books | paginate:config">
+                        <td style="width: 5%;text-align: left;">
+                            <i style="margin-left:12%" value="{{obj.boId}}" [routerLink]="['/editbook/', obj.boId]"
+                                class="fa fa-pencil-square-o" aria-hidden="true"></i>
 
-                    </td>
-                    <td at-implicit at-sortable at-attribute style="width: 10%;text-align: left;">{{obj.title}}</td>
-                    <td style="width: 10%;text-align: left;">{{obj.callNo}}</td>
-                    <td style="color: blue;" style="width: 10%;text-align: left;">{{obj.state}}</td>
-                    <td style="width: 10%;text-align: left;"> {{obj.createdDate}}</td>
-                    <td style="width: 10%;text-align: left;">{{obj.size}}</td>
+                        </td>
+                        <td at-implicit at-sortable at-attribute style="width: 10%;text-align: left;">{{obj.title}}</td>
+                        <td style="width: 10%;text-align: left;">{{obj.callNo}}</td>
+                        <td style="color: blue;" style="width: 10%;text-align: left;">{{obj.state}}</td>
+                        <td style="width: 10%;text-align: left;"> {{obj.createdDate}}</td>
+                        <td style="width: 10%;text-align: left;">{{obj.size}}</td>
 
-                    <td style="width: 10%;text-align: left;">
-                        <input style="text-align: center;" type="checkbox" [(ngModel)]="obj.downloadApproval">
+                        <td style="width: 10%;text-align: left;">
+                            <input style="text-align: center;" type="checkbox" [(ngModel)]="obj.downloadApproval">
 
-                    </td>
-                   
-                    <td style="width: 5%;text-align: left;">
-                        <i style="margin-left:12%" value="{{obj.boId}}" (click)="deleteBook($event)" class="fa fa-trash"
-                            aria-hidden="true"></i>
+                        </td>
+                    
+                        <td style="width: 5%;text-align: left;">
+                            <i style="margin-left:12%" value="{{obj.boId}}" (click)="deleteBook($event)" class="fa fa-trash"
+                                aria-hidden="true"></i>
 
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div style="text-align: center;">
+                        </td>
+                    </tr>
+                </tbody>
+            </table> 
+        </div>
+        <div *ngIf = "config.totalItems != 0" style="text-align: center;">
             <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls> 
         </div>
     </div>
-    </div>
+    
         
     <div style="margin-left:10%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;" *ngIf="showAuthor == 'true' ">
         <mat-form-field style="width: 50%;margin-top: 2%;width: 30%;">
