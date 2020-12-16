@@ -13,9 +13,7 @@ export class IntercomService {
   _activeTimeout:number = 0;
   _sessiontime:string = "10";
   verifyCode: string = "";
-
-
-  apiRoute: string = "http://localhost:8082";
+  apiRoute: string = "http://192.168.3.7:8082";
   private _rpbeanSource = new Subject<any>();
   rpbean$ = this._rpbeanSource.asObservable();
   private _mybean: any;

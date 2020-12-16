@@ -17,7 +17,7 @@ export class UserListComponent implements OnInit {
   maxDate:any;
   minDate:any;
   dateobj: { date: { year: number, month: number, day: number } };
-  jsonReq = {"searchText":"","text1":"", "text2":"", "text3":"","fromDate":"","toDate":"","page":""}
+  jsonReq = {"searchText":"","text1":"", "text2":"", "text3":"","fromDate":"","toDate":"","currentpage":""}
   userObj:any = {};
   lov: any = {
     "refHluttaw": [{ "value": "", "caption": "" }],
@@ -51,10 +51,10 @@ export class UserListComponent implements OnInit {
     this.getPosition();
   }
   goBack(){
-    this.router.navigate(['user']);  
+    this.router.navigate(['/user']);  
   }
   Searching(){
-    this.jsonReq.page = this.config.currentPage;
+    this.jsonReq.currentpage = this.config.currentPage;
     if(this.jsonReq.fromDate != ""){
         this.jsonReq.fromDate = this.convert(this.jsonReq.fromDate);
     }
@@ -98,7 +98,7 @@ export class UserListComponent implements OnInit {
     this.Searching();
   }
   goto(key){
-    this.router.navigate(['user', 'read', key]);
+    this.router.navigate(['/user', 'read', key]);
   }
 
   getHluttaw() {

@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-user-status-change',
   templateUrl: './user-status-change.component.html',
-  styleUrls: ['./user-status-change.component.styl']
+  styleUrls: ['./user-status-change.component.styl'],
+  providers:[DatePipe]
 })
 export class UserStatusChangeComponent implements OnInit {
   checkArrayList:any = [];
@@ -20,7 +22,8 @@ export class UserStatusChangeComponent implements OnInit {
   constructor( 
     private router: Router,
     private http: HttpClient,
-    private ics: IntercomService
+    private ics: IntercomService,
+    public datePipe: DatePipe
     ) { }
     
 
@@ -39,9 +42,12 @@ export class UserStatusChangeComponent implements OnInit {
     try {
         this.http.post(url,this.jsonReq).subscribe(
             (data:any) => {
-                if (data != null && data != undefined) {
-                  this.userObj = data;
+              if (data != null && data != undefined) {
+                this.userObj = data;
+                for(let user of this.userObj){
+                    user.date = this.datePipe.transform(user.modifiedDate, 'dd/MM/yyyy');
                 }
+            }
             this.loading = false;
             },
             error => {

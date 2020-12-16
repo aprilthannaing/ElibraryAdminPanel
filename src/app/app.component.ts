@@ -55,7 +55,7 @@ export class AppComponent {
         document.getElementById("snackbar").innerHTML = this._alertmsg;
         let snackbar = document.getElementById("snackbar");
         snackbar.className = "show " + _snack_style;
-        setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 6000);
+        setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
       }
     });
    }
@@ -78,36 +78,36 @@ export class AppComponent {
         timer(3000).subscribe(() => {
           this.ics.userRole = "";
           this.ics._activeTimeout = 0;
-          this.router.navigate(['login']);
+          this.router.navigate(['/login']);
         });
 
       }
     }
   }
-  @HostListener('window:beforeunload', ['$event'])
-  beforeunloadHandler(event) {
+  @HostListener('window:unload', ['$event'])
+  unloadHandler(event) {
     let url = this.ics.apiRoute + 'user/signout'
     let json = {"userid": this.ics.userId}
       this.http.post(url,json,{headers: new HttpHeaders().set('token', this.ics.token)}).subscribe(
         data  => {
           this.clearICS();
-          this.router.navigate(['login']);
+          this.router.navigate(['/login']);
           jQuery("#timeoutalert").modal();
         },
         error => {}, () => { });
   }
-  // @HostListener('window:popstate', ['$event'])
-  // onPopState(event) {
-  //   let url = this.ics.apiRoute + '/user/signout'
-  //   let json = {"userid": this.ics.userId}
-  //     this.http.post(url,json,{headers: new HttpHeaders().set('token', this.ics.token)}).subscribe(
-  //       data  => {
-  //         this.clearICS();
-  //         this.router.navigate(['login']);
-  //         jQuery("#timeoutalert").modal();
-  //       },
-  //       error => {}, () => { });
-  // }
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event) {
+    let url = this.ics.apiRoute + '/user/signout'
+    let json = {"userid": this.ics.userId}
+      this.http.post(url,json,{headers: new HttpHeaders().set('token', this.ics.token)}).subscribe(
+        data  => {
+          this.clearICS();
+          this.router.navigate(['/login']);
+          jQuery("#timeoutalert").modal();
+        },
+        error => {}, () => { });
+  }
   clearICS(){
   this.ics.userId = "";
   this.ics.email = "";
