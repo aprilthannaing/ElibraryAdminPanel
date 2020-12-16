@@ -237,14 +237,14 @@ export class BookaddComponent implements OnInit {
 
   save() {
     this.json.imageSrc = this.imageSrc;
-    this.json.pdf = this.pdf;
+    this.json.pdfName = this.pdf;
     this.json.authors = this.authorForm.value.auths;
     this.json.publishers = this.publisherForm.value.pubs;
     this.json.profileName = this.myForm.value.file;
     this.json.pdfName = this.pdfForm.value.file;
     this.json.category = this.form.value;
     this.json.subCategory = this.selectedEntry;
-    console.log(this.json.subCategory)
+    console.log(this.json.pdfName)
     this.json.userId = this.ics.userId;
 
     console.log("json", this.json)

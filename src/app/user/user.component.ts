@@ -279,16 +279,16 @@ changeModule() {
   this.getDepartment();
 }
 goList(){
-    this.router.navigate(['userList']);  
+    this.router.navigate(['/userList']);  
 }
 goSetup(id){
-    this.router.navigate(['setup', 'read', id]);
+    this.router.navigate(['/setup', 'read', id]);
 }
 goNew() {
-    this.router.navigate(['user']);
+    this.router.navigate(['/user']);
 }
 goUpload(){
-    this.router.navigate(['user-upload']);
+    this.router.navigate(['/user-upload']);
 }
 showMessage(msg, bool) {
     if (bool == true) { this.ics.sendBean({ "t1": "rp-alert", "t2": "success", "t3": msg }); }

@@ -63,10 +63,10 @@ export class UserLoginComponent implements OnInit {
                   if (data != null && data != undefined) {
                       if(data.status){
                         if(data.changePwd){
-                          this.router.navigate(['changePwd']); 
+                          this.router.navigate(['/changePwd']); 
                           this.ics.token = data.token;
                         }else{
-                          this.router.navigate(['userList']); 
+                          this.router.navigate(['/home']); 
                           this.ics.userId = data.data.id;
                           this.ics.userRole = data.data.role;
                           this.ics.uesrName = data.data.name;
@@ -124,7 +124,7 @@ export class UserLoginComponent implements OnInit {
                         this._result = data.message;
                       else{
                         this.showMessage(data.message,true);
-                        this.router.navigate(['userforgotPwd']);
+                        this.router.navigate(['/userforgotPwd']);
                         this.ics.token = data.token;
                         this.ics.email = this.email;
                       }

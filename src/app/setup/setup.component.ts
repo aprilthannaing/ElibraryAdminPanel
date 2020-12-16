@@ -8,6 +8,7 @@ import { IntercomService } from '../framework/intercom.service';
   styleUrls: ['./setup.component.styl']
 })
 export class SetupComponent implements OnInit {
+  loading = false;
   hlutawType = "";
   formid = "";
   title = "";
@@ -85,6 +86,7 @@ export class SetupComponent implements OnInit {
       this.setDepartment();
   }
   setDepartment(){
+    this.loading = true;
     const url = this.ics.apiRoute + '/setUp/departmentSetup';
     let json = {
         "code": this.hlutawType,
@@ -96,21 +98,23 @@ export class SetupComponent implements OnInit {
                 if (data != null && data != undefined) {
                     this.lov.ref = data.lov;
                 }
+                this.loading = false;
+                this.showMessage("Insert Successfully",true);
             },
             error => {
                 if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
-                else {
-  
-                }
+                this.loading = false;
             }, () => { });
     } catch (e) {
         alert(e);
+        this.loading = false;
     }
   }
 
   setPosition(){
+    this.loading = true;
     const url = this.ics.apiRoute + '/setUp/positionSetup';
     let json = {
       "lov": this.lov.ref
@@ -121,17 +125,18 @@ export class SetupComponent implements OnInit {
                 if (data != null && data != undefined) {
                     this.lov.ref = data.lov;
                 }
+                this.loading = false;
+                this.showMessage("Insert Successfully",true);
             },
             error => {
                 if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
                 }
-                else {
-  
-                }
+                this.loading = false;
             }, () => { });
     } catch (e) {
         alert(e);
+        this.loading = false;
     }
   }
 
@@ -184,5 +189,10 @@ export class SetupComponent implements OnInit {
   }
   changeModule(){
     this.getDepartment();
+  }
+  showMessage(msg, bool) {
+    if (bool == true) { this.ics.sendBean({ "t1": "rp-alert", "t2": "success", "t3": msg }); }
+    if (bool == false) { this.ics.sendBean({ "t1": "rp-alert", "t2": "warning", "t3": msg }); }
+    if (bool == undefined) { this.ics.sendBean({ "t1": "rp-alert", "t2": "primary", "t3": msg }); }
   }
 }
