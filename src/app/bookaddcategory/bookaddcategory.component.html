@@ -38,9 +38,10 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of subcategories | filter:term;">
-                                <td *ngIf = "!item.engName.value; else elseBlock">{{item.myanmarName}}({{item.engName}})
+                                <td *ngIf = "!item.engName;else elseBlock">{{item.myanmarName}}
                                 </td>
-                                <ng-template #elseBlock><td>{{item.myanmar}}({{item.engName}})</td>></ng-template>
+                                <ng-template #elseBlock><td *ngIf = "!item.myanmarName;else elseBlock1">{{item.engName}}</td></ng-template>
+                                <ng-template #elseBlock1><td>{{item.engName}}({{item.myanmarName}})</td></ng-template>
                                 <td>
                                     <input type="checkbox" value="{{item.boId}}" (change)="onCheckboxChange($event)">
                                 </td>

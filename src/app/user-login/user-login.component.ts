@@ -56,8 +56,6 @@ export class UserLoginComponent implements OnInit {
         "email": this.email,
         "password": this.encryptedPassword
       }
-      console.log(this.password)
-      console.log(json)
       try {
           this.http.post(url,json).subscribe(
               (data:any) => {

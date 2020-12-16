@@ -21,6 +21,8 @@ export class BookaddsubcategoryComponent implements OnInit {
   myanmarName: String = '';
   engName: String = '';
   priority: string = '';
+  category = '';
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -82,36 +84,17 @@ export class BookaddsubcategoryComponent implements OnInit {
     this.selectedEntry = entry;
   }
 
-  save() {
-    // const categoryJson = {
-    //   categories :""
-    // }
-    
-    // categoryJson.categories = this.selectedEntry;
-
-    this.json.category = this.selectedEntry;
-    const urlCategory: string = this.ics.apiRoute + "/operation/savecategory";
-    this.http.post(urlCategory, this.json).subscribe(
-      (data:any) => {
-        console.log("response:", data)
-        if(data.status == "1") {
-          this.successDialog();
-        }
-        else{
-          this.failDialog();
-        }
-      },
-      error => {
-        console.log("error: ", error);
-      }
-    )
+  save() {    
     const url: string = this.ics.apiRoute + "/operation/savesubcategory";
     const json = {
       myanmarName: this.myanmarName,
       engName: this.engName,
       priority: this.priority,
+      category: this.category,
 
     }
+
+    console.log("json!!!" , json)
     this.http.post(url, json).subscribe(
       (data: any) => {
         console.log("response: ", data);

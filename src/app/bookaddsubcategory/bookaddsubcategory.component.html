@@ -19,9 +19,11 @@
         <br>
         <mat-form-field class="mat" style="width: 40%;">
             <mat-label style="font-weight: bold;">Choose Category</mat-label>
-            <select matNativeControl required [(ngModel)]="json.category">
-                <option *ngFor="let item of categories" value="item.myanmarName">{{item.myanmarName}}({{item.engName}})</option>   
+            <select matNativeControl  [(ngModel)]="category" required>
+                <option></option>
+                <option *ngFor="let item of categories" [value]="item.boId">{{item.myanmarName}}({{item.engName}})</option>   
             </select>
+
         </mat-form-field>
     <div style="margin-left: 30%;">
         <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>

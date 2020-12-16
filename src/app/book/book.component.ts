@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Event, Router, RouterEvent, NavigationStart, NavigationEnd } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
@@ -31,6 +31,8 @@ export class BookComponent implements OnInit {
 
   config: any;
   authorConfig: any;
+
+  selected: string;
 
   term:string;
   searchBooks = [];
@@ -66,7 +68,12 @@ export class BookComponent implements OnInit {
         totalItems:0
       }
     }
+
+  radioChange1(){
+    console.log(this.selected)
+    this.getAllAuthors();
     
+  }
 
   ngOnInit(): void {
     this.currentPage = "1";
@@ -96,7 +103,7 @@ export class BookComponent implements OnInit {
     const header: HttpHeaders = new HttpHeaders({
       token: this.ics.token
     });
-    const url: string = "http://192.168.3.18:8080/elibrary/search/book";
+    const url: string = this.ics.apiRoute + "/search/book";
     this.http.post(url,json,{
       headers:header
     }).subscribe(
@@ -194,12 +201,19 @@ export class BookComponent implements OnInit {
       });
   }
 
+  authorPageChanged(event){
+    this.authorConfig.currentPage = event;
+    this.getAllAuthors();
+  }
+
   getAllAuthors() {
     const json = {
-      "page":this.authorConfig.currentPage
+      "selected":this.selected,
+      "page": this.authorConfig.currentPage
     }
-    const url: string = this.ics.apiRoute + "/author/all";
-    this.http.post(url, json).subscribe(
+    console.log(json)
+    const url: string = this.ics.apiRoute + "/author/allBySelected";
+    this.http.post(url,json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
         this.authors = data.authors;
@@ -217,13 +231,9 @@ export class BookComponent implements OnInit {
         console.warn("error: ", error);
       });
   }
-  authorPageChanged(event){
-    this.authorConfig.currentPage = event;
-    this.getAllAuthors();
-  }
+  
 
   getAllCategories() {
-    console.log
     const header: HttpHeaders = new HttpHeaders({
       token: this.ics.token
     });
@@ -327,8 +337,8 @@ export class BookComponent implements OnInit {
   }
 
   showAuthors() {
-    this.loading = "true";
-    this.getAllAuthors();
+    this.loading = "false";
+    // this.getAllAuthors();
     this.showAuthor = "true";
     this.showCategory = "false"
     this.showSubCategory = "false"
@@ -468,8 +478,6 @@ export class BookComponent implements OnInit {
 
   editSubCategory(e) {
     console.log("click event: ", e.target.value)
-
-
   }
 
   deleteSubCategory(e) {
