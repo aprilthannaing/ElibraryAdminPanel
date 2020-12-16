@@ -14,11 +14,11 @@ export class SubcategoryeditComponent implements OnInit {
   term: string;
   categories = [];
   form: FormGroup;
-  json = {"myanmarName":"", "engName":"", "priority": ""};
+  json = {"myanmarName":"", "engName":"", "priority": "", "category" : ""};
 
   subcategoryId: string;
   categoryId: string;
-  category: string;
+  subCategory: string;
   boId: string;
   constructor(
     private router: Router,
@@ -36,7 +36,26 @@ export class SubcategoryeditComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategory();
+    this.getAllCategories();
     this.findByBoId();
+  }
+
+  
+  getAllCategories(){
+    const url: string = this.ics.apiRoute + "/category/all";
+    const header: HttpHeaders = new HttpHeaders({
+      token: this.ics.token
+    });
+    this.http.request('get', url,{
+      headers:header
+    }).subscribe(
+      (data: any) => {
+        console.warn("data: ", data);
+        this.categories = data.categories;
+      },
+      error => {
+        console.warn("error: ", error);
+      });
   }
 
   getCategory(){
@@ -47,42 +66,13 @@ export class SubcategoryeditComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/subcategory/boId";
     this.http.post(url,json).subscribe(
       (data: any) => {
-        console.log(data)
-        this.subcategoryId = data.subCategoryId;
-        const subcategoryJson = {
-          "id": ""
-        }
-        subcategoryJson.id = this.subcategoryId;
-        console.log(subcategoryJson)
-        const subcategoryUrl: string = this.ics.apiRoute + "/category/bySubcategoryId";
-        this.http.post(subcategoryUrl,subcategoryJson).subscribe(
-          (data: any) => {
-            console.log(data)
-            this.categoryId = data.categoryId;
-            const categoryJson = {
-              "id" : this.categoryId
-            }
-            console.log(categoryJson)
-            const categoryurl: string = this.ics.apiRoute + "/category/byId";
-            this.http.post(categoryurl,categoryJson).subscribe(
-              (data:any) => {
-                console.log(data);
-                this.category = data.category.myanmarName;
-              },
-              error => {
-                console.warn("error: ", error);
-              });    
-          },
-          error => {
-            console.warn("error: ", error);
-        });
+        this.subCategory = data.subCategory;
+        console.log("subcategory: " , data);    
 
       },
       error => {
         console.warn("error: ", error);
-    });
-
-    
+    });    
   }
 
   cancel() {
@@ -98,8 +88,8 @@ export class SubcategoryeditComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/subcategory/boId";
     this.http.post(url, json).subscribe(
       (data: any) => {
-        console.warn("data: ", data);
         this.json  = data.subCategory;
+        console.log("response json: ", this.json );
       },
       error => {
         console.warn("error: ", error);

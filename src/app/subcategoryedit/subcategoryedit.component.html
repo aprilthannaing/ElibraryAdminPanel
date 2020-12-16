@@ -19,7 +19,9 @@
         <mat-form-field class="mat" style="width: 40%;">
             <mat-label style="font-weight: bold;">Choose Categories</mat-label>
             <select matNativeControl required [(ngModel)]="category">
-                <option value="{{category}}" selected>{{category}}</option>
+                <option [selected] = "true">test</option>
+                <option *ngFor="let item of categories" [value]="item.boId" [selected]="item.boId === json.category.boId">{{json.category.boId}}{{item.boId}}{{item.myanmarName}}({{item.engName}})</option>   
+
             </select>
         </mat-form-field>
         <div>

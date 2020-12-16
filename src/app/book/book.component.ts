@@ -478,8 +478,6 @@ export class BookComponent implements OnInit {
 
   editSubCategory(e) {
     console.log("click event: ", e.target.value)
-
-
   }
 
   deleteSubCategory(e) {
