@@ -14,10 +14,9 @@ export class SubcategoryeditComponent implements OnInit {
   term: string;
   categories = [];
   form: FormGroup;
-  json = { "myanmarName": "", "engName": "", "priority": "", "category": "" };
+  json = { "myanmarName": "", "engName": "", "priority": "", "categoryBoId": "" };
   subcategoryId: string;
   subCategory: string;
-  category =  { "boId": ""};
   boId: string;
   constructor(
     private router: Router,
@@ -70,11 +69,6 @@ export class SubcategoryeditComponent implements OnInit {
     this.http.post(url, json).subscribe(
       (data: any) => {
         this.json = data.subCategory;
-        this.category = data.subCategory.category;
-        console.log("data.subCategory.category!!!!!!", data.subCategory.category)
-
-        console.log("category!!!!!!", this.category)
-
         console.log("findByBoId json: ", this.json);
       },
       error => {
@@ -87,18 +81,11 @@ export class SubcategoryeditComponent implements OnInit {
   save() {
 
     const url: string = this.ics.apiRoute + "/operation/editsubcategory";
-    const json = {
-      "boId": this.boId,
-      "myanmarName": this.json.myanmarName,
-      "engName": this.json.engName,
-      "priority": this.json.priority,
-      "category": this.category.boId,
-    }
+   
 
-    console.log("before saving this.json!!!!!!!", this.category.boId)
 
-    console.log("before saving this.json!!!!!!!", json)
-    this.http.post(url, json).subscribe(
+    console.log("before saving this.json!!!!!!!", this.json)
+    this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.log("response: ", data);
         if (data.status == "1") {

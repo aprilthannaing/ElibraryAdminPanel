@@ -90,7 +90,7 @@ export class BookaddsubcategoryComponent implements OnInit {
       myanmarName: this.myanmarName,
       engName: this.engName,
       priority: this.priority,
-      category: this.category,
+      categoryBoId: this.category,
 
     }
 
