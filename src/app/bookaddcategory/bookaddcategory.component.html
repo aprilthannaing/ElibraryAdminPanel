@@ -11,7 +11,7 @@
 
         <br>
         <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
-            <mat-label> Category  (English)</mat-label>
+            <mat-label> Category (English)</mat-label>
             <input matInput placeholder="Myanmar books" [(ngModel)]="engName" required>
         </mat-form-field>
         <br>
@@ -33,18 +33,25 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Name</th>
+                                <th></th>
+                                <th scope="col">Myanmar Name</th>
+                                <th style="width: 40%;" scope="col">English Name</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of subcategories | filter:term;">
-                                <td *ngIf = "!item.engName;else elseBlock">{{item.myanmarName}}
-                                </td>
-                                <ng-template #elseBlock><td *ngIf = "!item.myanmarName;else elseBlock1">{{item.engName}}</td></ng-template>
-                                <ng-template #elseBlock1><td>{{item.engName}}({{item.myanmarName}})</td></ng-template>
                                 <td>
                                     <input type="checkbox" value="{{item.boId}}" (change)="onCheckboxChange($event)">
                                 </td>
+                                <td>{{item.myanmarName}}</td>
+                                <td>{{item.engName}}</td>
+
+
+                                <!-- <td *ngIf = "!item.engName;else elseBlock">{{item.myanmarName}}
+                                </td>
+                                <ng-template #elseBlock><td *ngIf = "!item.myanmarName;else elseBlock1">{{item.engName}}</td></ng-template>
+                                <ng-template #elseBlock1><td>{{item.engName}}({{item.myanmarName}})</td></ng-template>
+                                -->
                             </tr>
                         </tbody>
                     </table>
