@@ -45,9 +45,6 @@ export class BookaddComponent implements OnInit {
 
   });
 
-
-
-
   get f() {
     return this.myForm.controls;
   }
@@ -247,6 +244,7 @@ export class BookaddComponent implements OnInit {
     this.json.pdfName = this.pdfForm.value.file;
     this.json.category = this.form.value;
     this.json.subCategory = this.selectedEntry;
+    console.log(this.json.subCategory)
     this.json.userId = this.ics.userId;
 
     console.log("json", this.json)

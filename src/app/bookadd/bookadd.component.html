@@ -15,11 +15,7 @@
                     <input
                         style="width:100%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
                         formControlName="file" id="file" type="file" class="form-control"
-                        (change)="onFileChange($event)">
-
-                    <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger" style="width: 100%;">
-                        <div *ngIf="f.file.errors.required">Cover Photo is required.</div>
-                    </div>
+                        (change)="onFileChange($event)" required>
                 </div>
             </form>
 
@@ -28,13 +24,7 @@
                     <input
                         style=" margin-left:20%;width:100%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
                         formControlName="file" id="file" type="file" class="form-control"
-                        (change)="onPdfChange($event)">
-
-
-                    <div *ngIf="pdfF.file.touched && pdfF.file.invalid" class="alert alert-danger"
-                        style="width: 100%;margin-left: 20%;">
-                        <div *ngIf="pdfF.file.errors.required">Pdf File is required.</div>
-                    </div>
+                        (change)="onPdfChange($event)" required>
                 </div>
             </form>
 
@@ -65,11 +55,11 @@
         </mat-form-field>
         <mat-form-field class="mat">
             <mat-label>Volume</mat-label>
-            <input matInput placeholder="3" required [(ngModel)]="json.volume">
+            <input matInput placeholder="3" [(ngModel)]="json.volume">
         </mat-form-field>
         <mat-form-field class="mat">
             <mat-label>Series Index</mat-label>
-            <input matInput placeholder="1.0" required [(ngModel)]="json.seriesIndex">
+            <input matInput placeholder="1.0" [(ngModel)]="json.seriesIndex">
         </mat-form-field>
 
         <mat-form-field class="mat" color="accent">

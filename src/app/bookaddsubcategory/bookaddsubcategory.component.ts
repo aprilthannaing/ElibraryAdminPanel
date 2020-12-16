@@ -83,11 +83,6 @@ export class BookaddsubcategoryComponent implements OnInit {
   }
 
   save() {
-    // const categoryJson = {
-    //   categories :""
-    // }
-    
-    // categoryJson.categories = this.selectedEntry;
 
     this.json.category = this.selectedEntry;
     const urlCategory: string = this.ics.apiRoute + "/operation/savecategory";
