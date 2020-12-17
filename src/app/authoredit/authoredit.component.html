@@ -7,17 +7,17 @@
 
                 <div style="width:80%">
                     <mat-label style="margin-left: 7%;">Profile Picture</mat-label>
-                    <img [src]="imageSrc" *ngIf="imageSrc" alt="Cover Photo" class="responsive"
+                    <div *ngIf="json.profilePicture" >
+                        <span style="margin-left: 7%;">{{json.profilePicture}}</span>
+                    </div>
+                    <img [src]="imageSrc" *ngIf="imageSrc" alt="Cover Photo" class="responsive" value="{{imageSrc}}"
                         style="box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;">
+                    
                     <input
                         style="margin-left:7%;width:50%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
                         formControlName="file" id="file" type="file" class="form-control"
                         (change)="onFileChange($event)">
 
-                    <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger"
-                        style="margin-left:7%;width: 50%;">
-                        <div *ngIf="f.file.errors.required">Profile picture is required.</div>
-                    </div>
                 </div>
             </div>
         </form>

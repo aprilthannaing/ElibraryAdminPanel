@@ -37,6 +37,9 @@ export class BookComponent implements OnInit {
   term:string;
   searchBooks = [];
 
+  authorTerm: string;
+  searchAuthors = [];
+
   bookCount = 0;
   authorCount = 0;
   publisherCount = 0;
@@ -123,6 +126,21 @@ export class BookComponent implements OnInit {
     console.log(this.books)
 
   }
+
+  searchAuthorByKeywords(){
+    const json = {
+      "page": this.config.currentPage,
+      "user_id":"USR2",
+      "searchTerm": "this.authorTerm"
+    }
+    ////////////////////////////////////to continue
+    return this.searchAuthors;
+  }
+
+  authorBySearch(event){
+    this.authors = this.searchAuthorByKeywords();
+  }
+  
   getBookCount() {
     const url: string = this.ics.apiRoute + "/book/count";
     this.http.request('get', url).subscribe(

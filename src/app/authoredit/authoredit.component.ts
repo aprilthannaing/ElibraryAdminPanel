@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
@@ -18,6 +18,7 @@ export class AuthoreditComponent implements OnInit {
   json = {
     "name": "", "sort": "", "authorType": "", "imageSrc": "", "profilePicture": ""
   }
+  emptyData = {};
 
   constructor(private router: Router,
     private http: HttpClient,
@@ -48,8 +49,10 @@ export class AuthoreditComponent implements OnInit {
         this.json = data.author;
         this.json.authorType = (data.author.authorType + "").toLowerCase();
 
-        this.imageSrc = "http://localhost:8082"+ data.author.profilePicture;
-
+        this.imageSrc = "http://localhost:8084/"+ data.author.profilePicture;
+        console.log(this.imageSrc)
+        this.myForm.value.file = this.json.profilePicture;
+        console.log(this.myForm.value.file)
       },
       error => {
         console.warn("error: ", error);
@@ -100,21 +103,23 @@ export class AuthoreditComponent implements OnInit {
   }
 
   save() {
+    console.log(this.json)
     const url: string = this.ics.apiRoute + "/operation/editAuthor";
     this.json.imageSrc = this.imageSrc;
     this.json.profilePicture = this.myForm.value.file;
+    console.log(this.json.profilePicture)
     console.log("json: ", this.json)
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
         if (data.status == "1")
-          this.successDialog();
-        else this.failDialog();
-      },
-      error => {
-        console.warn("error: ", error);
-        this.failDialog();
-      });
+        this.successDialog();
+      else this.failDialog(data);
+    },
+    error => {
+      console.warn("error: ", error);
+      this.failDialog(this.emptyData);
+    });
 
   }
 
@@ -129,8 +134,12 @@ export class AuthoreditComponent implements OnInit {
 
   }
 
-  failDialog() {
+  failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
+      data:{ 
+        "title": "Unable to edit author!!",
+        "message": data.msg
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -166,6 +175,7 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
   ) { }
 
   onNoClick(): void {

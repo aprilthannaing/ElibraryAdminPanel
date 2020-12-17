@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -22,6 +22,8 @@ export class BookaddsubcategoryComponent implements OnInit {
   engName: String = '';
   priority: string = '';
   category = '';
+
+  emptyData = {};
 
   constructor(
     private router: Router,
@@ -98,16 +100,13 @@ export class BookaddsubcategoryComponent implements OnInit {
     this.http.post(url, json).subscribe(
       (data: any) => {
         console.log("response: ", data);
-        if (data.status == "1") {
+        if (data.status == "1")
           this.successDialog();
-
-        } else {
-          this.failDialog();
-        }
+        else this.failDialog(data);
       },
       error => {
-        console.log("error ", error);
-
+        console.warn("error: ", error);
+        this.failDialog(this.emptyData);
       });
 
   }
@@ -124,8 +123,12 @@ export class BookaddsubcategoryComponent implements OnInit {
 
   }
 
-  failDialog() {
+  failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
+      data:{ 
+        "title": "Unable to add subcategory!!",
+        "message": data.msg
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -161,6 +164,7 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
   ) { }
 
   onNoClick(): void {

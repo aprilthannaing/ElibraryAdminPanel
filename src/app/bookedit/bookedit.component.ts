@@ -315,13 +315,11 @@ export class BookeditComponent implements OnInit {
         console.log("book by boId: ",  data.book.boId)
 
         this.json = data.book;
-
-        this.json.publishedDate = this.datePipe.transform(this.json.publishedDate, 'MM/dd/yyyy');
-
+        console.log(data.book.seriesIndex)
+        this.datePickerForm.value.selectedDate = this.json.publishedDate;
+        // this.json.publishedDate = this.datePipe.transform(this.json.publishedDate, 'MM/dd/yyyy');
+        
         console.log("PUBLISHED DATE:", this.json.publishedDate)
-        this.datePickerForm.setValue({
-          'selectedDate': this.json.publishedDate
-        });
 
         //this.json.downloadApproval = data.book.downloadApproval == "false" ? "" : "true";
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
@@ -13,6 +13,7 @@ export class PublishereditComponent implements OnInit {
   json = { "name": "", "sort": "" }
 
   boId: string;
+  emptyData = {};
 
   constructor(
     private router: Router,
@@ -33,16 +34,20 @@ export class PublishereditComponent implements OnInit {
 
 
   save() {
+    console.log(this.json)
     const url: string = this.ics.apiRoute + "/operation/editPublisher";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
-        this.successDialog();
+        if (data.status == "1")
+          this.successDialog();
+        else this.failDialog(data);
       },
       error => {
         console.warn("error: ", error);
-        this.failDialog();
+        this.failDialog(this.emptyData);
       });
+
 
   }
 
@@ -57,6 +62,8 @@ export class PublishereditComponent implements OnInit {
       (data: any) => {
         console.warn("data: ", data);
         this.json = data.publisher;
+        console.log(this.json)
+        console.log(data.publisher)
       },
       error => {
         console.warn("error: ", error);
@@ -75,8 +82,12 @@ export class PublishereditComponent implements OnInit {
 
   }
 
-  failDialog() {
+  failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
+      data:{ 
+        "title": "Unable to edit Publisher!!",
+        "message": data.msg
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -112,6 +123,7 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
   ) { }
 
   onNoClick(): void {

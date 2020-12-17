@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
@@ -17,6 +17,8 @@ export class BookaddcategoryComponent implements OnInit {
   engName: String = '';
   form: FormGroup;
   priority = '';
+
+  emptyData = {};
 
   constructor(
     private router: Router,
@@ -76,11 +78,13 @@ export class BookaddcategoryComponent implements OnInit {
     this.http.post(url, json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
-        this.successDialog();
+        if (data.status == "1")
+          this.successDialog();
+        else this.failDialog(data);
       },
       error => {
         console.warn("error: ", error);
-        this.failDialog();
+        this.failDialog(this.emptyData);
       });
   }
 
@@ -101,8 +105,12 @@ export class BookaddcategoryComponent implements OnInit {
 
   }
 
-  failDialog() {
+  failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
+      data:{ 
+        "title": "Unable to add category!!",
+        "message": data.msg
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -138,6 +146,7 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
   ) { }
 
   onNoClick(): void {

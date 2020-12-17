@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -18,6 +18,7 @@ export class SubcategoryeditComponent implements OnInit {
   subcategoryId: string;
   subCategory: string;
   boId: string;
+  emptyData = {};
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -80,24 +81,24 @@ export class SubcategoryeditComponent implements OnInit {
 
   save() {
 
+
     const url: string = this.ics.apiRoute + "/operation/editsubcategory";
    
 
 
     console.log("before saving this.json!!!!!!!", this.json)
+
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.log("response: ", data);
-        if (data.status == "1") {
-          this.successDialog();
-        } else {
-          this.failDialog();
-        }
-      },
-      error => {
-        console.log("error ", error);
-
-      });
+        if (data.status == "1")
+        this.successDialog();
+      else this.failDialog(data);
+    },
+    error => {
+      console.warn("error: ", error);
+      this.failDialog(this.emptyData);
+    });
 
   }
 
@@ -113,8 +114,12 @@ export class SubcategoryeditComponent implements OnInit {
 
   }
 
-  failDialog() {
+  failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
+      data:{ 
+        "title": "Unable to edit subcategory!!",
+        "message": data.msg
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -150,6 +155,7 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
   ) { }
 
   onNoClick(): void {

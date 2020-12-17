@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
@@ -20,6 +20,7 @@ export class CategoryeditComponent implements OnInit {
   json = { "myanmarName": "", "engName": "" ,"categories": "", "priority": ""}
 
   subcategoryId: string;
+  emptyData = {};
 
   constructor(
     private router: Router,
@@ -102,12 +103,14 @@ export class CategoryeditComponent implements OnInit {
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
+        if (data.status == "1")
         this.successDialog();
-      },
-      error => {
-        console.warn("error: ", error);
-        this.failDialog();
-      });
+      else this.failDialog(data);
+    },
+    error => {
+      console.warn("error: ", error);
+      this.failDialog(this.emptyData);
+    });
   }
 
   cancel() {
@@ -127,8 +130,12 @@ export class CategoryeditComponent implements OnInit {
 
   }
 
-  failDialog() {
+  failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
+      data:{ 
+        "title": "Unable to edit category!!",
+        "message": data.msg
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -164,6 +171,7 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
   ) { }
 
   onNoClick(): void {

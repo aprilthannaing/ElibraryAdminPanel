@@ -95,10 +95,12 @@
                 </tbody>
             </table> 
         </div>
+        <div *ngIf = "config.totalItems != 0" style="text-align: center;">
+            <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+        </div>
     </div>
-
     
-        
+    
     <div style="margin-left:10%;" *ngIf="showAuthor == 'true' ">
         <div class="row">
             <mat-form-field style="width: 50%;margin-top: 2%;width: 30%;">
@@ -106,7 +108,7 @@
                 <input matInput placeholder="Author" [(ngModel)]="authorTerm">
             </mat-form-field>
             <div style="padding-top: 10px;">
-                <button type="submit" (click)="searchByKeywords()" (changedBySearch)="changedBySearch($event)"><i class="fa fa-search"></i></button>
+                <button type="submit" (click)="searchByKeywords()" (changedBySearch)="authorBySearch($event)"><i class="fa fa-search"></i></button>
             </div>
         </div>
 
