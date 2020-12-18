@@ -39,61 +39,6 @@
 <app-home></app-home>
 
 <div class="content">
-    <mat-form-field style="margin-left: 1.3%;width: 50%;margin-top: 2%;width: 30%;">
-        <mat-label> Book</mat-label>
-        <input matInput placeholder="Search Here" [(ngModel)]="term">
-    </mat-form-field>
-    <br>
-
-    <span style="margin-left: 1.3%;color:blue;font-weight: bold;" colspan="12">Book List</span>
-
-    <div class="col-md-12" style="overflow-x:auto">
-
-        <table class="table table-striped table-condensed table-hover tblborder">
-            <thead>
-               
-                <tr>
-                    <th>BookTitle </th>
-                    <th>ISBN </th>
-                    <th>Call Number</th>
-                    <th>Edition</th>
-                    <th>State</th>
-                    <th>Created Date</th>
-                    <th>Size</th>
-                    <th>Download Approval</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                 </tr>
-
-            </thead>
-            <tbody>
-                <tr *ngFor="let obj of books | filter:term;">
-                    <td>{{obj.title}}</td>
-                    <td>{{obj.ISBN}}</td>
-                    <td>{{obj.callNo}}</td>
-                    <td>{{obj.edition}}</td>
-                    <td style="color: blue;">{{obj.state}}</td>
-                    <td>{{obj.createdDate}}</td>
-                    <td>{{obj.size}}</td>
-
-                    <td>
-                        <input style="text-align: center;" type="checkbox" [(ngModel)]="obj.downloadApproval">
-
-                    </td>
-                    <td>
-                        <i style="margin-left:12%" value="{{obj.boId}}" [routerLink]="['/editbook/', obj.boId]"
-                            class="fa fa-pencil-square-o" aria-hidden="true"></i>
-
-                    </td>
-                    <td>
-                        <i style="margin-left:12%" value="{{obj.boId}}" (click)="deleteBook($event)" class="fa fa-trash"
-                            aria-hidden="true"></i>
-
-
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    
 
 </div>

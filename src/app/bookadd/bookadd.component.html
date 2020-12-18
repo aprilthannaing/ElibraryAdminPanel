@@ -75,21 +75,18 @@
                 </mat-form-field>
            
                 <!-- style="padding-right:200px;" -->
-                <label *ngIf="userRole == 'Admin' || userRole == 'SuperLibrarian'" class="mat">Download Approval
-                    
+                <label *ngIf="userRole == 'Admin' || userRole == 'SuperLibrarian'" class="mat">Download Approval                    
                     <input type="checkbox" [(ngModel)]="json.downloadApproval">
                     <span class="checkmark"></span>
                 </label>
             
-       
-        
+              
         
             <!-- <label class="container">Download Approval
                 <input type="checkbox" [(ngModel)]="json.downloadApproval">
                 <span class="checkmark"></span>
             </label> -->
-        
-        
+           
 
 
         <div>
@@ -252,6 +249,7 @@
         <div style="margin-left: 24%;margin-bottom: 10%;">
             <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
             <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Save</button>
+
         </div>
 
 

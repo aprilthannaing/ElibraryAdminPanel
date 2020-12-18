@@ -12,14 +12,14 @@ import { MatDateRangePickerInput } from '@angular/material/datepicker/date-range
   selector: 'app-bookedit',
   templateUrl: './bookedit.component.html',
   styleUrls: ['./bookedit.component.styl'],
-  providers:[DatePipe]
+  providers: [DatePipe]
 })
 
 export class BookeditComponent implements OnInit {
 
-  
+
   boId: string;
-  json = { "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "accessionNo": "", "callNo": "", "description": "" };
+  json = { "state": "", "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "accessionNo": "", "callNo": "", "description": "" };
   categories = [];
   subcategories = [];
   publishers = [];
@@ -91,7 +91,7 @@ export class BookeditComponent implements OnInit {
   });
 
   datePickerForm = new FormGroup({
-    selectedDate : new FormControl('', [Validators.required])
+    selectedDate: new FormControl('', [Validators.required])
   })
 
   constructor(
@@ -114,7 +114,7 @@ export class BookeditComponent implements OnInit {
       auths: this.formBuilder.array([], [Validators.required])
 
     })
-    
+
   }
 
   ngOnInit(): void {
@@ -183,9 +183,9 @@ export class BookeditComponent implements OnInit {
       token: this.ics.token
     });
     const url: string = this.ics.apiRoute + "/category/all";
-    this.http.request('get', url ,{
+    this.http.request('get', url, {
       headers: header
-      }).subscribe(
+    }).subscribe(
       (data: any) => {
         this.categories = data.categories;
         console.log(" this.categories: ", this.categories)
@@ -262,14 +262,42 @@ export class BookeditComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("Approve !!!!!!!!!")
-      this.save();
+      this.approveBook();
     });
 
   }
 
-  approve(){
+  approve() {
     this.approveDialog();
+  }
+
+  approveBook() {
+    console.log("Approve !!!!!!!!!")
+
+    this.json.imageSrc = this.imageSrc;
+    this.json.pdf = this.pdf;
+    this.json.profileName = this.myForm.value.file;
+    this.json.pdfName = this.pdfForm.value.file;
+    this.json.category = this.form.value.category;
+    this.json.publishers = this.publisherForm.value.pubs;
+    this.json.authors = this.authorForm.value.auths;
+    this.json.category = this.form.value.category == '' ? this.categoryBoId : this.form.value.category;
+    this.json.subCategory = this.selectedEntry == undefined ? this.subCategoryBoId : this.selectedEntry;
+    this.json.state = "APPROVE";
+    // this.json.publishedDate = this.datePipe.transform(this.json.publishedDate, 'MM/dd/yyyy');
+
+    console.log("this.json: ", this.json)
+    const url: string = this.ics.apiRoute + "/operation/editBook";
+    this.http.post(url, this.json).subscribe(
+      (data: any) => {
+        if (data.status == "1")
+          this.successDialog();
+        else this.failDialog(data);
+      },
+      error => {
+        console.warn("error: ", error);
+        this.failDialog(this.emptyData);
+      });
   }
 
   save() {
@@ -312,13 +340,13 @@ export class BookeditComponent implements OnInit {
       (data: any) => {
         this.subcategories = data.book.category.subCategories;
         this.json.publishedDate = data.book.publishedDate
-        console.log("book by boId: ",  data.book.boId)
+        console.log("book by boId: ", data.book.boId)
 
         this.json = data.book;
         console.log(data.book.seriesIndex)
         this.datePickerForm.value.selectedDate = this.json.publishedDate;
         // this.json.publishedDate = this.datePipe.transform(this.json.publishedDate, 'MM/dd/yyyy');
-        
+
         console.log("PUBLISHED DATE:", this.json.publishedDate)
 
         //this.json.downloadApproval = data.book.downloadApproval == "false" ? "" : "true";
@@ -327,7 +355,7 @@ export class BookeditComponent implements OnInit {
         this.imageSrc = this.ics.apiRoute + data.book.coverPhoto;
         this.json.profileName = data.book.coverPhoto;
         this.json.pdfName = data.book.path;
-        
+
         data.book.authors.forEach(element => {
           this.authorList.push(element.boId);
           this.authorTerm = element.name;
@@ -407,7 +435,7 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: {title:string, message:string}
+    @Inject(MAT_DIALOG_DATA) public data: { title: string, message: string }
   ) { }
 
   onNoClick(): void {
@@ -424,7 +452,7 @@ export class ApproveDialog {
 
   constructor(
     public dialogRef: MatDialogRef<ApproveDialog>,
-    
+
   ) { }
 
   onNoClick(): void {

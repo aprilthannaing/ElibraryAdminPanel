@@ -385,7 +385,6 @@ export class BookComponent implements OnInit {
   }
 
   showCategories() {
-    console.log("show categories!!!!!!!!!!!!!!")
     this.loading = "true"
     this.getAllCategories();
     this.showCategory = "true";

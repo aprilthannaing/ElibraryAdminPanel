@@ -127,9 +127,6 @@
                                 </td>
                                 <td style="max-width: 20%;">{{item.name}}
                                 </td>
-
-
-
                             </tr>
                         </tbody>
                     </table>
@@ -250,9 +247,9 @@
         <div style="margin-left: 24%;margin-bottom: 10%;">
             <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
             <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;"
-                *ngIf="userRole != 'ADMIN'">Save</button>
+                *ngIf="userRole != 'SuperLibrarian'">Save</button>
             <button class="mat-raised-button mat-primary" (click)="approve()" style="margin-left: 20px;"
-                *ngIf="userRole == 'ADMIN'">Approve</button>
+                *ngIf="userRole == 'SuperLibrarian'">Approve</button>
         </div>
     </div>
 </div>
