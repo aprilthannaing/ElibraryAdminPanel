@@ -19,7 +19,7 @@ export class BookeditComponent implements OnInit {
 
   
   boId: string;
-  json = { "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "callNo": "", "description": "" };
+  json = { "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "accessionNo": "", "callNo": "", "description": "" };
   categories = [];
   subcategories = [];
   publishers = [];

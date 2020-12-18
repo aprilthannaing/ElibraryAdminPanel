@@ -128,12 +128,30 @@ export class BookComponent implements OnInit {
   }
 
   searchAuthorByKeywords(){
+    
     const json = {
       "page": this.config.currentPage,
-      "user_id":"USR2",
-      "searchTerm": "this.authorTerm"
+      "name": this.authorTerm
     }
-    ////////////////////////////////////to continue
+    console.log(json)
+    const header: HttpHeaders = new HttpHeaders({
+      token: this.ics.token
+    });
+    const url = this.ics.apiRoute + "/author/search";
+   
+    this.http.post(url,json,{
+      headers:header
+    }).subscribe(
+      (data:any) => {
+        console.log(data)
+        this.searchAuthors = data.author;
+        this.authors= this.searchAuthors;
+        console.log(this.authors)
+      },
+      error => {
+        console.warn("error:",error);
+      }
+    )
     return this.searchAuthors;
   }
 

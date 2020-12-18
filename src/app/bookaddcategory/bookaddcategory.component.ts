@@ -19,7 +19,8 @@ export class BookaddcategoryComponent implements OnInit {
   priority = '';
 
   emptyData = {};
-
+  json = {};
+  subcategoryDisplay : FormArray;
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -28,13 +29,15 @@ export class BookaddcategoryComponent implements OnInit {
     private ics: IntercomService
   ) {
     this.form = this.formBuilder.group({
-      subs: this.formBuilder.array([], [Validators.required])
+      subs: this.formBuilder.array([], [Validators.required]),
+      subcategoryDisplay: this.formBuilder.array([], [Validators.required])
 
     })
   }
 
   ngOnInit(): void {
     this.getSubCategories();
+    this.displayedSubcategories();
   }
 
   onCheckboxChange(e) {
@@ -47,6 +50,27 @@ export class BookaddcategoryComponent implements OnInit {
     }
   }
 
+  onCheckboxSelection(e){
+    this.subcategoryDisplay = this.form.get('subcategoryDisplay') as FormArray;
+    if(e.target.checked) {
+      this.subcategoryDisplay.push(new FormControl(e.target.value));
+    } else {
+      const index = this.subcategoryDisplay.controls.findIndex(x => x.value === e.target.value);
+      this.subcategoryDisplay.removeAt(index);
+    }
+    console.log(this.subcategoryDisplay)
+  }
+
+  displayedSubcategories() {
+    const url: string = this.ics.apiRoute + "/subcategory/setDisplayList";
+    this.http.post(url, this.json).subscribe(
+      (data : any) => {
+        console.warn("data: ", data);
+      },
+      error => {
+        console.warn("error:", error);
+      });
+  }
 
   //list of sub categories
   getSubCategories() {

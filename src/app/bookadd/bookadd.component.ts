@@ -20,7 +20,7 @@ export class BookaddComponent implements OnInit {
   pdf: string;
   publisherForm: FormGroup;
   authorForm: FormGroup;
-  json = { "userId" : "", "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "callNumber": "", "description": "" };
+  json = { "userId" : "", "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "accessionNo":"", "callNumber": "", "description": "" };
   categories = [];
   subcategories = [];
   publishers = [];
@@ -33,6 +33,7 @@ export class BookaddComponent implements OnInit {
 
 
   emptyData = {};
+  userRole = "";
 
   /*img  */
   myForm = new FormGroup({
@@ -103,7 +104,8 @@ export class BookaddComponent implements OnInit {
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
     private ics: IntercomService) {
-
+      this.userRole = this.ics.userRole;
+      console.log(this.userRole)
     this.publisherForm = this.formBuilder.group({
       pubs: this.formBuilder.array([], [Validators.required])
 
@@ -246,7 +248,7 @@ export class BookaddComponent implements OnInit {
     this.json.subCategory = this.selectedEntry;
     console.log(this.json.pdfName)
     this.json.userId = this.ics.userId;
-
+  
     console.log("json", this.json)
     const url: string = this.ics.apiRoute + "/operation/saveBook";
     this.http.post(url, this.json).subscribe(

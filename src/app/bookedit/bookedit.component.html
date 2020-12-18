@@ -73,9 +73,14 @@
             <input matInput placeholder="1.0" required [(ngModel)]="json.seriesIndex">
         </mat-form-field>
 
+        <mat-form-field class="mat">
+            <mat-label>Accession Number</mat-label>
+            <input matInput placeholder="1.0" required [(ngModel)]="json.accessionNo">
+        </mat-form-field>
 
-        <form [formGroup]="datePickerForm" class="datePicker" class="mat">
-            <mat-form-field color="accent">
+
+        <form [formGroup]="datePickerForm" class="datePicker">
+            <mat-form-field color="accent" class="mat">
                 <input matInput [matDatepicker]="picker1" placeholder="Published Date" formControlName="selectedDate"
                     required [(ngModel)]="json.publishedDate">
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
@@ -83,16 +88,16 @@
             </mat-form-field>
         </form>
 
-        <label class="container">Download Approval
+        <label *ngIf="userRole == 'Admin' || userRole == 'SuperLibrarian'" class="container">Download Approval
             <input type="checkbox" [(ngModel)]="json.downloadApproval">
             <span class="checkmark"></span>
         </label>
-
-        <mat-form-field style="margin-left: 10%;width: 50%;">
-            <mat-label> Author</mat-label>
-            <input matInput placeholder="Search Here" [(ngModel)]="authorTerm">
-        </mat-form-field>
-
+        <div>
+            <mat-form-field style="margin-left: 10%;width: 50%;">
+                <mat-label> Author</mat-label>
+                <input matInput placeholder="Search Here" [(ngModel)]="authorTerm">
+            </mat-form-field>
+        </div>
         <form [formGroup]="authorForm" style="margin-left: 10%;">
 
             <div class="form-group">

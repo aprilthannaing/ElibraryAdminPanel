@@ -36,6 +36,7 @@
                                 <th></th>
                                 <th scope="col">Myanmar Name</th>
                                 <th style="width: 40%;" scope="col">English Name</th>
+                                <th scope="col">Display</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,7 +46,9 @@
                                 </td>
                                 <td>{{item.myanmarName}}</td>
                                 <td>{{item.engName}}</td>
-
+                                <td>
+                                    <input type="checkbox" value="{{item.boId}}" (change)="onCheckboxSelection($event)">
+                                </td>
 
                                 <!-- <td *ngIf = "!item.engName;else elseBlock">{{item.myanmarName}}
                                 </td>

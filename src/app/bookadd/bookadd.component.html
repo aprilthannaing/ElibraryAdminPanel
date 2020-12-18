@@ -30,7 +30,7 @@
 
         </div>
         <mat-form-field class="mat">
-            <mat-label>Call Number</mat-label>
+            <mat-label>Class Number</mat-label>
             <input matInput placeholder="Ex. 1956.1" required [(ngModel)]="json.callNumber">
         </mat-form-field>
 
@@ -61,25 +61,43 @@
             <mat-label>Series Index</mat-label>
             <input matInput placeholder="1.0" [(ngModel)]="json.seriesIndex">
         </mat-form-field>
-
-        <mat-form-field class="mat" color="accent">
-            <input matInput [matDatepicker]="picker1" placeholder="Published Date" [(ngModel)]="json.publishedDate">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
+        <mat-form-field class="mat">
+            <mat-label>Accession Number</mat-label>
+            <input matInput placeholder="0001" [(ngModel)]="json.accessionNo" required>
+            
         </mat-form-field>
+       
+            
+                <mat-form-field class="mat" color="accent">
+                    <input matInput [matDatepicker]="picker1" placeholder="Published Date" [(ngModel)]="json.publishedDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+           
+                <!-- style="padding-right:200px;" -->
+                <label *ngIf="userRole == 'Admin' || userRole == 'SuperLibrarian'" class="mat">Download Approval
+                    
+                    <input type="checkbox" [(ngModel)]="json.downloadApproval">
+                    <span class="checkmark"></span>
+                </label>
+            
+       
+        
+        
+            <!-- <label class="container">Download Approval
+                <input type="checkbox" [(ngModel)]="json.downloadApproval">
+                <span class="checkmark"></span>
+            </label> -->
+        
+        
 
-        <label class="container">Download Approval
-            <input type="checkbox" [(ngModel)]="json.downloadApproval">
-            <span class="checkmark"></span>
-        </label>
 
-
-
-        <mat-form-field style="margin-left: 10%;width: 50%;">
-            <mat-label> Author</mat-label>
-            <input matInput placeholder="Search Here" [(ngModel)]="authorTerm">
-        </mat-form-field>
-
+        <div>
+            <mat-form-field style="margin-left: 10%;width: 50%;">
+                <mat-label> Author</mat-label>
+                <input matInput placeholder="Search Here" [(ngModel)]="authorTerm">
+            </mat-form-field>
+        </div>
         <form [formGroup]="authorForm" style="margin-left: 10%;">
 
             <div class="form-group">
