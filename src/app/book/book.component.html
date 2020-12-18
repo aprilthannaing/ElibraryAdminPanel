@@ -44,7 +44,7 @@
                 <input matInput placeholder="Book" [(ngModel)]="term">
             </mat-form-field>
             
-            <div style="padding-top: 10px;">
+            <div style="padding-top: 20px;">
                 <button type="submit" (click)="searchByKeywords()" (changedBySearch)="changedBySearch($event)"><i class="fa fa-search"></i></button>
             </div>
         </div>
@@ -107,7 +107,7 @@
                 <mat-label> Search Here</mat-label>
                 <input matInput placeholder="Author" [(ngModel)]="authorTerm">
             </mat-form-field>
-            <div style="padding-top: 10px;">
+            <div style="padding-top: 20px;">
                 <button type="submit" (click)="searchAuthorByKeywords()" (changedBySearch)="authorBySearch($event)"><i class="fa fa-search"></i></button>
             </div>
         </div>
@@ -134,7 +134,6 @@
 
                         <th scope="col" style="width: 10%;text-align: left;">Name</th>
                         <th scope="col" style="width: 10%;text-align: left;">Sort</th>
-                        <th scope="col" style="width: 5%;text-align: left;">Delete</th>
                     </tr>
 
                 </thead>
@@ -153,12 +152,12 @@
 
                         <td>{{item.name}}</td>
                         <td>{{item.sort}}</td>
-                    
+<!--                     
                         <td>
                             <i style="margin-left:12%" value="{{item.boId}}" (click)="deleteAuthor($event)" class="fa fa-trash" aria-hidden="true"></i>
 
                         
-                        </td>
+                        </td> -->
                     </tr>
                 </tbody>
             </table>

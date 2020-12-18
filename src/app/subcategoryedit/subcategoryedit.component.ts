@@ -110,10 +110,6 @@ export class SubcategoryeditComponent implements OnInit {
 
   delete() {
     this.alertDialog({});
-    // for (let i = 0; i < this.subcategories.length; ++i) {
-    //   if (this.subcategories[i].boId === e.target.value) {
-    //     this.subcategories.splice(i, 1);
-
 
   }
 

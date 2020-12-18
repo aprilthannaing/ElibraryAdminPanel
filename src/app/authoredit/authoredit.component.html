@@ -6,15 +6,15 @@
             <div class="form-group">
 
                 <div style="width:80%">
-                    <mat-label style="margin-left: 7%;">Profile Picture</mat-label>
-                    <div *ngIf="json.profilePicture" >
-                        <span style="margin-left: 7%;">{{json.profilePicture}}</span>
+                    <mat-label>Profile Picture</mat-label>
+                    <div *ngIf="json.profilePicture">
+                        <span style="margin-left: 10%;">{{json.profilePicture}}</span>
                     </div>
                     <img [src]="imageSrc" *ngIf="imageSrc" alt="Cover Photo" class="responsive" value="{{imageSrc}}"
                         style="box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;">
-                    
+
                     <input
-                        style="margin-left:7%;width:50%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
+                        style="width:50%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
                         formControlName="file" id="file" type="file" class="form-control"
                         (change)="onFileChange($event)">
 
@@ -42,13 +42,73 @@
                 <option value="international" selected>INTERNATIONAL</option>
 
             </select>
-        </mat-form-field>
+        </mat-form-field>       
 
-        <div style="margin-left: 15%;margin-bottom: 10%;">
-            <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
-            <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Submit</button>
+        <div *ngIf="books.length >0">
+            <mat-form-field class="mat" style="width: 40;margin-left: 3%;">
+                <mat-label> Search Here </mat-label>
+                <input matInput placeholder="Book" [(ngModel)]="term">
+            </mat-form-field>
+            <span style="color:blue;font-weight: bold;" colspan="12">Book List<span style="margin-left: 2%;"
+                    class="badge list test">{{books.length}}</span>
+            </span>
+
+
+            <div style="height: 300px; width:90%;overflow-y: auto;overflow-x:auto; ">
+                <table class="table table-striped table-condensed table-hover tblborder">
+
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;text-align: left;">Edit</th>
+                            <th style="width: 10%;text-align: left;">BookTitle </th>
+                            <th style="width: 10%;text-align: left;">Accession No</th>
+                            <th style="width: 10%;text-align: left;">State</th>
+                            <th style="width: 10%;text-align: left;">Created Date</th>
+                            <th style="width: 10%;text-align: left;">Size</th>
+                            <th style="width: 10%;text-align: left;">Download Approval</th>
+                            <th style="width: 5%;text-align: left;">Delete</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let obj of books | filter:term;">
+                            <td style="width: 5%;text-align: left;">
+                                <i style="margin-left:12%" value="{{obj.boId}}" [routerLink]="['/editbook/', obj.boId]"
+                                    class="fa fa-pencil-square-o" aria-hidden="true"></i>
+
+                            </td>
+                            <td at-implicit at-sortable at-attribute style="width: 10%;text-align: left;">{{obj.title}}
+                            </td>
+                            <td style="width: 10%;text-align: left;">{{obj.callNo}}</td>
+                            <td style="color: blue;" style="width: 10%;text-align: left;">{{obj.state}}</td>
+                            <td style="width: 10%;text-align: left;"> {{obj.createdDate}}</td>
+                            <td style="width: 10%;text-align: left;">{{obj.size}}</td>
+
+                            <td style="width: 10%;text-align: left;">
+                                <input style="text-align: center;" type="checkbox" [(ngModel)]="obj.downloadApproval">
+
+                            </td>
+
+                            <td style="width: 5%;text-align: left;">
+                                <i style="margin-left:12%" value="{{obj.boId}}" (click)="deleteBook($event)"
+                                    class="fa fa-trash" aria-hidden="true"></i>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- <div *ngIf="config.totalItems != 0" style="text-align: center;"> -->
+                <!-- <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls> -->
+            <!-- </div> -->
+    
         </div>
 
+        <div>
+            <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
+            <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Submit</button>
+            <button style="margin-left: 5%;" class="mat-raised-button mat-primary" (click)="delete()">Delete</button>
+        </div>
 
     </div>
 </div>

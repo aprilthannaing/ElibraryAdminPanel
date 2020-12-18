@@ -1,12 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Event, Router, RouterEvent, NavigationStart, NavigationEnd } from '@angular/router';
+import { Event, Router, RouterEvent, NavigationStart, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
 import { stringify } from 'querystring';
+
 
 @Component({
   selector: 'app-book',
@@ -127,8 +128,8 @@ export class BookComponent implements OnInit {
 
   }
 
-  searchAuthorByKeywords(){
-    
+  searchAuthorByKeywords() {
+
     const json = {
       "page": this.config.currentPage,
       "name": this.authorTerm
@@ -138,18 +139,18 @@ export class BookComponent implements OnInit {
       token: this.ics.token
     });
     const url = this.ics.apiRoute + "/author/search";
-   
-    this.http.post(url,json,{
-      headers:header
+
+    this.http.post(url, json, {
+      headers: header
     }).subscribe(
-      (data:any) => {
+      (data: any) => {
         console.log(data)
         this.searchAuthors = data.author;
-        this.authors= this.searchAuthors;
+        this.authors = this.searchAuthors;
         console.log(this.authors)
       },
       error => {
-        console.warn("error:",error);
+        console.warn("error:", error);
       }
     )
     return this.searchAuthors;
@@ -253,11 +254,7 @@ export class BookComponent implements OnInit {
       (data: any) => {
         console.warn("data: ", data);
         this.authors = data.authors;
-
-        console.log("getAllAuthors authors:!!!!!!!", this.authors)
-
         this.authorConfig.totalItems = data.total_count;
-
         data.authors.forEach(element => {
           console.log(this.ics.apiRoute + "/" + element.profilePicture)
         });
@@ -305,11 +302,7 @@ export class BookComponent implements OnInit {
   }
 
 
-
-
-
   getAllBooks() {
-
     const json = {
       "page": this.config.currentPage,
       "title": "all",
@@ -319,8 +312,7 @@ export class BookComponent implements OnInit {
     const header: HttpHeaders = new HttpHeaders({
       token: this.ics.token
     });
-    // 7M8N3SLQ8QIKDJOSEPXJKJDFOZIN1NBO
-    // 7584491bd16084688c1c1f74498177d9
+
     const url: string = this.ics.apiRoute + "/book";
     this.http.post(url, json,
       {
@@ -414,24 +406,21 @@ export class BookComponent implements OnInit {
   }
 
   deleteBook(e) {
-    console.log("click event: ", e.target.value)
-    for (let i = 0; i < this.books.length; ++i) {
-      if (this.books[i].boId === e.target.value) {
-        this.books.splice(i, 1);
+    this.alertDialog({}, e.target.value)
+  }
 
-        const json = {
-          bookId: e.target.value
-        }
-        const url: string = this.ics.apiRoute + "/operation/deleteBook";
-        this.http.post(url, json).subscribe(
-          (data: any) => {
-            console.log("response: ", data);
-          },
-          error => {
-            console.log("error ", error);
-          });
+  alertDialog(data, boId) {
+    const dialogRef = this.dialog.open(AlertDialog, {
+      data: {
+        "boId": boId,
+        "books": this.books,
       }
-    }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+
   }
 
   editAuthor(e) {
@@ -439,32 +428,11 @@ export class BookComponent implements OnInit {
 
   }
 
-  deleteAuthor(e) {
-    console.log("click event: ", e.target.value)
-    for (let i = 0; i < this.authors.length; ++i) {
-      if (this.authors[i].boId === e.target.value) {
-        this.authors.splice(i, 1);
-
-        const json = {
-          authorId: e.target.value
-        }
-        const url: string = this.ics.apiRoute + "/operation/deleteAuthor";
-        this.http.post(url, json).subscribe(
-          (data: any) => {
-            console.log("response: ", data);
-          },
-          error => {
-            console.log("error ", error);
-          });
-      }
-    }
-  }
-
   editPublisher(e) {
     console.log("click event: ", e.target.value)
 
   }
-  
+
   editCategory(e) {
     console.log("click event: ", e.target.value)
 
@@ -474,3 +442,50 @@ export class BookComponent implements OnInit {
     console.log("click event: ", e.target.value)
   }
 }
+
+
+@Component({
+  selector: 'alert-dialog',
+  templateUrl: './alert-dialog.html',
+})
+export class AlertDialog {
+
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private actRoute: ActivatedRoute,
+    private ics: IntercomService,
+    public dialogRef: MatDialogRef<AlertDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: { books: [{ boId }], boId: string }
+  ) { }
+
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  submit(): void {
+
+    for (let i = 0; i < this.data.books.length; ++i) {
+      if (this.data.books[i].boId === this.data.boId) {
+        this.data.books.splice(i, 1);
+      }
+    }
+
+      console.log("this.data.boId: ", this.data.boId)
+      this.dialogRef.close();
+      const json = {
+        bookId: this.data.boId
+      }
+      const url: string = this.ics.apiRoute + "/operation/deleteBook";
+      this.http.post(url, json).subscribe(
+        (data: any) => {
+          console.log("delete book: ", data);
+        },
+        error => {
+          console.log("error ", error);
+        });
+
+    }
+  }
+  
