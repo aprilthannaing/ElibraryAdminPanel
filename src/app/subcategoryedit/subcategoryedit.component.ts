@@ -19,6 +19,9 @@ export class SubcategoryeditComponent implements OnInit {
   subCategory: string;
   boId: string;
   emptyData = {};
+  books = [];
+  loading = "true";
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -70,7 +73,10 @@ export class SubcategoryeditComponent implements OnInit {
     this.http.post(url, json).subscribe(
       (data: any) => {
         this.json = data.subCategory;
+        this.books = data.books;
+        console.log("find by boid books: ", this.books)
         console.log("findByBoId json: ", this.json);
+        this.loading = "false";
       },
       error => {
         console.warn("error: ", error);
@@ -83,7 +89,7 @@ export class SubcategoryeditComponent implements OnInit {
 
 
     const url: string = this.ics.apiRoute + "/operation/editsubcategory";
-   
+
 
 
     console.log("before saving this.json!!!!!!!", this.json)
@@ -92,12 +98,34 @@ export class SubcategoryeditComponent implements OnInit {
       (data: any) => {
         console.log("response: ", data);
         if (data.status == "1")
-        this.successDialog();
-      else this.failDialog(data);
-    },
-    error => {
-      console.warn("error: ", error);
-      this.failDialog(this.emptyData);
+          this.successDialog();
+        else this.failDialog(data);
+      },
+      error => {
+        console.warn("error: ", error);
+        this.failDialog(this.emptyData);
+      });
+
+  }
+
+  delete() {
+    this.alertDialog({});
+    // for (let i = 0; i < this.subcategories.length; ++i) {
+    //   if (this.subcategories[i].boId === e.target.value) {
+    //     this.subcategories.splice(i, 1);
+
+
+  }
+
+  alertDialog(data) {
+    const dialogRef = this.dialog.open(AlertDialog, {
+      data: {
+        "boId": this.boId
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
     });
 
   }
@@ -116,7 +144,7 @@ export class SubcategoryeditComponent implements OnInit {
 
   failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
-      data:{ 
+      data: {
         "title": "Unable to edit subcategory!!",
         "message": data.msg
       }
@@ -155,12 +183,55 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; message: string }
   ) { }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 }
+
+
+@Component({
+  selector: 'alert-dialog',
+  templateUrl: './alert-dialog.html',
+})
+export class AlertDialog {
+
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private actRoute: ActivatedRoute,
+    private ics: IntercomService,
+    public dialogRef: MatDialogRef<AlertDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: { boId: string }
+  ) { }
+
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  submit(): void {
+    console.log("this.data.boId: ", this.data.boId)
+    this.dialogRef.close();
+    const json = {
+      subCategoryboId: this.data.boId
+    }
+    const url: string = this.ics.apiRoute + "/operation/deleteSubCategory";
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        this.router.navigate(['book']);
+
+        console.log("deteted: ", data);
+      },
+      error => {
+        console.log("error ", error);
+      });
+  }
+}
+  
+
+
 
 

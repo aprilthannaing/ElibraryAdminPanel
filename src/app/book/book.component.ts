@@ -34,7 +34,7 @@ export class BookComponent implements OnInit {
 
   selected: string;
 
-  term:string;
+  term: string;
   searchBooks = [];
 
   authorTerm: string;
@@ -48,80 +48,80 @@ export class BookComponent implements OnInit {
 
   lastPage: string;
   totalCount: string;
-  
-  last:string;
-  count:string;
 
-  currentPage:any;
+  last: string;
+  count: string;
 
-  
+  currentPage: any;
+
+
   constructor(
     private http: HttpClient,
     public dialog: MatDialog,
     private router: Router,
-    private ics: IntercomService) { 
-      this.config = {
+    private ics: IntercomService) {
+    this.config = {
+      itemsPerPage: 10,
+      currentPage: this.currentPage,
+      totalItems: 0
+    },
+      this.authorConfig = {
         itemsPerPage: 10,
         currentPage: this.currentPage,
         totalItems: 0
-      },
-      this.authorConfig = {
-        itemsPerPage : 10,
-        currentPage: this.currentPage,
-        totalItems:0
       }
-    }
+  }
 
-  radioChange1(){
+  radioChange1() {
     console.log(this.selected)
     this.getAllAuthors();
-    
+
   }
 
   ngOnInit(): void {
     this.currentPage = "1";
     this.config.currentPage = this.currentPage;
     this.authorConfig.currentPage = this.currentPage;
-    
+
     this.getBookCount();
     this.getAuthorCount();
     this.getPublisherCount();
     this.getCategoryCount();
     this.getSubCategoryCount();
-    }
+  }
 
-  searchByKeywords(){
+  searchByKeywords() {
     console.log(this.term)
     const json = {
       "page": this.config.currentPage,
-      "user_id":"USR2",
-      "category_id":"",
-      "sub_category_id":"",
-      "author_id":"",
-      "start_date":"",
-      "end_date":"",
-      "searchTerms":this.term 
+      "user_id": "USR2",
+      "category_id": "",
+      "sub_category_id": "",
+      "author_id": "",
+      "start_date": "",
+      "end_date": "",
+      "searchTerms": this.term
     }
     console.log(json)
     const header: HttpHeaders = new HttpHeaders({
       token: this.ics.token
     });
     const url: string = this.ics.apiRoute + "/search/book";
-    this.http.post(url,json,{
-      headers:header
+    this.http.post(url, json, {
+      headers: header
     }).subscribe(
-      (data:any) => {
+      (data: any) => {
         this.searchBooks = data.books;
-        this.books= this.searchBooks;
+        this.books = this.searchBooks;
         console.log(this.books)
       },
       error => {
-        console.warn("error:",error);
+        console.warn("error:", error);
       }
     )
     return this.searchBooks;
   }
-  changedBySearch(event){
+  changedBySearch(event) {
     this.books = this.searchByKeywords();
     console.log(this.books)
 
@@ -155,10 +155,10 @@ export class BookComponent implements OnInit {
     return this.searchAuthors;
   }
 
-  authorBySearch(event){
+  authorBySearch(event) {
     this.authors = this.searchAuthorByKeywords();
   }
-  
+
   getBookCount() {
     const url: string = this.ics.apiRoute + "/book/count";
     this.http.request('get', url).subscribe(
@@ -230,59 +230,59 @@ export class BookComponent implements OnInit {
     this.http.request('get', url).subscribe(
       (data: any) => {
         this.publishers = data.publishers;
-        this.loading= "false";
+        this.loading = "false";
       },
       error => {
         console.warn("error: ", error);
       });
   }
 
-  authorPageChanged(event){
+  authorPageChanged(event) {
     this.authorConfig.currentPage = event;
     this.getAllAuthors();
   }
 
   getAllAuthors() {
     const json = {
-      "selected":this.selected,
+      "selected": this.selected,
       "page": this.authorConfig.currentPage
     }
     console.log(json)
     const url: string = this.ics.apiRoute + "/author/allBySelected";
-    this.http.post(url,json).subscribe(
+    this.http.post(url, json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
         this.authors = data.authors;
 
-        console.log("getAllAuthors authors:!!!!!!!" , this.authors)
+        console.log("getAllAuthors authors:!!!!!!!", this.authors)
 
         this.authorConfig.totalItems = data.total_count;
 
         data.authors.forEach(element => {
           console.log(this.ics.apiRoute + "/" + element.profilePicture)
         });
-        this.loading= "false";
+        this.loading = "false";
       },
       error => {
         console.warn("error: ", error);
       });
   }
-  
+
 
   getAllCategories() {
     const header: HttpHeaders = new HttpHeaders({
       token: this.ics.token
     });
     const url: string = this.ics.apiRoute + "/category/all";
-    this.http.request('get', url ,{
+    this.http.request('get', url, {
       headers: header
-      }).subscribe(
+    }).subscribe(
       (data: any) => {
         this.categories = data.categories;
-        console.log(" data.categories!!!" +  data.categories)
+        console.log(" data.categories!!!" + data.categories)
 
 
-        this.loading= "false";
+        this.loading = "false";
       },
       error => {
         console.warn("error: ", error);
@@ -290,12 +290,12 @@ export class BookComponent implements OnInit {
   }
 
   getAllSubCategories() {
-    
+
     const url: string = this.ics.apiRoute + "/subcategory/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
         this.subcategories = data.subcategories;
-        this.loading= "false";
+        this.loading = "false";
         console.log("categories: ", data.subcategories)
 
       },
@@ -303,17 +303,17 @@ export class BookComponent implements OnInit {
         console.warn("error: ", error);
       });
   }
-  
-  
 
-  
+
+
+
 
   getAllBooks() {
 
     const json = {
-      "page":this.config.currentPage,
-      "title":"all",
-      "user_id":"USR1"
+      "page": this.config.currentPage,
+      "title": "all",
+      "user_id": "USR1"
     }
     console.log(json)
     const header: HttpHeaders = new HttpHeaders({
@@ -322,9 +322,9 @@ export class BookComponent implements OnInit {
     // 7M8N3SLQ8QIKDJOSEPXJKJDFOZIN1NBO
     // 7584491bd16084688c1c1f74498177d9
     const url: string = this.ics.apiRoute + "/book";
-    this.http.post(url,json,
+    this.http.post(url, json,
       {
-      headers: header
+        headers: header
       }
     ).subscribe(
       (data: any) => {
@@ -335,15 +335,15 @@ export class BookComponent implements OnInit {
         this.config.totalItems = data.total_count;
         console.log(this.last)
         console.log(this.count)
-        this.loading= "false";
-        
+        this.loading = "false";
+
       },
       error => {
         console.warn("error: ", error);
       });
   }
-  
-  pageChanged(event){
+
+  pageChanged(event) {
     this.config.currentPage = event;
     this.getAllBooks();
   }
@@ -368,8 +368,8 @@ export class BookComponent implements OnInit {
     this.showSubCategory = "false"
     this.showPublisher = "false"
   }
-  getNextPage(){
-    
+  getNextPage() {
+
   }
 
   showAuthors() {
@@ -464,76 +464,13 @@ export class BookComponent implements OnInit {
     console.log("click event: ", e.target.value)
 
   }
-
-  deletePublisher(e) {
-    console.log("click event: ", e.target.value)
-    for (let i = 0; i < this.publishers.length; ++i) {
-      if (this.publishers[i].boId === e.target.value) {
-        this.publishers.splice(i, 1);
-
-        const json = {
-          publisherboId: e.target.value
-        }
-        const url: string = this.ics.apiRoute + "/operation/deletePublisher";
-        this.http.post(url, json).subscribe(
-          (data: any) => {
-            console.log("response: ", data);
-          },
-          error => {
-            console.log("error ", error);
-          });
-      }
-    }
-  }
-
+  
   editCategory(e) {
     console.log("click event: ", e.target.value)
 
   }
 
-  deleteCategory(e) {
-    console.log("click event: ", e.target.value)
-    for (let i = 0; i < this.categories.length; ++i) {
-      if (this.categories[i].boId === e.target.value) {
-        this.categories.splice(i, 1);
-
-        const json = {
-          categoryboId: e.target.value
-        }
-        const url: string = this.ics.apiRoute + "/operation/deleteCategory";
-        this.http.post(url, json).subscribe(
-          (data: any) => {
-            console.log("response: ", data);
-          },
-          error => {
-            console.log("error ", error);
-          });
-      }
-    }
-  }
-
   editSubCategory(e) {
     console.log("click event: ", e.target.value)
-  }
-
-  deleteSubCategory(e) {
-    console.log("click event: ", e.target.value)
-    for (let i = 0; i < this.subcategories.length; ++i) {
-      if (this.subcategories[i].boId === e.target.value) {
-        this.subcategories.splice(i, 1);
-
-        const json = {
-          subCategoryboId: e.target.value
-        }
-        const url: string = this.ics.apiRoute + "/operation/deleteSubCategory";
-        this.http.post(url, json).subscribe(
-          (data: any) => {
-            console.log("response: ", data);
-          },
-          error => {
-            console.log("error ", error);
-          });
-      }
-    }
   }
 }

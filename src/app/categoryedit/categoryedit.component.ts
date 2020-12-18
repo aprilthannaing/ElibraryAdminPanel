@@ -17,7 +17,7 @@ export class CategoryeditComponent implements OnInit {
   subcategories = [];
   categories = [];
   form: FormGroup;
-  json = { "myanmarName": "", "engName": "" ,"categories": "", "priority": ""}
+  json = { "myanmarName": "", "engName": "", "categories": "", "priority": "" }
 
   subcategoryId: string;
   emptyData = {};
@@ -62,13 +62,13 @@ export class CategoryeditComponent implements OnInit {
           this.onChange(element.boId, true);
         });
         // this.subcategoryId = data.category.subCategories.boId;
-        
+
         console.log(data.category.subCategories)
       },
       error => {
         console.warn("error: ", error);
       });
-      
+
   }
 
   onChange(boId: string, isChecked: boolean) {
@@ -85,10 +85,10 @@ export class CategoryeditComponent implements OnInit {
   getSubCategories() {
 
     const url: string = this.ics.apiRoute + "/subcategory/all";
-    this.http.request('get',url).subscribe(
+    this.http.request('get', url).subscribe(
       (data: any) => {
-        this.subcategories = data.subcategories; 
-        console.log(data.subcategories)     
+        this.subcategories = data.subcategories;
+        console.log(data.subcategories)
       },
       error => {
         console.warn("error: ", error);
@@ -98,23 +98,42 @@ export class CategoryeditComponent implements OnInit {
   save() {
 
     this.json.categories = this.form.value.subs;
-    console.log("json: " , this.json);
+    console.log("json: ", this.json);
     const url: string = this.ics.apiRoute + "/operation/editcategory";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
         if (data.status == "1")
-        this.successDialog();
-      else this.failDialog(data);
-    },
-    error => {
-      console.warn("error: ", error);
-      this.failDialog(this.emptyData);
-    });
+          this.successDialog();
+        else this.failDialog(data);
+      },
+      error => {
+        console.warn("error: ", error);
+        this.failDialog(this.emptyData);
+      });
   }
 
   cancel() {
     this.router.navigate(['book']);
+
+  }
+
+  delete() {
+
+    this.alertDialog({});
+  }
+
+
+  alertDialog(data) {
+    const dialogRef = this.dialog.open(AlertDialog, {
+      data: {
+        "boId": this.boId
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
 
   }
 
@@ -132,7 +151,7 @@ export class CategoryeditComponent implements OnInit {
 
   failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
-      data:{ 
+      data: {
         "title": "Unable to edit category!!",
         "message": data.msg
       }
@@ -171,10 +190,52 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; message: string }
   ) { }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 }
+
+
+@Component({
+  selector: 'alert-dialog',
+  templateUrl: './alert-dialog.html',
+})
+export class AlertDialog {
+
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private actRoute: ActivatedRoute,
+    private ics: IntercomService,
+    public dialogRef: MatDialogRef<AlertDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: { boId: string }
+  ) { }
+
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  submit(): void {
+    console.log("this.data.boId: ", this.data.boId)
+    this.dialogRef.close();
+
+    const json = {
+      categoryboId: this.data.boId
+    }
+    const url: string = this.ics.apiRoute + "/operation/deleteCategory";
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        this.router.navigate(['book']);
+        console.log("response: ", data);
+      },
+      error => {
+        console.log("error ", error);
+      });
+  }
+}
+
+

@@ -51,7 +51,7 @@ export class PublishereditComponent implements OnInit {
 
   }
 
-  
+
   findByBoId() {
     const json = {
       boId: this.boId
@@ -71,6 +71,24 @@ export class PublishereditComponent implements OnInit {
 
   }
 
+  delete() {
+    this.alertDialog({});
+  }
+
+
+  alertDialog(data) {
+    const dialogRef = this.dialog.open(AlertDialog, {
+      data: {
+        "boId": this.boId
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+
+  }
+
   successDialog() {
     const dialogRef = this.dialog.open(SuccessDialog, {
     });
@@ -84,7 +102,7 @@ export class PublishereditComponent implements OnInit {
 
   failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
-      data:{ 
+      data: {
         "title": "Unable to edit Publisher!!",
         "message": data.msg
       }
@@ -123,11 +141,51 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; message: string }
   ) { }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+}
+@Component({
+  selector: 'alert-dialog',
+  templateUrl: './alert-dialog.html',
+})
+export class AlertDialog {
+
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private actRoute: ActivatedRoute,
+    private ics: IntercomService,
+    public dialogRef: MatDialogRef<AlertDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: { boId: string }
+  ) { }
+
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  submit(): void {
+    console.log("this.data.boId: ", this.data.boId)
+    this.dialogRef.close();
+
+    const json = {
+      publisherboId: this.data.boId
+    }
+    console.log("this.data.boId:  ", this.data.boId)
+
+    const url: string = this.ics.apiRoute + "/operation/deletePublisher";
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        this.router.navigate(['book']);
+        console.log("response: ", data);
+      },
+      error => {
+        console.log("error ", error);
+      });
   }
 }
 
