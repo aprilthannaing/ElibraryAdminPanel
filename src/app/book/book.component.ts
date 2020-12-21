@@ -15,7 +15,7 @@ import { stringify } from 'querystring';
   styleUrls: ['./book.component.styl']
 })
 export class BookComponent implements OnInit {
-
+  userRole = "";
   publishers = [];
   authors = [];
   categories = [];

@@ -28,8 +28,6 @@ export class UserListComponent implements OnInit {
   };
 
   config: any;
-  currentPage: string;
-
   constructor( 
     private router: Router,
     private http: HttpClient,
@@ -38,14 +36,12 @@ export class UserListComponent implements OnInit {
     ) {
         this.config = {
             itemsPerPage: 10,
-            currentPage: this.currentPage,
+            currentPage: "1",
             totalItems: 0,
         }
      }
 
   ngOnInit(): void {
-    this.currentPage = "1";
-    this.config.currentPage = this.currentPage;
     this.Searching();
     this.getHluttaw();
     this.getPosition();
@@ -54,6 +50,12 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['/user']);  
   }
   Searching(){
+    if(this.jsonReq.searchText != "" && this.jsonReq.currentpage != "1" )
+        this.config = {
+            itemsPerPage: 10,
+            currentPage: "1",
+            totalItems: 0,
+        }
     this.jsonReq.currentpage = this.config.currentPage;
     if(this.jsonReq.fromDate != ""){
         this.jsonReq.fromDate = this.convert(this.jsonReq.fromDate);
@@ -103,7 +105,7 @@ export class UserListComponent implements OnInit {
 
   getHluttaw() {
     const url = this.ics.apiRoute + '/setUp/getHluttaw';
-    const json = {"":""}
+    const json = {"type":""}
     try {
         this.http.post(url,json).subscribe(
             (data:any) => {

@@ -113,7 +113,7 @@ export class UserUploadComponent implements OnInit {
   }
   getHluttaw() {
     const url = this.ics.apiRoute + '/setUp/getHluttaw';
-    const json = {"":""}
+    const json = {"type":""}
     try {
         this.http.post(url,json).subscribe(
             (data:any) => {

@@ -43,7 +43,7 @@
 
         <mat-form-field style="width: 40%; margin-left: 5%;">
             <mat-label >Choose User Level</mat-label>
-            <select  matNativeControl required [(ngModel)]="json.type">
+            <select (change)="changeUserLevel()"  matNativeControl required [(ngModel)]="json.type">
                 <option *ngFor="let item of lov.refUserType" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field>
@@ -52,6 +52,13 @@
             <mat-label >Choose Hluttaw Type</mat-label>
             <select (change)="changeModule()" matNativeControl required [(ngModel)]="json.hlutawType">
                 <option *ngFor="let item of lov.refHluttaw" value="{{item.value}}">{{item.caption}}</option>
+            </select>
+        </mat-form-field>
+
+        <mat-form-field style="width: 40%; margin-left: 5%;" *ngIf="json.type != 'Staff'">
+            <mat-label >Choose Constituency Type</mat-label>
+            <select matNativeControl required [(ngModel)]="json.constituencyType">
+                <option *ngFor="let item of lov.refConstituency" value="{{item.value}}">{{item.caption}}</option>
             </select>
         </mat-form-field>
         
@@ -70,6 +77,16 @@
             <select  matNativeControl required [(ngModel)]="json.positionType">
                 <option *ngFor="let item of lov.refPosition" value="{{item.value}}">{{item.caption}}</option>
             </select>
+        </mat-form-field>
+
+        <mat-form-field style="width: 40%; margin-left: 5%;">
+            <mat-label>Current Address</mat-label>
+            <textarea required [(ngModel)]="json.currentAddress" matInput ></textarea>
+        </mat-form-field>
+
+        <mat-form-field style="width: 40%; margin-left: 5%;">
+            <mat-label>Permanent Address</mat-label>
+            <textarea required [(ngModel)]="json.permanentAddress" matInput ></textarea>
         </mat-form-field>
         <!-- <div (click)="goSetup('lov2')" *ngIf="json.type == 'Staff'" style="margin-top: 16px;margin-left: 35px;">
             <i class="glyphicon glyphicon-plus-sign" style="font-size: 21px;color: #2e6da4;" aria-hidden="true"></i>

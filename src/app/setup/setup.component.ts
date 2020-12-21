@@ -30,7 +30,11 @@ export class SetupComponent implements OnInit {
         }
         else if(this.formid == 'lov1'){
             this.title = "Department Setup Form";
-            this.getHluttaw();
+            this.getHluttawByDept();
+        }
+        else if(this.formid == 'lov3'){
+            this.title = "Constituency Setup Form";
+            this.getHluttawByConst();
         }
       }
     });
@@ -82,8 +86,10 @@ export class SetupComponent implements OnInit {
   goSave(){
     if(this.formid=='lov2')
       this.setPosition();
-    else
+    else if(this.formid=='lov1')
       this.setDepartment();
+    else if(this.formid=='lov3')
+        this.setConstituency();
   }
   setDepartment(){
     this.loading = true;
@@ -162,9 +168,9 @@ export class SetupComponent implements OnInit {
     }
   }
 
-  getHluttaw() {
+  getHluttawByDept() {
     const url = this.ics.apiRoute + '/setUp/getHluttaw';
-    const json = {"":""}
+    const json = {"type":""}
     try {
         this.http.post(url,json).subscribe(
             (data:any) => {
@@ -188,7 +194,83 @@ export class SetupComponent implements OnInit {
     }
   }
   changeModule(){
-    this.getDepartment();
+      if(this.formid == 'lov1')
+        this.getDepartment();
+    else if(this.formid == 'lov3')
+    this.getConstituency();
+  }
+  setConstituency(){
+    this.loading = true;
+    const url = this.ics.apiRoute + '/setUp/constituencySetup';
+    let json = {
+        "code": this.hlutawType,
+        "lov": this.lov.ref
+      }
+    try {
+        this.http.post(url,json).subscribe(
+            (data:any) => {
+                if (data != null && data != undefined) {
+                    this.lov.ref = data.lov;
+                }
+                this.loading = false;
+                this.showMessage("Insert Successfully",true);
+            },
+            error => {
+                if (error.name == "HttpErrorResponse") {
+                    alert("Connection Timed Out!");
+                }
+                this.loading = false;
+            }, () => { });
+    } catch (e) {
+        alert(e);
+        this.loading = false;
+    }
+  }
+  getConstituency() {
+    const url = this.ics.apiRoute + '/setUp/getConstituency';
+    try {
+        this.http.post(url,this.hlutawType).subscribe(
+            (data:any) => {
+                if (data != null && data != undefined) {
+                    this.lov.ref = data.refConst;
+                }
+            },
+            error => {
+                if (error.name == "HttpErrorResponse") {
+                    alert("Connection Timed Out!");
+                }
+                else {
+  
+                }
+            }, () => { });
+    } catch (e) {
+        alert(e);
+    }
+  }
+  getHluttawByConst() {
+    const url = this.ics.apiRoute + '/setUp/getHluttaw';
+    const json = {"type":"representative"}
+    try {
+        this.http.post(url,json).subscribe(
+            (data:any) => {
+                if (data != null && data != undefined) {
+                    this.lov.refHluttaw = data.refHluttaw;
+                    if(this.hlutawType == "")
+                      this.hlutawType=this.lov.refHluttaw[1].value;
+                    this.getConstituency();
+                }
+            },
+            error => {
+                if (error.name == "HttpErrorResponse") {
+                    alert("Connection Timed Out!");
+                }
+                else {
+  
+                }
+            }, () => { });
+    } catch (e) {
+        alert(e);
+    }
   }
   showMessage(msg, bool) {
     if (bool == true) { this.ics.sendBean({ "t1": "rp-alert", "t2": "success", "t3": msg }); }

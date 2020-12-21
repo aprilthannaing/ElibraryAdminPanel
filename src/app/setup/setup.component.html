@@ -8,7 +8,7 @@
         <button class="btn btn-primary" type="button"  (click)="goBack()">Back</button>
     </div>
     <div class = "col-md-12" style="overflow-x:auto">
-        <mat-form-field *ngIf="formid == 'lov1'" style="width: 20%;">
+        <mat-form-field *ngIf="formid != 'lov2'" style="width: 20%;">
             <mat-label >Choose Hluttaw Type</mat-label>
             <select (change)="changeModule()" matNativeControl required [(ngModel)]="hlutawType">
                 <option *ngFor="let item of lov.refHluttaw" value="{{item.value}}">{{item.caption}}</option>

@@ -14,10 +14,11 @@ export class UserComponent implements OnInit {
   radioFlag:boolean = false;
   json:any = this.userObj();
   userObj(){ 
-      return { "sessionId":"","boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":"","roleType":""
+      return { "sessionId":"","boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":"","roleType":"","permanentAddress":"","currentAddress":"","constituencyType":""
   }
 }
 lov: any = {
+  "refConstituency": [{ "value": "", "caption": "" }],
   "refHluttaw"  : [{ "value": "", "caption": "" }],
   "refDept"     : [{ "value": "", "caption": "" }],
   "refPosition" : [{ "value": "", "caption": "" }],
@@ -76,18 +77,25 @@ ngOnInit() {
         this.loading = false;
     }
   }
-
+changeUserLevel(){
+    this.getHluttaw();
+}
 getHluttaw() {
   const url = this.ics.apiRoute + '/setUp/getHluttaw';
-  const json = {"":""}
+  const json = {"type": ""}
   try {
       this.http.post(url,json).subscribe(
           (data:any) => {
               if (data != null && data != undefined) {
                   this.lov.refHluttaw = data.refHluttaw;
+                  if(this.json.type === "Representative"){
+                    const index = this.lov.refHluttaw.findIndex(list => list.value == 2);
+                    this.lov.refHluttaw.splice(index,1);
+                  }
                   if(this.json.hlutawType == "")
                     this.json.hlutawType=this.lov.refHluttaw[0].value;
-                  this.getDepartment();
+                this.getDepartment();
+                this.getConstituency();
               }
           },
           error => {
@@ -112,6 +120,12 @@ getDepartment() {
           (data:any) => {
               if (data != null && data != undefined) {
                   this.lov.refDept = data.refDept;
+                  for(let i = 0; i< this.lov.refDept.length; i++){
+                    if(this.lov.refDept[i].status == "INACTIVE"){
+                        this.lov.refDept.splice(i,1);
+                        i--;
+                    }
+                  }
                   if(this.json.deptType == "")
                   this.json.deptType=this.lov.refDept[0].value;
               }
@@ -220,24 +234,39 @@ goSave(){
         return false;
     }
     if(this.json.hlutawType === 1){
-        this.showMessage("Choose hlutaw Type",false); 
+        this.showMessage("Choose Hlutaw Type",false); 
         console.log("Choose hlutaw Type");
         return false;
     }
     if(this.json.type === 'Representative' ){
+        if(this.json.constituencyType === ''){
+            this.showMessage("Choose Constituency Type",false); 
+            console.log("Choose department Type");
+            return false;
+        }
         this.json.deptType = this.lov.refDept[0].value;
         this.json.positionType = this.lov.refPosition[0].value;
     }else{
         if(this.json.deptType === ''){
-            this.showMessage("Choose department Type",false); 
+            this.showMessage("Choose Department Type",false); 
             console.log("Choose department Type");
             return false;
         }
         if(this.json.positionType === ''){
-            this.showMessage("Choose position Type",false); 
+            this.showMessage("Choose Position Type",false); 
             console.log("Choose position Type");
             return false;
         }
+        if(this.json.constituencyType === '')
+            this.json.constituencyType = this.lov.refConstituency[0].value;
+    }
+    if(this.json.currentAddress === "" || this.json.currentAddress === null ){
+        this.showMessage("Please fill correct Current Address",false); 
+        return false;
+    }
+    if(this.json.permanentAddress === "" || this.json.permanentAddress === null ){
+        this.showMessage("Please fill correct Permanent Address",false); 
+        return false;
     }
         this.goSaveURL();
 }
@@ -274,9 +303,33 @@ goSaveURL() {
       alert(e);
   }
 }
+getConstituency() {
+    const url = this.ics.apiRoute + '/setUp/getConstituency';
+    try {
+        this.http.post(url,this.json.hlutawType).subscribe(
+            (data:any) => {
+                if (data != null && data != undefined) {
+                    this.lov.refConstituency = data.refConst;
+                }
+            },
+            error => {
+                if (error.name == "HttpErrorResponse") {
+                    alert("Connection Timed Out!");
+                }
+                else {
+  
+                }
+            }, () => { });
+    } catch (e) {
+        alert(e);
+    }
+  }
 
 changeModule() {
-  this.getDepartment();
+    if(this.json.type === "Representative")
+        this.getConstituency();
+    else
+    this.getDepartment();
 }
 goList(){
     this.router.navigate(['/userList']);  
