@@ -145,6 +145,8 @@ export class BookComponent implements OnInit {
     }).subscribe(
       (data: any) => {
         console.log(data)
+        if(data.err_msg == "Unauthorized Request")
+          this.loginDialog();
         this.searchAuthors = data.author;
         this.authors = this.searchAuthors;
         console.log(this.authors)
@@ -275,6 +277,8 @@ export class BookComponent implements OnInit {
       headers: header
     }).subscribe(
       (data: any) => {
+        if(data.err_msg == "Unauthorized Request")
+          this.loginDialog();
         this.categories = data.categories;
         console.log(" data.categories!!!" + data.categories)
 
@@ -321,6 +325,8 @@ export class BookComponent implements OnInit {
     ).subscribe(
       (data: any) => {
         console.log(data)
+        if(data.message == "Unauthorized Request")
+          this.loginDialog();
         this.books = data.books;
         this.last = data.last_page;
         this.count = data.total_count;
@@ -440,6 +446,19 @@ export class BookComponent implements OnInit {
   editSubCategory(e) {
     console.log("click event: ", e.target.value)
   }
+
+  loginDialog() {
+    const dialogRef = this.dialog.open(LoginDialog, {
+      data:{ 
+        "title": "Please login first!!",
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+
+  }
 }
 
 
@@ -488,3 +507,21 @@ export class AlertDialog {
     }
   }
   
+
+  @Component({
+    selector: 'login-dialog',
+    templateUrl: './login-dialog.html',
+  })
+  export class LoginDialog {
+  
+    constructor(
+      public dialogRef: MatDialogRef<LoginDialog>,
+      public router: Router,
+      @Inject(MAT_DIALOG_DATA) public data: {title: string}
+    ) { }
+  
+    route(): void {
+      this.dialogRef.close();
+      this.router.navigate(['login']);
+    }
+  }

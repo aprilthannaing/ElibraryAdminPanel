@@ -18,6 +18,7 @@ export class AuthoreditComponent implements OnInit {
   json = {
     "name": "", "sort": "", "authorType": "", "imageSrc": "", "profilePicture": ""
   }
+  
   emptyData = {};
   books = [];
   config: any;
@@ -49,6 +50,22 @@ export class AuthoreditComponent implements OnInit {
 
   ChangingValue(e) {
 
+  }
+  deleteBook(event){
+    console.log(event.target.value)
+    const json = {
+      bookId: event.target.value
+    }
+    const url: string = this.ics.apiRoute + "/operation/deleteBook";
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        console.log("delete book: ", data);
+      },
+      error => {
+        console.log("error ", error);
+      });
+
+    
   }
 
   findByBoId() {

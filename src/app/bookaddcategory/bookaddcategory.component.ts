@@ -19,7 +19,7 @@ export class BookaddcategoryComponent implements OnInit {
   priority = '';
 
   emptyData = {};
-  json = {};
+  displayJson = {"subcategoryBoId": ""};
   subcategoryDisplay : FormArray;
   constructor(
     private router: Router,
@@ -37,7 +37,7 @@ export class BookaddcategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSubCategories();
-    this.displayedSubcategories();
+    // this.displayedSubcategories();
   }
 
   onCheckboxChange(e) {
@@ -59,18 +59,10 @@ export class BookaddcategoryComponent implements OnInit {
       this.subcategoryDisplay.removeAt(index);
     }
     console.log(this.subcategoryDisplay)
+    this.displayJson.subcategoryBoId = this.subcategoryDisplay.value;
+    console.log(this.displayJson)
   }
 
-  displayedSubcategories() {
-    const url: string = this.ics.apiRoute + "/subcategory/setDisplayList";
-    this.http.post(url, this.json).subscribe(
-      (data : any) => {
-        console.warn("data: ", data);
-      },
-      error => {
-        console.warn("error:", error);
-      });
-  }
 
   //list of sub categories
   getSubCategories() {
@@ -102,6 +94,14 @@ export class BookaddcategoryComponent implements OnInit {
     this.http.post(url, json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
+        const displayUrl: string = this.ics.apiRoute + "/subcategory/setDisplayList";
+        this.http.post(displayUrl, this.displayJson).subscribe(
+          (data : any) => {
+            console.warn("data: ", data);
+          },
+          error => {
+            console.warn("error:", error);
+          });
         if (data.status == "1")
           this.successDialog();
         else this.failDialog(data);

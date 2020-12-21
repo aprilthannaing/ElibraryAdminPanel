@@ -58,6 +58,8 @@ export class BookaddsubcategoryComponent implements OnInit {
     }).subscribe(
       (data: any) => {
         console.warn("data: ", data);
+        if(data.err_msg == "Unauthorized Request")
+          this.loginDialog();
         this.categories = data.categories;
       },
       error => {
@@ -136,6 +138,19 @@ export class BookaddsubcategoryComponent implements OnInit {
     });
 
   }
+
+  loginDialog() {
+    const dialogRef = this.dialog.open(LoginDialog, {
+      data:{ 
+        "title": "Please login first!!",
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+
+  }
 }
 
 
@@ -173,3 +188,16 @@ export class FailDialog {
 }
 
 
+export class LoginDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<LoginDialog>,
+    public router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: {title: string}
+  ) { }
+
+  route(): void {
+    this.dialogRef.close();
+    this.router.navigate(['login']);
+  }
+}

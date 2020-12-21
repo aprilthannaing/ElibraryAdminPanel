@@ -51,6 +51,8 @@ export class SubcategoryeditComponent implements OnInit {
       headers: header
     }).subscribe(
       (data: any) => {
+        if(data.err_msg == "Unauthorized Request")
+          this.loginDialog();
         console.warn("categories: ", data);
         this.categories = data.categories;
       },
@@ -84,6 +86,23 @@ export class SubcategoryeditComponent implements OnInit {
 
   }
 
+  deleteBook(event){
+    console.log(event.target.value)
+    const json = {
+      bookId: event.target.value
+    }
+    const url: string = this.ics.apiRoute + "/operation/deleteBook";
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        console.log("delete book: ", data);
+      },
+      error => {
+        console.log("error ", error);
+      });
+
+    
+  }
+
 
   save() {
 
@@ -108,6 +127,7 @@ export class SubcategoryeditComponent implements OnInit {
 
   }
 
+  
   delete() {
     this.alertDialog({});
 
@@ -143,6 +163,19 @@ export class SubcategoryeditComponent implements OnInit {
       data: {
         "title": "Unable to edit subcategory!!",
         "message": data.msg
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+
+  }
+
+  loginDialog() {
+    const dialogRef = this.dialog.open(LoginDialog, {
+      data:{ 
+        "title": "Please login first!!",
       }
     });
 
@@ -227,7 +260,23 @@ export class AlertDialog {
   }
 }
   
+@Component({
+  selector: 'login-dialog',
+  templateUrl: './login-dialog.html',
+})
+export class LoginDialog {
 
+  constructor(
+    public dialogRef: MatDialogRef<LoginDialog>,
+    public router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: {title: string}
+  ) { }
+
+  route(): void {
+    this.dialogRef.close();
+    this.router.navigate(['login']);
+  }
+}
 
 
 
