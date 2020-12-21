@@ -22,6 +22,9 @@ export class CategoryeditComponent implements OnInit {
   subcategoryId: string;
   emptyData = {};
 
+  displayJson = {"subcategoryBoId": ""};
+  subcategoryDisplay : FormArray;
+
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -31,11 +34,12 @@ export class CategoryeditComponent implements OnInit {
     private actRoute: ActivatedRoute) {
     this.boId = this.actRoute.snapshot.params.boId;
 
-
     this.form = this.formBuilder.group({
-      subs: this.formBuilder.array([], [Validators.required])
+      subs: this.formBuilder.array([], [Validators.required]),
+      subcategoryDisplay: this.formBuilder.array([], [Validators.required])
 
     })
+    
   }
 
   ngOnInit(): void {
@@ -46,6 +50,18 @@ export class CategoryeditComponent implements OnInit {
     return this.categories.includes(boId);
   }
 
+  onCheckboxSelection(e){
+    this.subcategoryDisplay = this.form.get('subcategoryDisplay') as FormArray;
+    if(e.target.checked) {
+      this.subcategoryDisplay.push(new FormControl(e.target.value));
+    } else {
+      const index = this.subcategoryDisplay.controls.findIndex(x => x.value === e.target.value);
+      this.subcategoryDisplay.removeAt(index);
+    }
+    console.log(this.subcategoryDisplay)
+    this.displayJson.subcategoryBoId = this.subcategoryDisplay.value;
+    console.log(this.displayJson)
+  }
 
   findByBoId() {
     const json = {
@@ -103,6 +119,14 @@ export class CategoryeditComponent implements OnInit {
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
+        const displayUrl: string = this.ics.apiRoute + "/subcategory/setDisplayList";
+        this.http.post(displayUrl, this.displayJson).subscribe(
+          (data : any) => {
+            console.warn("data: ", data);
+          },
+          error => {
+            console.warn("error:", error);
+          });
         if (data.status == "1")
           this.successDialog();
         else this.failDialog(data);
