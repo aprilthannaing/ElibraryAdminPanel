@@ -54,6 +54,7 @@ export class BookComponent implements OnInit {
   count: string;
 
   currentPage: any;
+  userRole: string;
 
 
   constructor(
@@ -71,6 +72,7 @@ export class BookComponent implements OnInit {
         currentPage: this.currentPage,
         totalItems: 0
       }
+    this.userRole = this.ics.userRole;
   }
 
   radioChange1() {
@@ -490,23 +492,22 @@ export class AlertDialog {
       }
     }
 
-      console.log("this.data.boId: ", this.data.boId)
-      this.dialogRef.close();
-      const json = {
-        bookId: this.data.boId
-      }
-      const url: string = this.ics.apiRoute + "/operation/deleteBook";
-      this.http.post(url, json).subscribe(
-        (data: any) => {
-          console.log("delete book: ", data);
-        },
-        error => {
-          console.log("error ", error);
-        });
-
+    console.log("this.data.boId: ", this.data.boId)
+    this.dialogRef.close();
+    const json = {
+      bookId: this.data.boId
     }
+    const url: string = this.ics.apiRoute + "/operation/deleteBook";
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        console.log("delete book: ", data);
+      },
+      error => {
+        console.log("error ", error);
+      });
+
   }
-  
+}  
 
   @Component({
     selector: 'login-dialog',

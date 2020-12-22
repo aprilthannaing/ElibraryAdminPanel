@@ -4,10 +4,10 @@
         <mat-label style="margin-left:28%;color: blue;font-size: 20px;"> Book Registration Form</mat-label>
         <br>
         <img [src]="imageSrc" *ngIf="imageSrc" alt="Cover Photo" class="responsive"
-        style="box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;">
-  
+            style="box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;">
+
         <div class="row" style="width: 100%;margin-left: 7%;">
-          
+
             <form [formGroup]="myForm" class="example-form" style="width: 30%;">
                 <div class="form-group">
                     <mat-label>Cover Photo & PDF File</mat-label>
@@ -23,8 +23,8 @@
                 <div class="form-group">
                     <input
                         style=" margin-left:20%;width:100%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
-                        formControlName="file" id="file" type="file" class="form-control"
-                        (change)="onPdfChange($event)" required>
+                        formControlName="file" id="file" type="file" class="form-control" (change)="onPdfChange($event)"
+                        required>
                 </div>
             </form>
 
@@ -64,30 +64,27 @@
         <mat-form-field class="mat">
             <mat-label>Accession Number</mat-label>
             <input matInput placeholder="0001" [(ngModel)]="json.accessionNo" required>
-            
+
         </mat-form-field>
-       
-            
-                <mat-form-field class="mat" color="accent">
-                    <input matInput [matDatepicker]="picker1" placeholder="Published Date" [(ngModel)]="json.publishedDate">
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
-                </mat-form-field>
-           
-                <!-- style="padding-right:200px;" -->
-                <label *ngIf="userRole == 'Admin' || userRole == 'SuperLibrarian'" class="mat">Download Approval                    
-                    <input type="checkbox" [(ngModel)]="json.downloadApproval">
-                    <span class="checkmark"></span>
-                </label>
-            
-              
-        
-            <!-- <label class="container">Download Approval
+
+        <br>
+
+        <mat-form-field color="accent" class="mat">
+            <input matInput [matDatepicker]="picker1" placeholder="Published Date" [(ngModel)]="json.publishedDate">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+        <!-- style="padding-right:200px;" -->
+        <label *ngIf="userRole == 'Admin' || userRole == 'SuperLibrarian'" class="mat">Download Approval
+            <input type="checkbox" [(ngModel)]="json.downloadApproval">
+            <span class="checkmark"></span>
+        </label>
+
+        <!-- <label class="container">Download Approval
                 <input type="checkbox" [(ngModel)]="json.downloadApproval">
                 <span class="checkmark"></span>
             </label> -->
-           
-
 
         <div>
             <mat-form-field style="margin-left: 10%;width: 50%;">
@@ -118,13 +115,13 @@
                                 </td>
                                 <td style="width: 50%;">
                                     <img class="profile" src="http://localhost:8080/{{item.profilePicture}}"
-                                    alt="W3Schools.com">
+                                        alt="W3Schools.com">
                                 </td>
                                 <td>{{item.authorType}}</td>
                                 <td>{{item.name}}
                                 </td>
 
-                               
+
                             </tr>
                         </tbody>
                     </table>
@@ -164,7 +161,7 @@
                                 <td>{{item.myanmarName}}
                                 <td>{{item.engName}}
                                 </td>
-                               
+
                             </tr>
                         </tbody>
                     </table>
@@ -193,7 +190,7 @@
                             <tr *ngFor="let item of subcategories | filter:subCategoryTerm;">
                                 <td>
                                     <input type="radio" name="subcategory" value="{{item.boId}}"
-                                        formControlName="subcategory" (change)="onSelectionChange(item.boId)" >
+                                        formControlName="subcategory" (change)="onSelectionChange(item.boId)">
                                 </td>
                                 <td>{{item.myanmarName}}</td>
                                 <td>{{item.engName}}</td>
@@ -225,7 +222,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of publishers | filter:publisherTerm;">
-                               
+
                                 <td>
                                     <input type="checkbox" value="{{item.boId}}"
                                         (change)="onPublishersCheckboxChange($event)">

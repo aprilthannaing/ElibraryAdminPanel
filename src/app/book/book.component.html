@@ -4,9 +4,7 @@
 <div class="content">
 
     <div>
-       
         <mat-label style="margin-left:37%;color: blue;font-size: 20px;"> Book Management</mat-label>
-
 
         <ul class="list-group" style="width: 50%;margin-top:2%;margin-left: 20%;">
             <li class="list-group-item"><span style="margin-left:5%">Book </span>
@@ -32,11 +30,7 @@
                 <span (click)="showSubCategories()" class="badge list test">{{subcategoryCount}}</span></li>
 
         </ul>
-
-
-    </div>   
-
-    
+    </div>       
 
     <div style="margin-left:10%;" *ngIf="showBook == 'true' ">
         <div class="row">
@@ -78,7 +72,7 @@
                         </td>
                         <td at-implicit at-sortable at-attribute style="width: 10%;text-align: left;">{{obj.title}}</td>
                         <td style="width: 10%;text-align: left;">{{obj.callNo}}</td>
-                        <td style="color: blue;" style="width: 10%;text-align: left;">{{obj.state}}</td>
+                        <td style="color: blue;" style="width: 10%;text-align: left;color: blue;">{{obj.state}}</td>
                         <td style="width: 10%;text-align: left;"> {{obj.createdDate}}</td>
                         <td style="width: 10%;text-align: left;">{{obj.size}}</td>
 
