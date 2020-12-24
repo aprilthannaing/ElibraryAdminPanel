@@ -54,7 +54,6 @@ export class BookComponent implements OnInit {
   count: string;
 
   currentPage: any;
-  userRole: string;
 
 
   constructor(

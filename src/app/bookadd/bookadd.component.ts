@@ -30,6 +30,7 @@ export class BookaddComponent implements OnInit {
   authorTerm: string;
   subCategoryTerm: string;
   selectedEntry;
+  loading = false;
 
 
   emptyData = {};
@@ -240,8 +241,9 @@ export class BookaddComponent implements OnInit {
   }
 
   save() {
+    this.loading = true;
     this.json.imageSrc = this.imageSrc;
-    this.json.pdfName = this.pdf;
+    this.json.pdf = this.pdf;
     this.json.authors = this.authorForm.value.auths;
     this.json.publishers = this.publisherForm.value.pubs;
     this.json.profileName = this.myForm.value.file;
@@ -255,6 +257,7 @@ export class BookaddComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/operation/saveBook";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
+        this.loading = false;
         console.warn("data: ", data);
         if (data.status == "1")
           this.successDialog();
