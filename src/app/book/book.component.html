@@ -29,6 +29,10 @@
                     [routerLink]="['/addsubcategory']"></i> 
                 <span (click)="showSubCategories()" class="badge list test">{{subcategoryCount}}</span></li>
 
+            <li  *ngIf="userRole == 'Admin'" class="list-group-item"><span style="margin-left:5%">Advertisement</span>
+                <i style="margin-left:61.5%" class="fa fa-plus" aria-hidden="true"
+                    [routerLink]="['/advertise']"></i> 
+
         </ul>
     </div>       
 
@@ -40,7 +44,7 @@
             </mat-form-field>
             
             <div style="padding-top: 20px;">
-                <button type="submit" (click)="searchByKeywords()" (changedBySearch)="changedBySearch($event)"><i class="fa fa-search"></i></button>
+                <button type="submit" (click)="searchByKeywords()" (change)="changedBySearch($event)"><i class="fa fa-search"></i></button>
             </div>
         </div>
         

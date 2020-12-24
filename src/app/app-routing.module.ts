@@ -34,6 +34,8 @@ import { UserChangepwd2Component } from './user-changepwd2/user-changepwd2.compo
 import { UserStatusChangeComponent } from './user-status-change/user-status-change.component';
 import { UserForgotPasswordComponent } from './user-forgot-password/user-forgot-password.component';
 import { UserForgotPassword2Component } from './user-forgot-password2/user-forgot-password2.component';
+import { AdvertiseComponent } from './advertise/advertise.component';
+import { NgIf } from '@angular/common';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -74,6 +76,7 @@ const routes: Routes = [
   { path: 'changeStatus', component: UserStatusChangeComponent },
   { path: 'userforgotPwd', component: UserForgotPasswordComponent },
   { path: 'userforgotPwd2', component: UserForgotPassword2Component },
+  { path: 'advertise', component: AdvertiseComponent }
 ];
 
 @NgModule({

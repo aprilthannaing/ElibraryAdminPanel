@@ -89,6 +89,7 @@ import { UserForgotPasswordComponent } from './user-forgot-password/user-forgot-
 import { UserForgotPassword2Component } from './user-forgot-password2/user-forgot-password2.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UserChangepwd2Component } from './user-changepwd2/user-changepwd2.component';
+import { AdvertiseComponent } from './advertise/advertise.component';
 
 export const ISO_FORMAT = {
   parse: {
@@ -138,7 +139,8 @@ display: {
     UserStatusChangeComponent,
     UserForgotPasswordComponent,
     UserForgotPassword2Component,
-    UserChangepwd2Component
+    UserChangepwd2Component,
+    AdvertiseComponent
   ],
 
   imports: [

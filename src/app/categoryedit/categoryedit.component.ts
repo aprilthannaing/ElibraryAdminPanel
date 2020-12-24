@@ -11,7 +11,7 @@ import { IntercomService } from '../framework/intercom.service';
 })
 export class CategoryeditComponent implements OnInit {
 
-
+  userRole = "";
   boId: string;
   term: string;
   subcategories = [];
@@ -38,7 +38,8 @@ export class CategoryeditComponent implements OnInit {
       subs: this.formBuilder.array([], [Validators.required]),
       subcategoryDisplay: this.formBuilder.array([], [Validators.required])
 
-    })
+    }),
+    this.userRole = this.ics.userRole;
     
   }
 

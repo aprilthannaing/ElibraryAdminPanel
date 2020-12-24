@@ -113,6 +113,8 @@ export class BookComponent implements OnInit {
       headers: header
     }).subscribe(
       (data: any) => {
+        this.config.currentPage = data.current_page;
+        this.config.totalItems = data.total_count;
         this.searchBooks = data.books;
         this.books = this.searchBooks;
         console.log(this.books)
@@ -124,6 +126,8 @@ export class BookComponent implements OnInit {
     return this.searchBooks;
   }
   changedBySearch(event) {
+    this.config.currentPage = event;
+    console.log(this.config.currentPage)
     this.books = this.searchByKeywords();
     console.log(this.books)
 
@@ -344,7 +348,12 @@ export class BookComponent implements OnInit {
 
   pageChanged(event) {
     this.config.currentPage = event;
-    this.getAllBooks();
+    if(!this.term)
+      this.getAllBooks();
+    else{
+      this.searchByKeywords();
+    }
+    
   }
 
   showBooks() {

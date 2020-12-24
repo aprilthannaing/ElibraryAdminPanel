@@ -1,0 +1,30 @@
+
+<h4 mat-dialog-title style="color: red;">
+  {{ data.title }}
+</h4>
+<div mat-dialog-content style="color: red;">
+   {{ data.message }}
+</div>
+<div mat-dialog-actions style="margin-left: 30%; align-items: center;">
+  <button class="mat-raised-button mat-primary" (click)="onNoClick()" style="transition-duration: 0.4s;">OK</button>
+</div>
+<style>
+  .mat-raised-button{ display: inline-block;
+  font-size: 15px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  border: none;
+  box-shadow: 0 9px #999;width:40px;}
+
+
+.mat-raised-button:active {
+  background-color: rgb(137, 137, 255);
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+</style>
+
+  

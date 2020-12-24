@@ -11,6 +11,7 @@ import { IntercomService } from '../framework/intercom.service';
 })
 
 export class BookaddcategoryComponent implements OnInit {
+  userRole = "";
   term: string;
   subcategories = [];
   myaName: String = '';
@@ -32,7 +33,8 @@ export class BookaddcategoryComponent implements OnInit {
       subs: this.formBuilder.array([], [Validators.required]),
       subcategoryDisplay: this.formBuilder.array([], [Validators.required])
 
-    })
+    }),
+    this.userRole = this.ics.userRole;
   }
 
   ngOnInit(): void {

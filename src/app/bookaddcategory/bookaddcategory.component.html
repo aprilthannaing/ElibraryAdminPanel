@@ -36,7 +36,7 @@
                                 <th></th>
                                 <th scope="col">Myanmar Name</th>
                                 <th style="width: 40%;" scope="col">English Name</th>
-                                <th scope="col">Display</th>
+                                <th  *ngIf="userRole == 'Admin'" scope="col">Display</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,7 +46,7 @@
                                 </td>
                                 <td>{{item.myanmarName}}</td>
                                 <td>{{item.engName}}</td>
-                                <td>
+                                <td  *ngIf="userRole == 'Admin'">
                                     <input type="checkbox" value="{{item.boId}}" (change)="onCheckboxSelection($event)">
                                 </td>
 
