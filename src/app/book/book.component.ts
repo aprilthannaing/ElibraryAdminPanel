@@ -1,3 +1,4 @@
+
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Event, Router, RouterEvent, NavigationStart, NavigationEnd, ActivatedRoute } from '@angular/router';
@@ -15,21 +16,29 @@ import { stringify } from 'querystring';
   styleUrls: ['./book.component.styl']
 })
 export class BookComponent implements OnInit {
+  @ViewChild('replyInput')
+  replyInput: any;
+
   userRole = "";
   publishers = [];
   authors = [];
   categories = [];
   subcategories = [];
   books = [];
+  feedbacks = [];
   showBook = "false";
   showAuthor = "false";
   showPublisher = "false";
   showCategory = "false";
   showSubCategory = "false";
+  showFeedback = "false";
   countNext = "false";
   loading = "false";
 
-
+  replied: string;
+  feedbackBoId = "";
+  
+  replyMessage = "";
   config: any;
   authorConfig: any;
 
@@ -46,6 +55,7 @@ export class BookComponent implements OnInit {
   publisherCount = 0;
   categoryCount = 0;
   subcategoryCount = 0;
+  feedbackCount = 0;
 
   lastPage: string;
   totalCount: string;
@@ -55,7 +65,13 @@ export class BookComponent implements OnInit {
 
   currentPage: any;
 
+  replyForm = new FormGroup({
 
+    message: new FormControl('', [Validators.required, Validators.maxLength(50)])
+  })
+  get f() { return this.replyForm.controls; }
+
+  submitted = false;
   constructor(
     private http: HttpClient,
     public dialog: MatDialog,
@@ -90,6 +106,7 @@ export class BookComponent implements OnInit {
     this.getPublisherCount();
     this.getCategoryCount();
     this.getSubCategoryCount();
+    this.getFeedbackCount();
   }
 
   searchByKeywords() {
@@ -232,6 +249,19 @@ export class BookComponent implements OnInit {
       });
   }
 
+  getFeedbackCount() {
+    const url: string = this.ics.apiRoute + "/operation/feedbackCount";
+    this.http.request('get', url).subscribe(
+      (data: any) => {
+        console.warn("feedback count: ", data);
+        this.feedbackCount = data;
+
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+  }
+
 
   getAllPublishers() {
     const url: string = this.ics.apiRoute + "/publisher/all";
@@ -285,6 +315,9 @@ export class BookComponent implements OnInit {
         if(data.err_msg == "Unauthorized Request")
           this.loginDialog();
         this.categories = data.categories;
+        console.log(" data.categories!!!" + data.categories)
+
+
         this.loading = "false";
       },
       error => {
@@ -353,6 +386,82 @@ export class BookComponent implements OnInit {
     
   }
 
+  getAllFeedbacks(){
+  
+    const header: HttpHeaders = new HttpHeaders({
+      token: this.ics.token
+    });
+
+    const url: string = this.ics.apiRoute + "/operation/getFeedbacks";
+    this.http.request("get", url,
+      {
+        headers: header
+      }
+    ).subscribe(
+      (data: any) => {
+        console.log(data)
+        if(data.message == "Unauthorized Request")
+          this.loginDialog();
+        this.feedbacks = data.feedbacks;
+        this.loading = "false";
+
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+  }
+
+  reply(event){
+    this.replied = "true";
+    // this.feedback.boId = Reply.textContent;
+    // console.log(Reply.textContent)
+    this.feedbackBoId = event.target.value;
+    event.target.style.color = ' #00cdac';
+    console.log(this.feedbackBoId)
+  
+  }
+
+  save(){
+    this.submitted = true;
+    this.replyMessage = this.replyForm.value;
+    if (this.replyForm.invalid) {
+      return;
+    }
+    console.log(this.replyMessage)
+    const json = {"feedbackId":this.feedbackBoId,"message":this.replyMessage}
+    const url = this.ics.apiRoute + "/operation/reply";
+    const header: HttpHeaders = new HttpHeaders({
+      token: this.ics.token
+    });
+    this.http.post(url, json,
+      {
+        headers: header
+      }
+    ).subscribe(
+      (data: any) => {
+        console.log(data)
+        if(data.message == "Unauthorized Request")
+          this.loginDialog();
+          if (data.status == "1"){
+            this.successDialog();
+            this.replyInput.nativeElement.value = ' ';
+            
+          }
+          else this.failDialog(data.msg);
+        this.loading = "false";
+
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+  }
+
+  cancel(event){
+    this.replied = "false";
+    event.target.style.color = '#0000FF';
+  }
+
+
   showBooks() {
     this.loading = "true";
     this.getAllBooks();
@@ -361,6 +470,7 @@ export class BookComponent implements OnInit {
     this.showCategory = "false"
     this.showSubCategory = "false"
     this.showPublisher = "false"
+    this.showFeedback = "false"
   }
 
   countNextPage() {
@@ -372,6 +482,7 @@ export class BookComponent implements OnInit {
     this.showCategory = "false"
     this.showSubCategory = "false"
     this.showPublisher = "false"
+    this.showFeedback = "false"
   }
   getNextPage() {
 
@@ -385,6 +496,7 @@ export class BookComponent implements OnInit {
     this.showSubCategory = "false"
     this.showPublisher = "false"
     this.showBook = "false";
+    this.showFeedback = "false"
   }
 
   showPublishers() {
@@ -395,6 +507,7 @@ export class BookComponent implements OnInit {
     this.showCategory = "false"
     this.showSubCategory = "false"
     this.showBook = "false";
+    this.showFeedback = "false"
   }
 
   showCategories() {
@@ -405,6 +518,7 @@ export class BookComponent implements OnInit {
     this.showBook = "false";
     this.showPublisher = "false";
     this.showAuthor = "false";
+    this.showFeedback = "false"
   }
 
   showSubCategories() {
@@ -415,6 +529,18 @@ export class BookComponent implements OnInit {
     this.showAuthor = "false";
     this.showCategory = "false"
     this.showBook = "false";
+    this.showFeedback = "false"
+  }
+
+  showFeedbacks(){
+    this.loading = "true";
+    this.getAllFeedbacks();
+    this.showFeedback = "true";
+    this.showBook = "false";
+    this.showSubCategory = "false";
+    this.showPublisher = "false";
+    this.showAuthor = "false";
+    this.showCategory = "false";
   }
 
   deleteBook(e) {
@@ -458,6 +584,31 @@ export class BookComponent implements OnInit {
     const dialogRef = this.dialog.open(LoginDialog, {
       data:{ 
         "title": "Please login first!!",
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+
+  }
+
+  successDialog() {
+    const dialogRef = this.dialog.open(SuccessDialog, {
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(['book']);
+      console.log('The dialog was closed');
+    });
+
+  }
+
+  failDialog(message) {
+    const dialogRef = this.dialog.open(FailDialog, {
+      data:{ 
+        "title": "Unable to reply!!",
+        "message": message
       }
     });
 
@@ -512,6 +663,7 @@ export class AlertDialog {
       });
 
   }
+  
 }  
 
   @Component({
@@ -531,3 +683,36 @@ export class AlertDialog {
       this.router.navigate(['login']);
     }
   }
+
+  @Component({
+    selector: 'success-dialog',
+    templateUrl: './success-dialog.html',
+  })
+  export class SuccessDialog {
+  
+    constructor(
+      public dialogRef: MatDialogRef<SuccessDialog>,
+    ) { }
+  
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
+  
+  }
+  
+  @Component({
+    selector: 'fail-dialog',
+    templateUrl: './fail-dialog.html',
+  })
+  export class FailDialog {
+  
+    constructor(
+      public dialogRef: MatDialogRef<FailDialog>,
+      @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
+    ) { }
+  
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
+  }
+
