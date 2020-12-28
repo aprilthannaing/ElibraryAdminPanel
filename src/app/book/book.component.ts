@@ -285,9 +285,6 @@ export class BookComponent implements OnInit {
         if(data.err_msg == "Unauthorized Request")
           this.loginDialog();
         this.categories = data.categories;
-        console.log(" data.categories!!!" + data.categories)
-
-
         this.loading = "false";
       },
       error => {

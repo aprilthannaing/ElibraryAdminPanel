@@ -119,6 +119,7 @@ export class BookaddComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.loading = true;
     this.getAllCategories();
     this.getAllPublishers();
     this.getAllAuthors();
@@ -179,6 +180,7 @@ export class BookaddComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/author/all";
     this.http.request('get', url).subscribe(
       (data: any) => {
+        this.loading = false;
         console.warn("data: ", data);
         this.authors = data.authors;
       },

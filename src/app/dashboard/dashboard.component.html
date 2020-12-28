@@ -1,10 +1,12 @@
 <app-home></app-home>
-<div style="margin-top: 2%;">
-    <mat-label style="margin-left:20%;color: blue;font-size: 20px;"> Book Entries By Each Librarian</mat-label>
-</div>
-<div class="content">
 
-    <div *ngIf="loading == true" style="margin-left: 25%;" class="lds-default">
+<div class="content">
+    <div class="row" style="margin-top: 2%;width: 100%;">
+        <mat-label style="margin-left:15%;color: blue;font-size: 20px;"> Book Entries By Each Librarian</mat-label>
+        <mat-label style="margin-left:25%;color: blue;font-size: 20px;"> Latest Popular Books</mat-label>
+    </div>
+
+    <div *ngIf="loading == true" style="margin-left: 33%;" class="lds-default">
         <div></div>
         <div></div>
         <div></div>
@@ -33,13 +35,25 @@
         <div></div>
     </div>
 
-    <div id="chart">
-        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
-            [plotOptions]="chartOptions.plotOptions" [yaxis]="chartOptions.yaxis" [xaxis]="chartOptions.xaxis"
-            [legend]="chartOptions.legend" [colors]="chartOptions.colors" [grid]="chartOptions.grid"></apx-chart>
-    </div>
-    <div style="margin-left:10%;display: none;" id="mydiv">
+    <div class="row">
+        <div id="chart" style="margin-left: 10%;">
+            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
+                [yaxis]="chartOptions.yaxis" [xaxis]="chartOptions.xaxis" [legend]="chartOptions.legend"
+                [colors]="chartOptions.colors" [grid]="chartOptions.grid"></apx-chart>
+        </div>
 
+        <div id="chart3" style="margin-top: 7%;">
+            <apx-chart [series]="chartOptions3.series1" [chart]="chartOptions3.chart" [labels]="chartOptions3.labels"
+                [responsive]="chartOptions3.responsive"></apx-chart>
+        </div>
+    </div>
+
+
+    <p style="text-decoration: underline;margin-left:14.5%;display: none;" (click)="myFunction()" id="status">{{status}}
+    </p>
+
+    <div style="margin-left:10%;display: none;" id="mydiv">
 
         <form class="example" action="/action_page.php" style="margin:auto;width:90%">
             <div style="max-width: 300px;">
@@ -61,10 +75,44 @@
                             <th style="width: 10%;text-align: left;background-color: #2196F3;">Download Approval</th>
                         </tr>
                     </thead>
-                    <tbody id="mytbody">                        
+                    <tbody id="mytbody">
+                    </tbody>
+                    <tbody>
+                        <tr *ngFor="let obj of books">                            
+                            <td at-implicit at-sortable at-attribute style="width: 10%;text-align: left;">{{obj.title}}</td>
+                            <td style="width: 10%;text-align: left;">{{obj.callNo}}</td>
+                            <td style="color: blue;" style="width: 10%;text-align: left;color: blue;">{{obj.state}}</td>
+                            <td style="width: 10%;text-align: left;"> {{obj.createdDate}}</td>
+                            <td style="width: 10%;text-align: left;">{{obj.size}}</td>
+    
+                            <td style="width: 10%;text-align: left;">
+                                <input style="text-align: center;" type="checkbox">    
+                            </td>                        
+                        </tr>
                     </tbody>
                 </table>
             </div>
+            <div style="margin-top: 3%;margin-left: 40%;">
+                <span id="firstPage" style="text-decoration: underline;" (click)="first()"></span> &nbsp;&nbsp;<i style="font-size:14px"
+                    class="fa">&#xf101;</i>
+                <span id="next" style="text-decoration: underline;" (click)="next()">&nbsp;&nbsp; Next &nbsp;&nbsp; </span><i style="font-size:14px" class="fa">&#xf101;</i>
+                &nbsp;&nbsp; <span id="lastPage" style="text-decoration: underline;" (click)="last()"></span>
+            </div>
         </form>
+    </div>
+
+    <mat-form-field class="mat" style="margin-left:40%;width: 25%;">
+        <mat-label style="font-weight: bold;">Choose Category</mat-label>
+        <select matNativeControl required (change)="selectChangeHandler($event)">
+            <option></option>
+            <option *ngFor="let item of categories" [value]="item.boId">{{item.myanmarName}}({{item.engName}})</option>
+        </select>
+
+    </mat-form-field>
+
+    <div id="chart2">
+        <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart" [dataLabels]="chartOptions2.dataLabels"
+            [plotOptions]="chartOptions2.plotOptions" [yaxis]="chartOptions2.yaxis" [xaxis]="chartOptions2.xaxis"
+            [legend]="chartOptions2.legend" [colors]="chartOptions2.colors" [grid]="chartOptions2.grid"></apx-chart>
     </div>
 </div>

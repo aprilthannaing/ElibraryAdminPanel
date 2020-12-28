@@ -37,6 +37,7 @@ import { UserForgotPassword2Component } from './user-forgot-password2/user-forgo
 import { AdvertiseComponent } from './advertise/advertise.component';
 import { NgIf } from '@angular/common';
 
+
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: UserLoginComponent },
@@ -77,6 +78,7 @@ const routes: Routes = [
   { path: 'userforgotPwd', component: UserForgotPasswordComponent },
   { path: 'userforgotPwd2', component: UserForgotPassword2Component },
   { path: 'advertise', component: AdvertiseComponent }
+
 ];
 
 @NgModule({

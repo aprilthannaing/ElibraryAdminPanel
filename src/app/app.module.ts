@@ -141,6 +141,7 @@ display: {
     UserForgotPassword2Component,
     UserChangepwd2Component,
     AdvertiseComponent
+
   ],
 
   imports: [

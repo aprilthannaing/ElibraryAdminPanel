@@ -66,7 +66,9 @@ export class UserLoginComponent implements OnInit {
                           this.router.navigate(['/changePwd']); 
                           this.ics.token = data.token;
                         }else{
-                          this.router.navigate(['/home']); 
+                         // this.router.navigate(['/home']); 
+                          this.router.navigate(['dashboard']);
+
                           this.ics.userId = data.data.id;
                           this.ics.userRole = data.data.role;
                           this.ics.uesrName = data.data.name;
