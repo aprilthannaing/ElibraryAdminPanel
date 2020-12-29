@@ -66,30 +66,182 @@ export class DashboardComponent implements OnInit {
   loading = false;
   bookList = [];
   books = [];
+  books2 = [];
+  books3 = [];
+  popularBookCount = [];
+  categoryNameList = [];
   term = '';
   categories = [];
-  status = "Hide Details";
+  status = "Hide Book Entries";
+  status2 = "Hide Books By Category";
+  status3 = "Hide Popular Books";
   userId = "";
   currentPage = "";
+  currentPage2 = "";
+  currentPage3 = "";
+  title = "";
 
   constructor(
     private dialog: MatDialog,
     private ics: IntercomService,
     private http: HttpClient,
   ) {
-    this.chartOptions3 = {
-      series1: [44, 55, 13, 43, 22, 45],
-      chart: {
-        width: 380,
-        type: "pie"
+
+
+    this.userId = this.ics.userId;
+    console.log("userId !!!!!!!!!!!!", this.userId)
+    if (this.userId == "")
+      this.loginDialog(this.title);
+
+  }
+
+  ngOnInit(): void {
+    this.currentPage = "2";
+    this.currentPage2 = "2";
+    this.currentPage3 = "2";
+    this.chartOptions2 = {};
+    this.getEntries();
+    this.getAllCategories();
+    this.getPopularBooks();
+  }
+
+  getPopularBooks() {
+
+    const url: string = this.ics.apiRoute + "/dashboard/popularbookcount";
+    const header: HttpHeaders = new HttpHeaders({
+      token: this.ics.token
+    });
+    this.http.request('post', url, {
+      headers: header
+    }).subscribe(
+      (data: any) => {
+        this.categoryNameList = data.nameList;
+        this.popularBookCount = data.bookCount;
+        this.getPieChart(this.ics, this.http, this.userId);
       },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E", "Team F"],
+      error => {
+        console.warn("error: ", error);
+      });
+
+  }
+
+  getPieChart(ics, http, userId) {
+    this.chartOptions3 = {
+      series1: this.popularBookCount,
+      chart: {
+        width: 550,
+        type: "pie",
+        events: {
+          dataPointSelection: function (event, chartContext, config) {
+            document.getElementById("loading").style.display = "block";
+            console.log("config.dataPointIndex : ", config.dataPointIndex)
+            const url: string = ics.apiRoute + "/dashboard/popularbooks";
+            const json = {
+              "index": config.dataPointIndex,
+              page: "1",
+              user_id: userId
+            }
+
+            http.post(url, json).subscribe(
+              (data: any) => {
+                console.log("data!!!!!!!!!!!!!!!!!!!!", data);
+                const json = data;
+
+                document.getElementById("count3").textContent = data.total_count;
+                document.getElementById("mydiv3").style.display = "block";
+                document.getElementById("status3").style.display = "block";
+
+
+                /*create table*/
+                var table = document.getElementById("myTable3");
+                var tblBody = document.getElementById("mytbody3");
+                tblBody.innerHTML = '';
+
+
+                document.getElementById("firstPage3").innerHTML = json.current_page;
+                document.getElementById("lastPage3").innerHTML = json.last_page;
+                document.getElementById("next3").setAttribute("value", config.dataPointIndex);
+
+                if (json.current_page == json.last_page) {
+                  document.getElementById("firstPage3").style.display = "none";
+                  document.getElementById("lastPage3").style.display = "none";
+                  document.getElementById("next3").style.display = "none";
+                  document.getElementById("icon1").style.display = "none";
+                  document.getElementById("icon2").style.display = "none";
+                }
+
+                json.bookList.forEach(element => {
+                  var row = document.createElement("tr");
+                  var title = document.createElement("td");
+                  var cellTitle = document.createTextNode(element.title);
+                  title.appendChild(cellTitle);
+                  row.appendChild(title);
+
+                  var callNo = document.createElement("td");
+                  var cellcallNo = document.createTextNode(element.callNo);
+                  callNo.appendChild(cellcallNo);
+                  row.appendChild(callNo);
+
+
+                  var accessionNo = document.createElement("td");
+                  var cellAccessionNo = document.createTextNode(element.accessionNo);
+                  accessionNo.appendChild(cellAccessionNo);
+                  row.appendChild(accessionNo);
+
+                  var subCategory = document.createElement("td");
+                  var cellsubCategory = document.createTextNode(element.subCategory.myanmarName);
+                  subCategory.appendChild(cellsubCategory);
+                  row.appendChild(subCategory);
+
+                  var state = document.createElement("td");
+                  var cellState = document.createTextNode(element.state);
+                  state.appendChild(cellState);
+                  row.appendChild(state);
+
+                  var createdDate = document.createElement("td");
+                  var cell = document.createTextNode(element.createdDate);
+                  createdDate.appendChild(cell);
+                  row.appendChild(createdDate);
+
+                  var size = document.createElement("td");
+                  var cell = document.createTextNode(element.size);
+                  size.appendChild(cell);
+                  row.appendChild(size);
+
+                  var downloadApproval = document.createElement("td");
+
+                  var checkbox = document.createElement("INPUT");
+                  checkbox.setAttribute("type", "checkbox");
+                  if (element.downloadApproval != "") {
+                    checkbox.setAttribute("checked", "true");
+                  }
+                  downloadApproval.appendChild(checkbox);
+                  row.appendChild(downloadApproval);
+
+
+                  tblBody.appendChild(row);
+                  table.appendChild(tblBody);
+                });
+
+                document.getElementById("loading").style.display = "none";
+
+              },
+              error => {
+                document.getElementById("loading").style.display = "none";
+
+                console.warn("error: ", error);
+              });
+
+          }
+        }
+      },
+      labels: this.categoryNameList,
       responsive: [
         {
           breakpoint: 480,
           options: {
             chart: {
-              width: 200
+              width: 400
             },
             legend: {
               position: "bottom"
@@ -98,18 +250,10 @@ export class DashboardComponent implements OnInit {
         }
       ]
     };
-
-    this.userId = this.ics.userId;
-  }
-  ngOnInit(): void {
-    this.currentPage = "2";
-    this.chartOptions2 = {};
-    this.getEntries();
-    this.getAllCategories();
   }
 
 
-  getBarChart() {
+  getBarChart(userId) {
 
     this.chartOptions = {
       series: [
@@ -133,7 +277,7 @@ export class DashboardComponent implements OnInit {
             var params = JSON.stringify({
               index: config.dataPointIndex,
               page: "1",
-              user_id: "USR1"
+              user_id: userId
             });
             http.open("POST", url, true);
             http.setRequestHeader("Content-type", "application/json; charset=utf-8");
@@ -142,7 +286,6 @@ export class DashboardComponent implements OnInit {
                 document.getElementById("count").textContent = chartContext.opts.series[0].data[config.dataPointIndex];
                 document.getElementById("mydiv").style.display = "block";
                 document.getElementById("status").style.display = "block";
-
 
                 /*create table*/
                 var table = document.getElementById("myTable");
@@ -161,11 +304,21 @@ export class DashboardComponent implements OnInit {
                   var cellTitle = document.createTextNode(element.title);
                   title.appendChild(cellTitle);
                   row.appendChild(title);
+                  var callNo = document.createElement("td");
+                  var cellcallNo = document.createTextNode(element.callNo);
+                  callNo.appendChild(cellcallNo);
+                  row.appendChild(callNo);
+
 
                   var accessionNo = document.createElement("td");
                   var cellAccessionNo = document.createTextNode(element.accessionNo);
                   accessionNo.appendChild(cellAccessionNo);
                   row.appendChild(accessionNo);
+
+                  var subCategory = document.createElement("td");
+                  var cellsubCategory = document.createTextNode(element.subCategory.myanmarName);
+                  subCategory.appendChild(cellsubCategory);
+                  row.appendChild(subCategory);
 
                   var state = document.createElement("td");
                   var cellState = document.createTextNode(element.state);
@@ -255,7 +408,9 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  getBarChart2() {
+
+
+  getBarChart2(categoryId, userId) {
 
     this.chartOptions2 = {
       series: [
@@ -268,6 +423,103 @@ export class DashboardComponent implements OnInit {
         height: 550,
         type: "bar",
         events: {
+
+          dataPointSelection: function (event, chartContext, config) {
+            document.getElementById("loading").style.display = "block";
+            console.log("config.dataPointIndex : ", config.dataPointIndex)
+
+            var http = new XMLHttpRequest();
+            var url = "http://localhost:8082/dashboard/booklistbysubcategory";
+            var params = JSON.stringify({
+              index: config.dataPointIndex,
+              page: "1",
+              category_Id: categoryId,
+              user_id: userId
+            });
+            http.open("POST", url, true);
+            http.setRequestHeader("Content-type", "application/json; charset=utf-8");
+            http.onreadystatechange = function () {
+              if (http.status == 200) {
+                document.getElementById("count2").textContent = chartContext.opts.series[0].data[config.dataPointIndex];
+                document.getElementById("mydiv2").style.display = "block";
+                document.getElementById("status2").style.display = "block";
+
+
+                /*create table*/
+                var table = document.getElementById("myTable2");
+                var tblBody = document.getElementById("mytbody2");
+                tblBody.innerHTML = '';
+                const json = JSON.parse(this.responseText);
+
+                document.getElementById("firstPage2").innerHTML = json.current_page;
+                document.getElementById("lastPage2").innerHTML = json.last_page;
+                document.getElementById("next2").setAttribute("value", config.dataPointIndex + "," + json.sub_category);
+
+
+                json.bookList.forEach(element => {
+                  var row = document.createElement("tr");
+                  var title = document.createElement("td");
+                  var cellTitle = document.createTextNode(element.title);
+                  title.appendChild(cellTitle);
+                  row.appendChild(title);
+
+                  var callNo = document.createElement("td");
+                  var cellcallNo = document.createTextNode(element.callNo);
+                  callNo.appendChild(cellcallNo);
+                  row.appendChild(callNo);
+
+
+                  var accessionNo = document.createElement("td");
+                  var cellAccessionNo = document.createTextNode(element.accessionNo);
+                  accessionNo.appendChild(cellAccessionNo);
+                  row.appendChild(accessionNo);
+
+                  var subCategory = document.createElement("td");
+                  var cellsubCategory = document.createTextNode(element.subCategory.myanmarName);
+                  subCategory.appendChild(cellsubCategory);
+                  row.appendChild(subCategory);
+
+                  var state = document.createElement("td");
+                  var cellState = document.createTextNode(element.state);
+                  state.appendChild(cellState);
+                  row.appendChild(state);
+
+                  var createdDate = document.createElement("td");
+                  var cell = document.createTextNode(element.createdDate);
+                  createdDate.appendChild(cell);
+                  row.appendChild(createdDate);
+
+                  var size = document.createElement("td");
+                  var cell = document.createTextNode(element.size);
+                  size.appendChild(cell);
+                  row.appendChild(size);
+
+                  var downloadApproval = document.createElement("td");
+
+                  var checkbox = document.createElement("INPUT");
+                  checkbox.setAttribute("type", "checkbox");
+                  if (element.downloadApproval != "") {
+                    checkbox.setAttribute("checked", "true");
+                  }
+                  downloadApproval.appendChild(checkbox);
+                  row.appendChild(downloadApproval);
+
+
+                  tblBody.appendChild(row);
+                  table.appendChild(tblBody);
+                });
+
+                document.getElementById("loading").style.display = "none";
+
+
+              } else {
+                document.getElementById("loading").style.display = "none";
+                console.log("error !!!!!!!!!!!!!!")
+              }
+            }
+            http.send(params);
+
+          }
         }
       },
       colors: [
@@ -319,13 +571,35 @@ export class DashboardComponent implements OnInit {
     };
   }
 
+  myFunction3() {
+    var x = document.getElementById("mydiv3");
+    if (x.style.display === "none") {
+      this.status3 = "Hide Popular Books";
+      x.style.display = "block";
+    } else {
+      this.status3 = "Show Popular Books";
+      x.style.display = "none";
+    }
+  }
+
+  myFunction2() {
+    var x = document.getElementById("mydiv2");
+    if (x.style.display === "none") {
+      this.status2 = "Hide Books By Category";
+      x.style.display = "block";
+    } else {
+      this.status2 = "Show Books By Category";
+      x.style.display = "none";
+    }
+  }
+
   myFunction() {
     var x = document.getElementById("mydiv");
     if (x.style.display === "none") {
-      this.status = "Hide Details";
+      this.status = "Hide Book Entries";
       x.style.display = "block";
     } else {
-      this.status = "Show Details";
+      this.status = "Show Book Entries";
       x.style.display = "none";
     }
   }
@@ -343,17 +617,12 @@ export class DashboardComponent implements OnInit {
           this.librarians.push(element);
         });
 
-        this.getBarChart();
+        this.getBarChart(this.userId);
         this.loading = false;
       },
       error => {
         console.warn("error: ", error);
       });
-  }
-
-  search() {
-    console.log("term:", this.term); 
-    console.log("index !!!!!!!!!!!" , document.getElementById("next").getAttribute("value"));
   }
 
   getAllCategories() {
@@ -366,8 +635,6 @@ export class DashboardComponent implements OnInit {
     }).subscribe(
       (data: any) => {
         console.warn("data: ", data);
-        if (data.err_msg == "Unauthorized Request")
-          this.loginDialog();
         this.categories = data.categories;
       },
       error => {
@@ -375,10 +642,10 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  loginDialog() {
+  loginDialog(title) {
     const dialogRef = this.dialog.open(LoginDialog, {
       data: {
-        "title": "Please login first!!",
+        "title": title,
       }
     });
 
@@ -410,7 +677,7 @@ export class DashboardComponent implements OnInit {
           this.bookBySub = booksBySub;
         });
 
-        this.getBarChart2();
+        this.getBarChart2(event.target.value, this.userId);
         this.loading = false;
       },
       error => {
@@ -446,6 +713,92 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  getBooksByPaganation2() {
+    this.loading = true;
+    const url: string = this.ics.apiRoute + "/dashboard/booklistbysubcategory";
+    const index = document.getElementById("next2").getAttribute("value");
+    var splitted = index.split(",");
+
+
+    const json = {
+      "user_id": this.userId,
+      "page": this.currentPage2,
+      "index": splitted[0],
+      "sub_category_id": splitted[1]
+    }
+
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        var tblBody = document.getElementById("mytbody2");
+        tblBody.innerHTML = '';
+        this.books2 = data.bookList;
+        var currentPage = 1 + data.current_page;
+        this.currentPage2 = currentPage + "";
+        console.log("current page!!!!!", this.currentPage2);
+        this.loading = false;
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+
+  }
+
+  getBooksByPaganation3() {
+    this.loading = true;
+    const url: string = this.ics.apiRoute + "/dashboard/popularbooks";
+    const index = document.getElementById("next3").getAttribute("value");
+    const json = {
+      "user_id": this.userId,
+      "page": this.currentPage3,
+      "index": index
+    }
+
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        console.log("data!!!!!!!!!!!!!!!!!!!!", data);
+        var tblBody = document.getElementById("mytbody3");
+        tblBody.innerHTML = '';
+        this.books3 = data.bookList;
+        var currentPage = 1 + data.current_page;
+        this.currentPage3 = currentPage + "";
+        console.log("current page!!!!!", this.currentPage3);
+        console.log("last page3!!!!!", document.getElementById("lastPage3").innerHTML);
+
+
+        this.loading = false;
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+
+  }
+
+  search() {
+    console.log("term:", this.term);
+    console.log("index !!!!!!!!!!!", document.getElementById("next").getAttribute("value"));
+
+    const url: string = this.ics.apiRoute + "/dashboard/librarian/booksearch";
+    const index = document.getElementById("next").getAttribute("value");
+    const json = {
+      "user_id": this.userId,
+      "page": this.currentPage,
+      "index": index
+    }
+
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        console.log("data!!!!!!!!!!!!!!!!!!!!", data);
+        this.loading = false;
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+  }
+
+  search3() {
+
+  }
+
   first() {
     this.currentPage = "1";
     console.log("current page!!!!!", this.currentPage);
@@ -458,12 +811,53 @@ export class DashboardComponent implements OnInit {
     this.getBooksByPaganation();
   }
 
-  next() {    
+  next() {
     console.log("current page!!!!!", this.currentPage);
     this.getBooksByPaganation();
   }
+
+
+  first2() {
+    this.currentPage2 = "1";
+    console.log("current page!!!!!", this.currentPage2);
+    this.getBooksByPaganation2();
+  }
+
+  last2() {
+    this.currentPage2 = document.getElementById("lastPage2").innerHTML;
+    console.log("current page!!!!!", this.currentPage2);
+    this.getBooksByPaganation2();
+  }
+
+  next2() {
+    console.log("current page!!!!!", this.currentPage2);
+    this.getBooksByPaganation2();
+  }
+
+  first3() {
+    this.currentPage3 = "1";
+    console.log("current page3!!!!!", this.currentPage3);
+    this.getBooksByPaganation3();
+  }
+
+  last3() {
+    this.currentPage3 = document.getElementById("lastPage3").innerHTML;
+    console.log("current page3!!!!!", this.currentPage3);
+    this.getBooksByPaganation3();
+  }
+
+  next3() {
+    console.log("current page3!!!!!", this.currentPage3);
+    console.log("current page3!!!!!", document.getElementById("lastPage3").innerHTML);
+
+    this.getBooksByPaganation3();
+  }
 }
 
+@Component({
+  selector: 'login-dialog',
+  templateUrl: './login-dialog.html',
+})
 export class LoginDialog {
 
   constructor(
@@ -476,4 +870,9 @@ export class LoginDialog {
     this.dialogRef.close();
     this.router.navigate(['login']);
   }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }
+

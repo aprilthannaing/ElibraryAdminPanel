@@ -3,7 +3,7 @@
 <div class="content">
     <div class="row" style="margin-top: 2%;width: 100%;">
         <mat-label style="margin-left:15%;color: blue;font-size: 20px;"> Book Entries By Each Librarian</mat-label>
-        <mat-label style="margin-left:25%;color: blue;font-size: 20px;"> Latest Popular Books</mat-label>
+        <mat-label style="margin-left:23%;color: blue;font-size: 20px;"> Latest Popular Books</mat-label>
     </div>
 
     <div *ngIf="loading == true" style="margin-left: 33%;" class="lds-default">
@@ -43,17 +43,81 @@
                 [colors]="chartOptions.colors" [grid]="chartOptions.grid"></apx-chart>
         </div>
 
-        <div id="chart3" style="margin-top: 7%;">
+        <div id="chart3" style="margin-top: 5%;margin-left: 12%;">
             <apx-chart [series]="chartOptions3.series1" [chart]="chartOptions3.chart" [labels]="chartOptions3.labels"
                 [responsive]="chartOptions3.responsive"></apx-chart>
         </div>
     </div>
 
+    <!-- ---------------------  books by popular  ---------------- -->
+
+    <p style="text-decoration: underline;margin-left:14.5%;display: none;" (click)="myFunction3()" id="status3">
+        {{status3}}
+    </p>
+
+    <div style="margin-left:10%;display: none;max-height: 450px;" id="mydiv3">
+
+        <form class="example" action="/action_page.php" style="margin:auto;width:90%">
+            <div style="max-width: 300px;">
+                <span class="badge list test" id="count3">Count</span>
+                <br>
+
+                <input type="text" placeholder="Search.." name="search2" [(ngModel)]="term">
+                <button type="submit" (click)="search3()"><i class="fa fa-search"></i></button>
+            </div>
+            <div style="margin-top: 7%;height: 400px;overflow-y: auto;width:90%;overflow-x:auto;">
+                <table class="table-striped table-condensed table-hover tblborder" id="myTable3">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">BookTitle </th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">class No.</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">Accession No.</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">Sub Category</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">State</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">Created Date</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">Size</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">Download Approval</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mytbody3">
+                    </tbody>
+                    <tbody>
+                        <tr *ngFor="let obj of books3">
+                            <td style="width: 10%;text-align: left;">{{obj.title}}
+                            </td>
+                            <td style="width: 10%;text-align: left;">{{obj.callNo}}
+                            </td>
+                            <td style="width: 10%;text-align: left;">{{obj.accessionNo}}</td>
+                            <td style="width: 10%;text-align: left;">{{obj.subCategory.myanmarName}}</td>
+                            <td style="color: blue;" style="width: 10%;text-align: left;color: blue;">{{obj.state}}</td>
+                            <td style="width: 10%;text-align: left;"> {{obj.createdDate}}</td>
+                            <td style="width: 10%;text-align: left;">{{obj.size}}</td>
+                            <td style="width: 10%;text-align: left;">
+                                <input style="text-align: center;" type="checkbox">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top: 3%;margin-left: 40%;">
+                <span id="firstPage3" style="text-decoration: underline;" (click)="first3()"></span> &nbsp;&nbsp;<i
+                    style="font-size:14px" class="fa" id="icon1">&#xf101;</i>
+                <span id="next3" style="text-decoration: underline;" (click)="next3()">&nbsp;&nbsp; Next &nbsp;&nbsp;
+                </span><i style="font-size:14px" class="fa" id="icon2">&#xf101;</i>
+                &nbsp;&nbsp; <span id="lastPage3" style="text-decoration: underline;" (click)="last3()"></span>
+            </div>
+        </form>
+    </div>
+
+
+    <!-- ---------------------  books by popular ---------------- -->
+
+    <!-- ---------------------  books by librarian  ---------------- -->
 
     <p style="text-decoration: underline;margin-left:14.5%;display: none;" (click)="myFunction()" id="status">{{status}}
     </p>
 
-    <div style="margin-left:10%;display: none;" id="mydiv">
+    <div style="margin-left:10%;display: none;max-height: 700px;" id="mydiv">
 
         <form class="example" action="/action_page.php" style="margin:auto;width:90%">
             <div style="max-width: 300px;">
@@ -63,43 +127,56 @@
                 <input type="text" placeholder="Search.." name="search2" [(ngModel)]="term">
                 <button type="submit" (click)="search()"><i class="fa fa-search"></i></button>
             </div>
-            <div style="height: 500px;overflow-y: auto;width:90%;overflow-x:auto;margin-top: 7%;">
+            <div style="margin-top: 7%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;">
                 <table class="table-striped table-condensed table-hover tblborder" id="myTable">
                     <thead>
                         <tr>
                             <th style="width: 10%;text-align: left;background-color: #2196F3;">BookTitle </th>
-                            <th style="width: 10%;text-align: left;background-color: #2196F3;">Accession No</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">class No.</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">Accession No.</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">Sub Category</th>
                             <th style="width: 10%;text-align: left;background-color: #2196F3;">State</th>
                             <th style="width: 10%;text-align: left;background-color: #2196F3;">Created Date</th>
                             <th style="width: 10%;text-align: left;background-color: #2196F3;">Size</th>
                             <th style="width: 10%;text-align: left;background-color: #2196F3;">Download Approval</th>
+
                         </tr>
                     </thead>
                     <tbody id="mytbody">
                     </tbody>
                     <tbody>
-                        <tr *ngFor="let obj of books">                            
-                            <td at-implicit at-sortable at-attribute style="width: 10%;text-align: left;">{{obj.title}}</td>
-                            <td style="width: 10%;text-align: left;">{{obj.callNo}}</td>
+                        <tr *ngFor="let obj of books">
+                            <td style="width: 10%;text-align: left;">{{obj.title}}
+                            </td>
+                            <td style="width: 10%;text-align: left;">{{obj.callNo}}
+                            </td>
+                            <td style="width: 10%;text-align: left;">{{obj.accessionNo}}</td>
+                            <td style="width: 10%;text-align: left;">{{obj.subCategory.myanmarName}}</td>
                             <td style="color: blue;" style="width: 10%;text-align: left;color: blue;">{{obj.state}}</td>
                             <td style="width: 10%;text-align: left;"> {{obj.createdDate}}</td>
                             <td style="width: 10%;text-align: left;">{{obj.size}}</td>
-    
                             <td style="width: 10%;text-align: left;">
-                                <input style="text-align: center;" type="checkbox">    
-                            </td>                        
+                                <input style="text-align: center;" type="checkbox">
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div style="margin-top: 3%;margin-left: 40%;">
-                <span id="firstPage" style="text-decoration: underline;" (click)="first()"></span> &nbsp;&nbsp;<i style="font-size:14px"
-                    class="fa">&#xf101;</i>
-                <span id="next" style="text-decoration: underline;" (click)="next()">&nbsp;&nbsp; Next &nbsp;&nbsp; </span><i style="font-size:14px" class="fa">&#xf101;</i>
+                <span id="firstPage" style="text-decoration: underline;" (click)="first()"></span> &nbsp;&nbsp;<i
+                    style="font-size:14px" class="fa">&#xf101;</i>
+                <span id="next" style="text-decoration: underline;" (click)="next()">&nbsp;&nbsp; Next &nbsp;&nbsp;
+                </span><i style="font-size:14px" class="fa">&#xf101;</i>
                 &nbsp;&nbsp; <span id="lastPage" style="text-decoration: underline;" (click)="last()"></span>
             </div>
         </form>
     </div>
+
+
+    <!-- ---------------------  books by librarian ---------------- -->
+
+    <!-- ---------------------  books by category ---------------- -->
+
 
     <mat-form-field class="mat" style="margin-left:40%;width: 25%;">
         <mat-label style="font-weight: bold;">Choose Category</mat-label>
@@ -110,9 +187,71 @@
 
     </mat-form-field>
 
-    <div id="chart2">
+    <div id="chart2" style="margin-left:5%;">
         <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart" [dataLabels]="chartOptions2.dataLabels"
             [plotOptions]="chartOptions2.plotOptions" [yaxis]="chartOptions2.yaxis" [xaxis]="chartOptions2.xaxis"
             [legend]="chartOptions2.legend" [colors]="chartOptions2.colors" [grid]="chartOptions2.grid"></apx-chart>
     </div>
+
+    <p style="text-decoration: underline;margin-left:14.5%;display: none;" (click)="myFunction2()" id="status2">
+        {{status2}}
+    </p>
+
+    <div style="margin-left:10%;display: none;max-height:500px;" id="mydiv2">
+
+        <form class="example" action="/action_page.php" style="margin:auto;width:90%">
+            <div style="max-width: 300px;">
+                <span class="badge list test" id="count2">Count</span>
+                <br>
+
+                <input type="text" placeholder="Search.." name="search2" [(ngModel)]="term">
+                <button type="submit" (click)="search()"><i class="fa fa-search"></i></button>
+            </div>
+            <div style="margin-top: 7%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;">
+                <table class="table-striped table-condensed table-hover tblborder" id="myTable2">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">BookTitle </th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">class No.</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">Accession No.</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">Sub Category</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">State</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">Created Date</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">Size</th>
+                            <th style="width: 10%;text-align: left;background-color: #2196F3;">Download Approval</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="mytbody2">
+                    </tbody>
+                    <tbody>
+                        <tr *ngFor="let obj of books2">
+                            <td style="width: 10%;text-align: left;">{{obj.title}}
+                            </td>
+                            <td style="width: 10%;text-align: left;">{{obj.callNo}}
+                            </td>
+                            <td style="width: 10%;text-align: left;">{{obj.accessionNo}}</td>
+                            <td style="width: 10%;text-align: left;">{{obj.subCategory.myanmarName}}</td>
+                            <td style="color: blue;" style="width: 10%;text-align: left;color: blue;">{{obj.state}}</td>
+                            <td style="width: 10%;text-align: left;"> {{obj.createdDate}}</td>
+                            <td style="width: 10%;text-align: left;">{{obj.size}}</td>
+                            <td style="width: 10%;text-align: left;">
+                                <input style="text-align: center;" type="checkbox">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="margin-top: 3%;margin-left: 40%;">
+                <span id="firstPage2" style="text-decoration: underline;" (click)="first2()"></span> &nbsp;&nbsp;<i
+                    style="font-size:14px" class="fa">&#xf101;</i>
+                <span id="next2" style="text-decoration: underline;" (click)="next2()">&nbsp;&nbsp; Next &nbsp;&nbsp;
+                </span><i style="font-size:14px" class="fa">&#xf101;</i>
+                &nbsp;&nbsp; <span id="lastPage2" style="text-decoration: underline;" (click)="last2()"></span>
+            </div>
+        </form>
+    </div>
+
+    <!-- ---------------------  books by category ---------------- -->
+
 </div>
