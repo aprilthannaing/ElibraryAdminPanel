@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angu
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
 import { stringify } from 'querystring';
+import { ConvertActionBindingResult } from '@angular/compiler/src/compiler_util/expression_converter';
 
 
 @Component({
@@ -25,12 +26,14 @@ export class BookComponent implements OnInit {
   categories = [];
   subcategories = [];
   books = [];
+  advertisements = [];
   feedbacks = [];
   showBook = "false";
   showAuthor = "false";
   showPublisher = "false";
   showCategory = "false";
   showSubCategory = "false";
+  showAdvertisement = "false";
   showFeedback = "false";
   countNext = "false";
   loading = "false";
@@ -56,6 +59,8 @@ export class BookComponent implements OnInit {
   categoryCount = 0;
   subcategoryCount = 0;
   feedbackCount = 0;
+  advertisementCount = 0;
+  advertisementImage: string;
 
   lastPage: string;
   totalCount: string;
@@ -106,6 +111,7 @@ export class BookComponent implements OnInit {
     this.getPublisherCount();
     this.getCategoryCount();
     this.getSubCategoryCount();
+    this.getAdvertisementCount();
     this.getFeedbackCount();
   }
 
@@ -249,6 +255,17 @@ export class BookComponent implements OnInit {
       });
   }
 
+  getAdvertisementCount() {
+    const url: string = this.ics.apiRoute + "/operation/advertisementCount";
+    this.http.request('get', url).subscribe(
+      (data: any) => {
+        this.advertisementCount = data;
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+  }
+
   getFeedbackCount() {
     const url: string = this.ics.apiRoute + "/operation/feedbackCount";
     this.http.request('get', url).subscribe(
@@ -384,6 +401,33 @@ export class BookComponent implements OnInit {
       this.searchByKeywords();
     }
     
+  }
+
+  getAllAdvertisements(){
+    const header: HttpHeaders = new HttpHeaders({
+      token: this.ics.token
+    });
+
+    const url: string = this.ics.apiRoute + "/operation/getAdvertisements";
+    this.http.request("get", url, 
+    {
+      headers: header
+    }).subscribe(
+      (data : any)=> {
+        console.warn("data:" + data)
+        if(data.message == "Unauthorized Request")
+          this.loginDialog();
+        this.advertisements = data.advertisements;
+        // for(let i=0; i<this.advertisements.length; i++){
+
+        // }
+        // this.advertisementImage = "http://localhost:8080/" + this.advertisementImage[]
+        this.loading = "false";
+
+      },
+      error => {
+        console.warn("error: ", error);
+      });
   }
 
   getAllFeedbacks(){
@@ -543,8 +587,44 @@ export class BookComponent implements OnInit {
     this.showCategory = "false";
   }
 
+  showAdvertisements(){
+    this.loading = "true";
+    this.getAllAdvertisements();
+    this.showAdvertisement = "true";
+    this.showFeedback = "false";
+    this.showBook = "false";
+    this.showSubCategory = "false";
+    this.showCategory = "false";
+    this.showPublisher = "false";
+    this.showAuthor = "false";
+  }
+
   deleteBook(e) {
     this.alertDialog({}, e.target.value)
+  }
+
+  deleteAdvertisement(e){
+    this.confirmDialog();
+
+    const url: string = this.ics.apiRoute + "/operation/deleteAdvertisement";
+    const header: HttpHeaders = new HttpHeaders({
+      token: this.ics.token
+    });
+    const json = {
+      "boId": e.target.value
+    }
+    this.http.post(url, json, {
+      headers : header
+    }).subscribe(
+      (data: any) => {
+        console.log(data)
+        if(data.err_msg == "Unauthorized Request")
+          this.loginDialog();
+        
+      },
+      error => {
+        console.warn("error:", error);
+      })
   }
 
   alertDialog(data, boId) {
@@ -611,6 +691,15 @@ export class BookComponent implements OnInit {
         "message": message
       }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+
+  }
+
+  confirmDialog() {
+    const dialogRef = this.dialog.open(ConfirmDialog);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
@@ -715,4 +804,22 @@ export class AlertDialog {
       this.dialogRef.close();
     }
   }
+
+  @Component({
+    selector: 'confirm-dialog',
+    templateUrl: './confirm-dialog.html',
+  })
+  export class ConfirmDialog {
+  
+    constructor(
+      public dialogRef: MatDialogRef<ConfirmDialog>,
+      public router: Router,
+    ) { }
+  
+    confirm(): void {
+      this.dialogRef.close();
+      
+    }
+  }
+
 
