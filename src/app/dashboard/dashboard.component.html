@@ -62,7 +62,7 @@
                 <span class="badge list test" id="count3">Count</span>
                 <br>
 
-                <input type="text" placeholder="Search.." name="search2" [(ngModel)]="term">
+                <input type="text" placeholder="Search.." name="search2" [(ngModel)]="popularTerm">
                 <button type="submit" (click)="search3()"><i class="fa fa-search"></i></button>
             </div>
             <div style="margin-top: 7%;height: 400px;overflow-y: auto;width:90%;overflow-x:auto;">
@@ -119,15 +119,33 @@
 
     <div style="margin-left:10%;display: none;max-height: 700px;" id="mydiv">
 
+
+
+        <mat-form-field color="accent" style="margin-left: 5%;">
+            <input matInput [matDatepicker]="picker1" placeholder="From" [(ngModel)]="entryStartDate">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field color="accent">
+            <input matInput [matDatepicker]="picker2" placeholder="To" [(ngModel)]="entryEndDate">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2 color="primary"></mat-datepicker>
+        </mat-form-field>
+        <i style="font-size: 28px;margin-left:3%;margin-top:1.3%; color: blue;" class="fa"
+            (click)="exportEntry()">&#xf1c3;</i>
+
         <form class="example" action="/action_page.php" style="margin:auto;width:90%">
             <div style="max-width: 300px;">
                 <span class="badge list test" id="count">Count</span>
                 <br>
 
-                <input type="text" placeholder="Search.." name="search2" [(ngModel)]="term">
+
+                <input type="text" placeholder="Search.." name="search2" [(ngModel)]="entryTerm">
                 <button type="submit" (click)="search()"><i class="fa fa-search"></i></button>
             </div>
-            <div style="margin-top: 7%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;">
+
+            <div style="margin-top: 5%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;">
                 <table class="table-striped table-condensed table-hover tblborder" id="myTable">
                     <thead>
                         <tr>
@@ -204,8 +222,8 @@
                 <span class="badge list test" id="count2">Count</span>
                 <br>
 
-                <input type="text" placeholder="Search.." name="search2" [(ngModel)]="term">
-                <button type="submit" (click)="search()"><i class="fa fa-search"></i></button>
+                <input type="text" placeholder="Search.." name="search2" [(ngModel)]="categoryTerm">
+                <button type="submit" (click)="search2()"><i class="fa fa-search"></i></button>
             </div>
             <div style="margin-top: 7%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;">
                 <table class="table-striped table-condensed table-hover tblborder" id="myTable2">
@@ -244,9 +262,9 @@
             </div>
             <div style="margin-top: 3%;margin-left: 40%;">
                 <span id="firstPage2" style="text-decoration: underline;" (click)="first2()"></span> &nbsp;&nbsp;<i
-                    style="font-size:14px" class="fa">&#xf101;</i>
+                    style="font-size:14px" class="fa" id="icon3">&#xf101;</i>
                 <span id="next2" style="text-decoration: underline;" (click)="next2()">&nbsp;&nbsp; Next &nbsp;&nbsp;
-                </span><i style="font-size:14px" class="fa">&#xf101;</i>
+                </span><i style="font-size:14px" class="fa" id="icon4">&#xf101;</i>
                 &nbsp;&nbsp; <span id="lastPage2" style="text-decoration: underline;" (click)="last2()"></span>
             </div>
         </form>

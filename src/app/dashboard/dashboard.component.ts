@@ -44,6 +44,7 @@ export type ChartOptions = {
   labels: any;
 };
 
+declare var $: any;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -70,7 +71,9 @@ export class DashboardComponent implements OnInit {
   books3 = [];
   popularBookCount = [];
   categoryNameList = [];
-  term = '';
+  popularTerm = '';
+  categoryTerm = '';
+  entryTerm = '';
   categories = [];
   status = "Hide Book Entries";
   status2 = "Hide Books By Category";
@@ -79,27 +82,27 @@ export class DashboardComponent implements OnInit {
   currentPage = "";
   currentPage2 = "";
   currentPage3 = "";
-  title = "";
+  title = "";  
+  entryStartDate = "";
+  entryEndDate = "";
+  json = { "userId" : "", "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "accessionNo":"", "callNumber": "", "description": "" };
+
 
   constructor(
     private dialog: MatDialog,
     private ics: IntercomService,
     private http: HttpClient,
-  ) {
-
-
-    this.userId = this.ics.userId;
-    console.log("userId !!!!!!!!!!!!", this.userId)
-    if (this.userId == "")
-      this.loginDialog(this.title);
-
+  ) {  
+    this.userId = this.ics.userId; 
   }
 
   ngOnInit(): void {
     this.currentPage = "2";
     this.currentPage2 = "2";
     this.currentPage3 = "2";
+    this.chartOptions = {};
     this.chartOptions2 = {};
+    this.chartOptions3 = {};
     this.getEntries();
     this.getAllCategories();
     this.getPopularBooks();
@@ -162,7 +165,7 @@ export class DashboardComponent implements OnInit {
                 document.getElementById("lastPage3").innerHTML = json.last_page;
                 document.getElementById("next3").setAttribute("value", config.dataPointIndex);
 
-                if (json.current_page == json.last_page) {
+                if (json.current_page >= json.last_page) {
                   document.getElementById("firstPage3").style.display = "none";
                   document.getElementById("lastPage3").style.display = "none";
                   document.getElementById("next3").style.display = "none";
@@ -297,6 +300,14 @@ export class DashboardComponent implements OnInit {
                 document.getElementById("lastPage").innerHTML = json.last_page;
                 document.getElementById("next").setAttribute("value", config.dataPointIndex);
 
+                if (json.current_page >= json.last_page) {
+                  document.getElementById("firstPage").style.display = "none";
+                  document.getElementById("lastPage").style.display = "none";
+                  document.getElementById("next").style.display = "none";
+                  document.getElementById("icon3").style.display = "none";
+                  document.getElementById("icon4").style.display = "none";
+                }
+
 
                 json.bookList.forEach(element => {
                   var row = document.createElement("tr");
@@ -406,8 +417,7 @@ export class DashboardComponent implements OnInit {
         }
       },
     };
-  }
-
+  } 
 
 
   getBarChart2(categoryId, userId) {
@@ -571,6 +581,12 @@ export class DashboardComponent implements OnInit {
     };
   }
 
+  exportEntry(){  
+    var parameter = this.entryStartDate + "," + this.entryEndDate;
+    console.log("parameter !!!!!" , parameter)
+    window.open( this.ics.apiRoute + "/book/exportEntry" + ".xlsx?input=" + parameter, "_blank");
+  }
+
   myFunction3() {
     var x = document.getElementById("mydiv3");
     if (x.style.display === "none") {
@@ -718,8 +734,6 @@ export class DashboardComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/dashboard/booklistbysubcategory";
     const index = document.getElementById("next2").getAttribute("value");
     var splitted = index.split(",");
-
-
     const json = {
       "user_id": this.userId,
       "page": this.currentPage2,
@@ -774,7 +788,7 @@ export class DashboardComponent implements OnInit {
   }
 
   search() {
-    console.log("term:", this.term);
+    console.log("term:", this.entryTerm);
     console.log("index !!!!!!!!!!!", document.getElementById("next").getAttribute("value"));
 
     const url: string = this.ics.apiRoute + "/dashboard/librarian/booksearch";
@@ -788,6 +802,51 @@ export class DashboardComponent implements OnInit {
     this.http.post(url, json).subscribe(
       (data: any) => {
         console.log("data!!!!!!!!!!!!!!!!!!!!", data);
+        this.loading = false;
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+  }
+
+  search2() {
+    this.loading = true;
+    console.log("term:", this.categoryTerm);
+    console.log("index !!!!!!!!!!!", document.getElementById("next2").getAttribute("value"));
+    var splitted = document.getElementById("next2").getAttribute("value").split(",");
+    const url: string = this.ics.apiRoute + "/search/book";
+    const index = document.getElementById("next2").getAttribute("value");
+    const json =
+    {
+      author_id: "",
+      category_id: "",
+      end_date: "",
+      page: "1",
+      searchTerms: this.categoryTerm,
+      start_date: "",
+      sub_category_id: splitted[1],
+      title: "",
+      user_id: this.userId
+    }
+
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        console.log("data!!!!!!!!!!!!!!!!!!!!", data);
+        var tblBody = document.getElementById("mytbody2");
+        tblBody.innerHTML = '';
+        this.books2 = data.books;
+        this.currentPage2 = "2";
+
+        document.getElementById("firstPage2").innerHTML = data.current_page;
+        document.getElementById("lastPage2").innerHTML = data.last_page;
+
+        if (data.current_page >= data.last_page) {
+          document.getElementById("firstPage2").style.display = "none";
+          document.getElementById("lastPage2").style.display = "none";
+          document.getElementById("next2").style.display = "none";
+          document.getElementById("icon3").style.display = "none";
+          document.getElementById("icon4").style.display = "none";
+        }
         this.loading = false;
       },
       error => {
