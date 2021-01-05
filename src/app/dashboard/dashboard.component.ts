@@ -82,30 +82,40 @@ export class DashboardComponent implements OnInit {
   currentPage = "";
   currentPage2 = "";
   currentPage3 = "";
-  title = "";  
+  title = "";
   entryStartDate = "";
   entryEndDate = "";
-  json = { "userId" : "", "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "accessionNo":"", "callNumber": "", "description": "" };
+  popularStartDate = "";
+  popularEndDate = "";
+  categoryStartDate = ""
+  categoryEndDate = "";
 
 
   constructor(
     private dialog: MatDialog,
     private ics: IntercomService,
     private http: HttpClient,
-  ) {  
-    this.userId = this.ics.userId; 
+  ) {
+    this.userId = this.ics.userId;
+    this.check();
+
   }
 
   ngOnInit(): void {
     this.currentPage = "2";
     this.currentPage2 = "2";
     this.currentPage3 = "2";
-    this.chartOptions = {};
     this.chartOptions2 = {};
     this.chartOptions3 = {};
     this.getEntries();
     this.getAllCategories();
     this.getPopularBooks();
+  }
+
+  check() {
+    console.log("user!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + this.ics.userId);
+    if (this.ics.userId == "")
+      this.loginDialog("");
   }
 
   getPopularBooks() {
@@ -154,12 +164,10 @@ export class DashboardComponent implements OnInit {
                 document.getElementById("mydiv3").style.display = "block";
                 document.getElementById("status3").style.display = "block";
 
-
                 /*create table*/
                 var table = document.getElementById("myTable3");
                 var tblBody = document.getElementById("mytbody3");
                 tblBody.innerHTML = '';
-
 
                 document.getElementById("firstPage3").innerHTML = json.current_page;
                 document.getElementById("lastPage3").innerHTML = json.last_page;
@@ -417,7 +425,7 @@ export class DashboardComponent implements OnInit {
         }
       },
     };
-  } 
+  }
 
 
   getBarChart2(categoryId, userId) {
@@ -581,10 +589,35 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  exportEntry(){  
-    var parameter = this.entryStartDate + "," + this.entryEndDate;
-    console.log("parameter !!!!!" , parameter)
-    window.open( this.ics.apiRoute + "/book/exportEntry" + ".xlsx?input=" + parameter, "_blank");
+  exportEntry() {  //1
+    const index = document.getElementById("next").getAttribute("value");
+    console.log("index !!!!!!!!!!" + index)
+
+    var parameter = this.entryStartDate + "," + this.entryEndDate + "," + index;
+    console.log("parameter !!!!!", parameter)
+    window.open(this.ics.apiRoute + "/book/exportEntry" + ".xlsx?input=" + parameter, "_blank");
+  }
+
+  exportPopularBooks() { //3
+    const index = document.getElementById("next3").getAttribute("value");
+    console.log("index !!!!!!!!!!" + index)
+
+    var parameter = this.popularStartDate + "," + this.popularEndDate + "," + index;
+    console.log("parameter !!!!!", parameter)
+    window.open(this.ics.apiRoute + "/book/exportPopularBooks" + ".xlsx?input=" + parameter, "_blank");
+
+
+  }
+
+  exportCategoryBooks() { //2
+    const index = document.getElementById("next2").getAttribute("value");
+    console.log("index !!!!!!!!!!" + index)
+
+    var parameter = this.categoryStartDate + "," + this.categoryEndDate + "," + index;
+    console.log("parameter !!!!!", parameter)
+    window.open(this.ics.apiRoute + "/book/exportBooksByCategory" + ".xlsx?input=" + parameter, "_blank");
+
+
   }
 
   myFunction3() {
@@ -788,20 +821,39 @@ export class DashboardComponent implements OnInit {
   }
 
   search() {
-    console.log("term:", this.entryTerm);
+    this.loading = true;
+    console.log("entryTerm:", this.entryTerm);
     console.log("index !!!!!!!!!!!", document.getElementById("next").getAttribute("value"));
 
     const url: string = this.ics.apiRoute + "/dashboard/librarian/booksearch";
     const index = document.getElementById("next").getAttribute("value");
     const json = {
-      "user_id": this.userId,
-      "page": this.currentPage,
-      "index": index
+      user_id: this.userId,
+      page: "1",
+      index: index,
+      searchTerms: this.entryTerm,
     }
 
     this.http.post(url, json).subscribe(
       (data: any) => {
         console.log("data!!!!!!!!!!!!!!!!!!!!", data);
+        var tblBody = document.getElementById("mytbody");
+        tblBody.innerHTML = '';
+        document.getElementById("count").textContent = data.total_count;
+        this.books = data.books;
+        var currentPage = 1 + data.current_page;
+        this.currentPage = currentPage + "";
+
+        document.getElementById("firstPage").innerHTML = data.current_page;
+        document.getElementById("lastPage").innerHTML = data.last_page;
+
+        if (data.current_page >= data.last_page) {
+          document.getElementById("firstPage").style.display = "none";
+          document.getElementById("lastPage").style.display = "none";
+          document.getElementById("next").style.display = "none";
+          document.getElementById("icon5").style.display = "none";
+          document.getElementById("icon6").style.display = "none";
+        }
         this.loading = false;
       },
       error => {
@@ -834,13 +886,15 @@ export class DashboardComponent implements OnInit {
         console.log("data!!!!!!!!!!!!!!!!!!!!", data);
         var tblBody = document.getElementById("mytbody2");
         tblBody.innerHTML = '';
-        this.books2 = data.books;
-        this.currentPage2 = "2";
+        document.getElementById("count2").textContent = data.total_count;
 
+        this.books2 = data.books;
+        var currentPage = 1 + data.current_page;
+        this.currentPage2 = currentPage + "";
         document.getElementById("firstPage2").innerHTML = data.current_page;
         document.getElementById("lastPage2").innerHTML = data.last_page;
 
-        if (data.current_page >= data.last_page) {
+        if (data.current_page2 >= data.last_page) {
           document.getElementById("firstPage2").style.display = "none";
           document.getElementById("lastPage2").style.display = "none";
           document.getElementById("next2").style.display = "none";
@@ -855,6 +909,44 @@ export class DashboardComponent implements OnInit {
   }
 
   search3() {
+
+    this.loading = true;
+    console.log("term:", this.popularTerm);
+    console.log("index !!!!!!!!!!!", document.getElementById("next3").getAttribute("value"));
+    const url: string = this.ics.apiRoute + "/dashboard/popualrbooksearch";
+    const index = document.getElementById("next3").getAttribute("value");
+    const json = {
+      user_id: this.userId,
+      page: "1",
+      index: index,
+      searchTerms: this.popularTerm,
+    }
+
+    this.http.post(url, json).subscribe(
+      (data: any) => {
+        console.log("data!!!!!!!!!!!!!!!!!!!!", data);
+        var tblBody = document.getElementById("mytbody3");
+        tblBody.innerHTML = '';
+        document.getElementById("count3").textContent = data.total_count;
+        this.books3 = data.books;
+        this.currentPage3 = "2";
+
+
+        document.getElementById("firstPage3").innerHTML = data.current_page;
+        document.getElementById("lastPage3").innerHTML = data.last_page;
+
+        if (data.current_page3 >= data.last_page) {
+          document.getElementById("firstPage3").style.display = "none";
+          document.getElementById("lastPage3").style.display = "none";
+          document.getElementById("next3").style.display = "none";
+          document.getElementById("icon1").style.display = "none";
+          document.getElementById("icon2").style.display = "none";
+        }
+        this.loading = false;
+      },
+      error => {
+        console.warn("error: ", error);
+      });
 
   }
 
@@ -871,10 +963,13 @@ export class DashboardComponent implements OnInit {
   }
 
   next() {
+    console.log("next !!!!!!!!!!!!");
     console.log("current page!!!!!", this.currentPage);
-    this.getBooksByPaganation();
+    console.log("searchterm:", this.entryTerm);
+    if (this.entryTerm == "")
+      this.getBooksByPaganation();
+    else this.search();
   }
-
 
   first2() {
     this.currentPage2 = "1";
@@ -889,8 +984,12 @@ export class DashboardComponent implements OnInit {
   }
 
   next2() {
-    console.log("current page!!!!!", this.currentPage2);
-    this.getBooksByPaganation2();
+    console.log("current page 2!!!!!", this.currentPage2);
+    console.log("searchterm:", this.categoryTerm);
+
+    if (this.categoryTerm == "")
+      this.getBooksByPaganation2();
+    else this.search2();
   }
 
   first3() {

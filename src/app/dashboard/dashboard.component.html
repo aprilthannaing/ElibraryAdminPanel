@@ -55,8 +55,20 @@
         {{status3}}
     </p>
 
-    <div style="margin-left:10%;display: none;max-height: 450px;" id="mydiv3">
+    <div style="margin-left:10%;display: none;max-height: 450px;max-height: 500px;" id="mydiv3">
+        <mat-form-field color="accent" style="margin-left: 5%;">
+            <input matInput [matDatepicker]="picker5" placeholder="From" [(ngModel)]="popularStartDate">
+            <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+            <mat-datepicker #picker5></mat-datepicker>
+        </mat-form-field>
 
+        <mat-form-field color="accent">
+            <input matInput [matDatepicker]="picker6" placeholder="To" [(ngModel)]="popularEndDate">
+            <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+            <mat-datepicker #picker6 color="primary"></mat-datepicker>
+        </mat-form-field>
+        <i style="font-size: 28px;margin-left:3%;margin-top:1.3%; color: blue;" class="fa"
+            (click)="exportPopularBooks()">&#xf1c3;</i>
         <form class="example" action="/action_page.php" style="margin:auto;width:90%">
             <div style="max-width: 300px;">
                 <span class="badge list test" id="count3">Count</span>
@@ -114,7 +126,7 @@
 
     <!-- ---------------------  books by librarian  ---------------- -->
 
-    <p style="text-decoration: underline;margin-left:14.5%;display: none;" (click)="myFunction()" id="status">{{status}}
+    <p style="text-decoration: underline;margin-left:14.5%;display: none;margin-top:100px;" (click)="myFunction()" id="status">{{status}}
     </p>
 
     <div style="margin-left:10%;display: none;max-height: 700px;" id="mydiv">
@@ -182,9 +194,9 @@
             </div>
             <div style="margin-top: 3%;margin-left: 40%;">
                 <span id="firstPage" style="text-decoration: underline;" (click)="first()"></span> &nbsp;&nbsp;<i
-                    style="font-size:14px" class="fa">&#xf101;</i>
+                    style="font-size:14px" class="fa" id="icon5">&#xf101;</i>
                 <span id="next" style="text-decoration: underline;" (click)="next()">&nbsp;&nbsp; Next &nbsp;&nbsp;
-                </span><i style="font-size:14px" class="fa">&#xf101;</i>
+                </span><i style="font-size:14px" class="fa" id="icon6">&#xf101;</i>
                 &nbsp;&nbsp; <span id="lastPage" style="text-decoration: underline;" (click)="last()"></span>
             </div>
         </form>
@@ -196,7 +208,7 @@
     <!-- ---------------------  books by category ---------------- -->
 
 
-    <mat-form-field class="mat" style="margin-left:40%;width: 25%;">
+    <mat-form-field class="mat" style="margin-left:40%;width: 25%;margin-top: 50px;">
         <mat-label style="font-weight: bold;">Choose Category</mat-label>
         <select matNativeControl required (change)="selectChangeHandler($event)">
             <option></option>
@@ -216,7 +228,19 @@
     </p>
 
     <div style="margin-left:10%;display: none;max-height:500px;" id="mydiv2">
+        <mat-form-field color="accent" style="margin-left: 5%;">
+            <input matInput [matDatepicker]="picker3" placeholder="From" [(ngModel)]="categoryStartDate">
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>
 
+        <mat-form-field color="accent">
+            <input matInput [matDatepicker]="picker4" placeholder="To" [(ngModel)]="categoryEndDate">
+            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+            <mat-datepicker #picker4 color="primary"></mat-datepicker>
+        </mat-form-field>
+        <i style="font-size: 28px;margin-left:3%;margin-top:1.3%; color: blue;" class="fa"
+            (click)="exportCategoryBooks()">&#xf1c3;</i>
         <form class="example" action="/action_page.php" style="margin:auto;width:90%">
             <div style="max-width: 300px;">
                 <span class="badge list test" id="count2">Count</span>
