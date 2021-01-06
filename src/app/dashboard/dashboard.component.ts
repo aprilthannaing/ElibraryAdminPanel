@@ -58,8 +58,11 @@ export class DashboardComponent implements OnInit {
   @ViewChild("chart2") chart2: ChartComponent;
   public chartOptions2: Partial<ChartOptions>;
 
-  @ViewChild("chart3") 3: ChartComponent;
+  @ViewChild("chart3") chart3: ChartComponent;
   public chartOptions3: Partial<ChartOptions>;
+
+  @ViewChild("chart4") chart4: ChartComponent;
+  public chartOptions4: Partial<ChartOptions>;
 
   bookCount = [];
   librarians = [];
@@ -92,6 +95,8 @@ export class DashboardComponent implements OnInit {
   categoryEndDate = "";
 
 
+  popularSubBookCount = [14, 76, 34];
+
   constructor(
     private dialog: MatDialog,
     private ics: IntercomService,
@@ -108,6 +113,8 @@ export class DashboardComponent implements OnInit {
     this.currentPage3 = "2";
     this.chartOptions2 = {};
     this.chartOptions3 = {};
+    this.chartOptions4 = {};
+
     this.getEntries();
     this.getAllCategories();
     this.getPopularBooks();
@@ -146,6 +153,8 @@ export class DashboardComponent implements OnInit {
         width: 550,
         type: "pie",
         events: {
+
+
           dataPointSelection: function (event, chartContext, config) {
             document.getElementById("loading").style.display = "block";
             console.log("config.dataPointIndex : ", config.dataPointIndex)
@@ -590,6 +599,73 @@ export class DashboardComponent implements OnInit {
     };
   }
 
+
+  getBarChart4() {
+
+    this.chartOptions4 = {
+      series: [
+        {
+          name: "Book Count",
+          data: this.popularSubBookCount,
+        }
+      ],
+      chart: {
+        height: 550,
+        type: "bar",
+        events: {
+        }
+      },
+      colors: [
+        "#008FFB",
+        "#00E396",
+        "#FEB019",
+        "#FF4560",
+        "#775DD0",
+        "#546E7A",
+        "#26a69a",
+        "#D10CE8"
+      ],
+      plotOptions: {
+        bar: {
+          columnWidth: "45%",
+          distributed: true,
+          horizontal: true,
+
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      legend: {
+        show: false
+      },
+      grid: {
+        show: false,
+
+      },
+      xaxis: {
+        categories: this.bookBySub,
+        labels: {
+          style: {
+            colors: [
+              "#008FFB",
+              "#00E396",
+              "#FEB019",
+              "#FF4560",
+              "#775DD0",
+              "#546E7A",
+              "#26a69a",
+              "#D10CE8"
+            ],
+            fontSize: "12px"
+          }
+        }
+      },
+    };
+
+
+  }
+
   exportEntry() {  //1
     const index = document.getElementById("next").getAttribute("value");
     console.log("index !!!!!!!!!!" + index)
@@ -606,8 +682,6 @@ export class DashboardComponent implements OnInit {
     var parameter = this.popularStartDate + "," + this.popularEndDate + "," + index;
     console.log("parameter !!!!!", parameter)
     window.open(this.ics.apiRoute + "/book/exportPopularBooks" + ".xlsx?input=" + parameter, "_blank");
-
-
   }
 
   exportCategoryBooks() { //2
@@ -727,6 +801,7 @@ export class DashboardComponent implements OnInit {
           this.bookBySub = booksBySub;
         });
 
+        this.getBarChart4();
         this.getBarChart2(event.target.value, this.userId);
         this.loading = false;
       },

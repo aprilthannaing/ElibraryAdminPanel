@@ -49,13 +49,13 @@
         </div>
     </div>
 
-    <!-- ---------------------  books by popular  ---------------- -->
+    <!-- ---------------------  books by popular  ---------------- -->   
 
     <p style="text-decoration: underline;margin-left:14.5%;display: none;" (click)="myFunction3()" id="status3">
         {{status3}}
     </p>
 
-    <div style="margin-left:10%;display: none;max-height: 450px;max-height: 500px;" id="mydiv3">
+    <div style="margin-left:10%;display: none;max-height: 400px;" id="mydiv3">
         <mat-form-field color="accent" style="margin-left: 5%;">
             <input matInput [matDatepicker]="picker5" placeholder="From" [(ngModel)]="popularStartDate">
             <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
@@ -208,7 +208,7 @@
     <!-- ---------------------  books by category ---------------- -->
 
 
-    <mat-form-field class="mat" style="margin-left:40%;width: 25%;margin-top: 50px;">
+    <mat-form-field class="mat" style="margin-left:40%;width: 25%;margin-top: 15%">
         <mat-label style="font-weight: bold;">Choose Category</mat-label>
         <select matNativeControl required (change)="selectChangeHandler($event)">
             <option></option>
@@ -216,6 +216,12 @@
         </select>
 
     </mat-form-field>
+
+    <div id="chart2" style="margin-left:5%;">
+        <apx-chart [series]="chartOptions4.series" [chart]="chartOptions4.chart" [dataLabels]="chartOptions4.dataLabels"
+            [plotOptions]="chartOptions4.plotOptions" [yaxis]="chartOptions4.yaxis" [xaxis]="chartOptions4.xaxis"
+            [legend]="chartOptions4.legend" [colors]="chartOptions4.colors" [grid]="chartOptions4.grid"></apx-chart>
+    </div>
 
     <div id="chart2" style="margin-left:5%;">
         <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart" [dataLabels]="chartOptions2.dataLabels"
