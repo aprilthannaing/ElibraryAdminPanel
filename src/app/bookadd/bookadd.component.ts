@@ -119,11 +119,13 @@ export class BookaddComponent implements OnInit {
 
 
   ngOnInit(): void {
+    
     this.loading = true;
     this.getAllCategories();
     this.getAllPublishers();
     this.getAllAuthors();
   }
+
 
   onClickFileInputButton(): void {
     this.fileInput.nativeElement.click();

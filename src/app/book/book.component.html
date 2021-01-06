@@ -34,8 +34,8 @@
                     [routerLink]="['/advertise']"></i>
                 <span (click)="showAdvertisements()" class="badge list test">{{advertisementCount}}</span></li>
             <li  *ngIf="userRole == 'SuperLibrarian' || 'Admin'" class="list-group-item"><span style="margin-left:5%">Feedback</span>
-                <i style="margin-left:67%" class="fa fa-plus" aria-hidden="true"
-                    [routerLink]="['/Feedback']"></i> 
+                <!-- <i style="margin-left:67%" class="fa fa-plus" aria-hidden="true"
+                    [routerLink]="['/Feedback']"></i>  -->
                 <span (click)="showFeedbacks()" class="badge list test">{{feedbackCount}}</span></li>
         </ul>
     </div>       

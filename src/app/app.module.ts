@@ -205,7 +205,6 @@ display: {
     MatSliderModule,
     //RouterModule.forRoot(routes),
     BrowserAnimationsModule,
-    MatDatepickerModule,
     MatInputModule,
     A11yModule,
     ClipboardModule,

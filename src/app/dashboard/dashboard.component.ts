@@ -17,6 +17,7 @@ import {
   ApexResponsive,
 } from "ng-apexcharts";
 import { TestBed } from '@angular/core/testing';
+import { IfStmt } from "@angular/compiler";
 
 type ApexXAxis = {
   type?: "category" | "datetime" | "numeric";
@@ -284,7 +285,7 @@ export class DashboardComponent implements OnInit {
             console.log("config.dataPointIndex : ", config.dataPointIndex)
             /* get book list from api by bar index*/
             var http = new XMLHttpRequest();
-            var url = "http://localhost:8082/dashboard/librarian/booklist";
+            var url = "http://192.168.3.56:8080/elibrary/dashboard/librarian/booklist";
             var params = JSON.stringify({
               index: config.dataPointIndex,
               page: "1",
@@ -447,7 +448,7 @@ export class DashboardComponent implements OnInit {
             console.log("config.dataPointIndex : ", config.dataPointIndex)
 
             var http = new XMLHttpRequest();
-            var url = "http://localhost:8082/dashboard/booklistbysubcategory";
+            var url = "http://192.168.3.56:8080/elibrary/dashboard/booklistbysubcategory";
             var params = JSON.stringify({
               index: config.dataPointIndex,
               page: "1",
@@ -737,6 +738,7 @@ export class DashboardComponent implements OnInit {
 
   getBooksByPaganation() {
     this.loading = true;
+    this.entryTerm = "";
     const url: string = this.ics.apiRoute + "/dashboard/librarian/booklist";
     const index = document.getElementById("next").getAttribute("value");
     const json = {
@@ -764,6 +766,7 @@ export class DashboardComponent implements OnInit {
 
   getBooksByPaganation2() {
     this.loading = true;
+    this.categoryTerm = "";
     const url: string = this.ics.apiRoute + "/dashboard/booklistbysubcategory";
     const index = document.getElementById("next2").getAttribute("value");
     var splitted = index.split(",");
@@ -792,6 +795,7 @@ export class DashboardComponent implements OnInit {
 
   getBooksByPaganation3() {
     this.loading = true;
+    this.popularTerm = "";
     const url: string = this.ics.apiRoute + "/dashboard/popularbooks";
     const index = document.getElementById("next3").getAttribute("value");
     const json = {
@@ -846,7 +850,7 @@ export class DashboardComponent implements OnInit {
 
         document.getElementById("firstPage").innerHTML = data.current_page;
         document.getElementById("lastPage").innerHTML = data.last_page;
-
+       
         if (data.current_page >= data.last_page) {
           document.getElementById("firstPage").style.display = "none";
           document.getElementById("lastPage").style.display = "none";
@@ -859,6 +863,7 @@ export class DashboardComponent implements OnInit {
       error => {
         console.warn("error: ", error);
       });
+      this.entryTerm = "";
   }
 
   search2() {
@@ -906,6 +911,7 @@ export class DashboardComponent implements OnInit {
       error => {
         console.warn("error: ", error);
       });
+      this.categoryTerm = "";
   }
 
   search3() {
@@ -947,68 +953,109 @@ export class DashboardComponent implements OnInit {
       error => {
         console.warn("error: ", error);
       });
-
+      this.popularTerm = "";
   }
 
   first() {
-    this.currentPage = "1";
-    console.log("current page!!!!!", this.currentPage);
-    this.getBooksByPaganation();
+    if(this.entryTerm){
+      this.search();
+    }else{
+      this.currentPage = "1";
+      console.log("current page!!!!!", this.currentPage);
+      this.getBooksByPaganation();
+    }
+    
   }
 
   last() {
-    this.currentPage = document.getElementById("lastPage").innerHTML;
-    console.log("current page!!!!!", this.currentPage);
-    this.getBooksByPaganation();
+    if(this.entryTerm){
+      this.search();
+    }
+    else{
+      this.currentPage = document.getElementById("lastPage").innerHTML;
+      console.log("current page!!!!!", this.currentPage);
+      this.getBooksByPaganation();
+    }
   }
 
   next() {
-    console.log("next !!!!!!!!!!!!");
-    console.log("current page!!!!!", this.currentPage);
-    console.log("searchterm:", this.entryTerm);
-    if (this.entryTerm == "")
+    if(this.entryTerm){
+      this.search();
+    }
+    else{
+      console.log("next !!!!!!!!!!!!");
+      console.log("current page!!!!!", this.currentPage);
+      console.log("searchterm:", this.entryTerm);
       this.getBooksByPaganation();
-    else this.search();
+    }
+    // if (this.entryTerm == "")
+    //   this.getBooksByPaganation();
+    // else this.search();
   }
 
   first2() {
-    this.currentPage2 = "1";
-    console.log("current page!!!!!", this.currentPage2);
-    this.getBooksByPaganation2();
+    if(this.categoryTerm){
+      console.log("searched!!!");
+      this.search2();
+    }else{
+      this.currentPage2 = "1";
+      console.log("current page!!!!!", this.currentPage2);
+      this.getBooksByPaganation2();
+    }
+   
   }
 
   last2() {
-    this.currentPage2 = document.getElementById("lastPage2").innerHTML;
-    console.log("current page!!!!!", this.currentPage2);
-    this.getBooksByPaganation2();
+    if(this.categoryTerm){
+      this.search2();
+    }else{
+      this.currentPage2 = document.getElementById("lastPage2").innerHTML;
+      console.log("current page!!!!!", this.currentPage2);
+      this.getBooksByPaganation2();
+    }
   }
 
   next2() {
-    console.log("current page 2!!!!!", this.currentPage2);
-    console.log("searchterm:", this.categoryTerm);
-
-    if (this.categoryTerm == "")
+    if(this.categoryTerm){
+      this.search2();
+    }else{
+      console.log("current page 2!!!!!", this.currentPage2);
+      console.log("searchterm:", this.categoryTerm);
       this.getBooksByPaganation2();
-    else this.search2();
+    }
+    // if (this.categoryTerm == "")
+    //   this.getBooksByPaganation2();
+    // else this.search2();
   }
 
   first3() {
-    this.currentPage3 = "1";
-    console.log("current page3!!!!!", this.currentPage3);
-    this.getBooksByPaganation3();
+    if(this.popularTerm){
+      this.search3();
+    }else{
+      this.currentPage3 = "1";
+      console.log("current page3!!!!!", this.currentPage3);
+      this.getBooksByPaganation3();
+    }
   }
 
   last3() {
-    this.currentPage3 = document.getElementById("lastPage3").innerHTML;
-    console.log("current page3!!!!!", this.currentPage3);
-    this.getBooksByPaganation3();
+    if(this.popularTerm){
+      this.search3();
+    }else{
+      this.currentPage3 = document.getElementById("lastPage3").innerHTML;
+      console.log("current page3!!!!!", this.currentPage3);
+      this.getBooksByPaganation3();
+    }
   }
 
   next3() {
-    console.log("current page3!!!!!", this.currentPage3);
-    console.log("current page3!!!!!", document.getElementById("lastPage3").innerHTML);
-
-    this.getBooksByPaganation3();
+    if(this.popularTerm){
+      this.search3();
+    }else{
+      console.log("current page3!!!!!", this.currentPage3);
+      console.log("current page3!!!!!", document.getElementById("lastPage3").innerHTML);
+      this.getBooksByPaganation3();
+    }   
   }
 }
 
