@@ -814,6 +814,12 @@ export class DashboardComponent implements OnInit {
   }
 
   exportPopularBooksBySubCategory() {
+    const index = document.getElementById("next4").getAttribute("value");
+    console.log("index !!!!!!!!!!" + index)
+
+    var parameter = this.popularCategoryStartDate + "," + this.popularCategoryEndDate + "," + index;
+    console.log("parameter !!!!!", parameter)
+        window.open(this.ics.apiRoute + "/book/exportPopularBooksBySubCategory" + ".xlsx?input=" + parameter, "_blank");
 
   }
 
@@ -1094,7 +1100,7 @@ export class DashboardComponent implements OnInit {
         document.getElementById("firstPage").innerHTML = data.current_page;
         document.getElementById("lastPage").innerHTML = data.last_page;
 
-        if (data.current_page >= data.last_page) {
+        if ( this.currentPage  >= data.last_page) {
           document.getElementById("firstPage").style.display = "none";
           document.getElementById("lastPage").style.display = "none";
           document.getElementById("next").style.display = "none";
@@ -1142,7 +1148,7 @@ export class DashboardComponent implements OnInit {
         document.getElementById("firstPage2").innerHTML = data.current_page;
         document.getElementById("lastPage2").innerHTML = data.last_page;
 
-        if (data.current_page2 >= data.last_page) {
+        if (this.currentPage2 >= data.last_page) {
           document.getElementById("firstPage2").style.display = "none";
           document.getElementById("lastPage2").style.display = "none";
           document.getElementById("next2").style.display = "none";
@@ -1178,18 +1184,18 @@ export class DashboardComponent implements OnInit {
         tblBody.innerHTML = '';
         document.getElementById("count3").textContent = data.total_count;
         this.books3 = data.books;
-        this.currentPage3 = "2";
-
-
-        document.getElementById("firstPage3").innerHTML = data.current_page;
-        document.getElementById("lastPage3").innerHTML = data.last_page;
-
-        if (data.current_page3 >= data.last_page) {
+        var currentPage = 1 + data.current_page;
+        this.currentPage3 = currentPage + "";
+        if (this.currentPage3 >= data.last_page) {
           document.getElementById("firstPage3").style.display = "none";
           document.getElementById("lastPage3").style.display = "none";
           document.getElementById("next3").style.display = "none";
           document.getElementById("icon1").style.display = "none";
           document.getElementById("icon2").style.display = "none";
+        } else {
+          document.getElementById("firstPage3").innerHTML = data.current_page;
+          document.getElementById("lastPage3").innerHTML = data.last_page;
+
         }
         this.loading = false;
       },
@@ -1200,6 +1206,9 @@ export class DashboardComponent implements OnInit {
   }
 
   search4() {
+
+    console.log("search 44444444444 !!!!!!!!!")
+
     this.loading = true;
     console.log("term:", this.popularCategoryTerm);
     console.log("index !!!!!!!!!!!", document.getElementById("next4").getAttribute("value"));
@@ -1223,17 +1232,23 @@ export class DashboardComponent implements OnInit {
         tblBody.innerHTML = '';
         document.getElementById("count4").textContent = data.total_count;
         this.books4 = data.books;
-        this.currentPage4 = "2";
+        var currentPage = 1 + data.current_page;
+        this.currentPage4 = currentPage + "";
 
-        document.getElementById("firstPage4").innerHTML = data.current_page;
-        document.getElementById("lastPage4").innerHTML = data.last_page;
 
-        if (data.current_page4 >= data.last_page) {
+        console.log("data.current_page4 !!!!!!!!!" + data.current_page4)
+        console.log("data.last_page!!!!!!!!!" + data.last_page)
+
+        if (this.currentPage4 >= data.last_page) {
           document.getElementById("firstPage4").style.display = "none";
           document.getElementById("lastPage4").style.display = "none";
           document.getElementById("next4").style.display = "none";
           document.getElementById("icon7").style.display = "none";
           document.getElementById("icon8").style.display = "none";
+        } else {
+          document.getElementById("firstPage4").innerHTML = data.current_page;
+          document.getElementById("lastPage4").innerHTML = data.last_page;
+
         }
         this.loading = false;
       },
