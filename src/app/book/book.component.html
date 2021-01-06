@@ -29,11 +29,11 @@
                     [routerLink]="['/addsubcategory']"></i> 
                 <span (click)="showSubCategories()" class="badge list test">{{subcategoryCount}}</span></li>
 
-            <li  *ngIf="userRole == 'Admin'" class="list-group-item"><span style="margin-left:5%">Advertisement</span>
+            <li class="list-group-item"><span style="margin-left:5%">Advertisement</span>
                 <i style="margin-left:61.5%" class="fa fa-plus" aria-hidden="true"
                     [routerLink]="['/advertise']"></i>
                 <span (click)="showAdvertisements()" class="badge list test">{{advertisementCount}}</span></li>
-            <li  *ngIf="userRole == 'SuperLibrarian' || 'Admin'" class="list-group-item"><span style="margin-left:5%">Feedback</span>
+            <li *ngIf="userRole == 'SuperLibrarian' || userRole == 'Admin'" class="list-group-item"><span style="margin-left:5%">Feedback</span>
                 <!-- <i style="margin-left:67%" class="fa fa-plus" aria-hidden="true"
                     [routerLink]="['/Feedback']"></i>  -->
                 <span (click)="showFeedbacks()" class="badge list test">{{feedbackCount}}</span></li>

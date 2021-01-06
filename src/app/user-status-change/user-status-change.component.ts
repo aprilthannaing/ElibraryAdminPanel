@@ -10,6 +10,8 @@ import { DatePipe } from '@angular/common';
   providers:[DatePipe]
 })
 export class UserStatusChangeComponent implements OnInit {
+
+  userRole= "";
   checkArrayList:any = [];
   loading = false;
   date:any;
@@ -24,7 +26,7 @@ export class UserStatusChangeComponent implements OnInit {
     private http: HttpClient,
     private ics: IntercomService,
     public datePipe: DatePipe
-    ) { }
+    ) { this.userRole = this.ics.userRole;}
     
 
   ngOnInit(): void {
