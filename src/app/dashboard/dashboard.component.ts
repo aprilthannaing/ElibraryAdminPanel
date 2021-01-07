@@ -1073,11 +1073,11 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  failDialog() {
+  failDialog(message) {
     const dialogRef = this.dialog.open(FailDialog, {
       data:{ 
         "title": "Unable to search!",
-        "message": "Please enter you want to search."
+        "message": message
       }
     });
 
@@ -1091,7 +1091,7 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
     console.log("entryTerm:", this.entryTerm);
     if(!this.entryTerm){
-      this.failDialog();
+      this.failDialog("Please enter you want to search!");
     }
     console.log("index !!!!!!!!!!!", document.getElementById("next").getAttribute("value"));
 
@@ -1110,13 +1110,18 @@ export class DashboardComponent implements OnInit {
         var tblBody = document.getElementById("mytbody");
         tblBody.innerHTML = '';
         document.getElementById("count").textContent = data.total_count;
+
         this.books = data.books;
+        if(data.total_count == '0'){
+          document.getElementById("mytitle1").style.display = "none";
+          this.failDialog("This book is not found!");
+        }
         var currentPage = 1 + data.current_page;
         this.currentPage = currentPage + "";
 
         document.getElementById("firstPage").innerHTML = data.current_page;
         document.getElementById("lastPage").innerHTML = data.last_page;
-
+        
         if ( this.currentPage  >= data.last_page) {
           document.getElementById("firstPage").style.display = "none";
           document.getElementById("lastPage").style.display = "none";
@@ -1135,7 +1140,7 @@ export class DashboardComponent implements OnInit {
   search2() {
     this.loading = true;
     if(!this.categoryTerm){
-      this.failDialog();
+      this.failDialog("Please enter you want to search!");
     }
     console.log("term:", this.categoryTerm);
     console.log("index !!!!!!!!!!!", document.getElementById("next2").getAttribute("value"));
@@ -1161,13 +1166,17 @@ export class DashboardComponent implements OnInit {
         var tblBody = document.getElementById("mytbody2");
         tblBody.innerHTML = '';
         document.getElementById("count2").textContent = data.total_count;
-
+        if(data.total_count == '0'){
+          document.getElementById("mytitle2").style.display = "none";
+          this.failDialog("This book is not found!");
+        }
         this.books2 = data.books;
+
         var currentPage = 1 + data.current_page;
         this.currentPage2 = currentPage + "";
         document.getElementById("firstPage2").innerHTML = data.current_page;
         document.getElementById("lastPage2").innerHTML = data.last_page;
-
+        
         if (this.currentPage2 >= data.last_page) {
           document.getElementById("firstPage2").style.display = "none";
           document.getElementById("lastPage2").style.display = "none";
@@ -1186,7 +1195,7 @@ export class DashboardComponent implements OnInit {
   search3() {
     this.loading = true;
     if(!this.popularTerm){
-      this.failDialog();
+      this.failDialog("Please enter you want to search!");
     }
     console.log("term:", this.popularTerm);
     console.log("index !!!!!!!!!!!", document.getElementById("next3").getAttribute("value"));
@@ -1205,6 +1214,10 @@ export class DashboardComponent implements OnInit {
         var tblBody = document.getElementById("mytbody3");
         tblBody.innerHTML = '';
         document.getElementById("count3").textContent = data.total_count;
+        if(data.total_count == '0'){
+          document.getElementById("mytitle3").style.display = "none";
+          this.failDialog("This book is not found!");
+        }
         this.books3 = data.books;
         var currentPage = 1 + data.current_page;
         this.currentPage3 = currentPage + "";
@@ -1230,11 +1243,10 @@ export class DashboardComponent implements OnInit {
   search4() {
 
     console.log("search 44444444444 !!!!!!!!!")
-
-    this.loading = true;
     if(!this.popularCategoryTerm){
-      this.failDialog();
+      this.failDialog("Please enter you want to search!");
     }
+    this.loading = true;
     console.log("term:", this.popularCategoryTerm);
     console.log("index !!!!!!!!!!!", document.getElementById("next4").getAttribute("value"));
     const url: string = this.ics.apiRoute + "/dashboard/popualrbooksearch";
@@ -1256,6 +1268,10 @@ export class DashboardComponent implements OnInit {
         var tblBody = document.getElementById("mytbody4");
         tblBody.innerHTML = '';
         document.getElementById("count4").textContent = data.total_count;
+        if(data.total_count == '0'){
+          document.getElementById("mytitle4").style.display = "none";
+          this.failDialog("This book is not found!");
+        }
         this.books4 = data.books;
         var currentPage = 1 + data.current_page;
         this.currentPage4 = currentPage + "";
@@ -1387,19 +1403,33 @@ export class DashboardComponent implements OnInit {
 
 
   first4() {
-    this.currentPage4 = "1";
-    this.getBooksByPaganation4();
+    if(this.popularCategoryTerm){
+      this.search4();
+    }else{
+      this.currentPage4 = "1";
+      this.getBooksByPaganation4();
+    }
+    
   }
 
   last4() {
-    this.currentPage4 = document.getElementById("lastPage4").innerHTML;
-    this.getBooksByPaganation4();
+    if(this.popularCategoryTerm){
+        this.search4();
+    }else{
+      this.currentPage4 = document.getElementById("lastPage4").innerHTML;
+      this.getBooksByPaganation4();
+    }
+    
   }
 
 
 
   next4() {
-    this.getBooksByPaganation4();
+    if(this.popularCategoryTerm){
+      this.search4();
+    }else{
+      this.getBooksByPaganation4();
+    }
   }
 }
 

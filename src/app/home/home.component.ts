@@ -22,10 +22,12 @@ export class HomeComponent implements OnInit {
   form: FormGroup;
   count: string;
   loading = false;
+  feedbackCount: string;
 
 
   ngOnInit(): void {
     this.getPendingBooks();
+    this.getFeedbackCount();
   }
 
   constructor(
@@ -158,6 +160,22 @@ export class HomeComponent implements OnInit {
       });
 
 
+  }
+
+  getFeedbackCount(){
+    const header: HttpHeaders = new HttpHeaders({
+      token: this.ics.token
+    });
+    const url: string = this.ics.apiRoute + "/operation/feedbackCount";
+    this.http.request('get', url, {
+      headers: header
+    }).subscribe((data: any) => {
+      console.log("data: ", data)
+      this.feedbackCount = data;
+    },
+    error => {
+      console.warn("error: ", error);
+    })
   }
 
   successDialog() {
