@@ -103,37 +103,42 @@ export class BookComponent implements OnInit {
   }
 
   searchByKeywords() {
-    console.log(this.term)
-    const json = {
-      "page": this.config.currentPage,
-      "user_id": "USR2",
-      "category_id": "",
-      "sub_category_id": "",
-      "author_id": "",
-      "start_date": "",
-      "end_date": "",
-      "searchTerms": this.term
-    }
-    console.log(json)
-    const header: HttpHeaders = new HttpHeaders({
-      token: this.ics.token
-    });
-    const url: string = this.ics.apiRoute + "/search/book";
-    this.http.post(url, json, {
-      headers: header
-    }).subscribe(
-      (data: any) => {
-        this.config.currentPage = data.current_page;
-        this.config.totalItems = data.total_count;
-        this.searchBooks = data.books;
-        this.books = this.searchBooks;
-        console.log(this.books)
-      },
-      error => {
-        console.warn("error:", error);
+    if(!this.term){
+      this.failDialog("Please enter you want to search!");
+    }else{
+      console.log(this.term)
+      const json = {
+        "page": this.config.currentPage,
+        "user_id": "USR2",
+        "category_id": "",
+        "sub_category_id": "",
+        "author_id": "",
+        "start_date": "",
+        "end_date": "",
+        "searchTerms": this.term
       }
-    )
-    return this.searchBooks;
+      console.log(json)
+      const header: HttpHeaders = new HttpHeaders({
+        token: this.ics.token
+      });
+      const url: string = this.ics.apiRoute + "/search/book";
+      this.http.post(url, json, {
+        headers: header
+      }).subscribe(
+        (data: any) => {
+          this.config.currentPage = data.current_page;
+          this.config.totalItems = data.total_count;
+          this.searchBooks = data.books;
+          this.books = this.searchBooks;
+          console.log(this.books)
+        },
+        error => {
+          console.warn("error:", error);
+        }
+      )
+      return this.searchBooks;
+    }
+    
   }
   changedBySearch(event) {
     this.config.currentPage = event;
@@ -144,36 +149,44 @@ export class BookComponent implements OnInit {
   }
 
   searchAuthorByKeywords() {
-
-    const json = {
-      "page": this.config.currentPage,
-      "name": this.authorTerm
-    }
-    console.log(json)
-    const header: HttpHeaders = new HttpHeaders({
-      token: this.ics.token
-    });
-    const url = this.ics.apiRoute + "/author/search";
-
-    this.http.post(url, json, {
-      headers: header
-    }).subscribe(
-      (data: any) => {
-        console.log(data)
-        if(data.err_msg == "Unauthorized Request")
-          this.loginDialog();
-        this.searchAuthors = data.author;
-        this.authors = this.searchAuthors;
-        console.log(this.authors)
-      },
-      error => {
-        console.warn("error:", error);
+    if(!this.authorTerm){
+      this.failDialog("Please enter you want to search!");
+    }else{
+      const json = {
+        "page": this.config.currentPage,
+        "name": this.authorTerm
       }
-    )
-    return this.searchAuthors;
+      console.log(json)
+      const header: HttpHeaders = new HttpHeaders({
+        token: this.ics.token
+      });
+      const url = this.ics.apiRoute + "/author/search";
+  
+      this.http.post(url, json, {
+        headers: header
+      }).subscribe(
+        (data: any) => {
+          console.log(data)
+          if(data.err_msg == "Unauthorized Request")
+            this.loginDialog();
+          this.authorConfig.currentPage = data.current_page;
+          this.authorConfig.totalItems = data.total_count;
+          this.searchAuthors = data.author;
+          this.authors = this.searchAuthors;
+          console.log(this.authors)
+        },
+        error => {
+          console.warn("error:", error);
+        }
+      )
+      return this.searchAuthors;
+    }
+    
   }
 
   authorBySearch(event) {
+    this.authorConfig.currentPage = event;
+    console.log(this.authorConfig.currentPage)
     this.authors = this.searchAuthorByKeywords();
   }
 
@@ -581,7 +594,7 @@ export class BookComponent implements OnInit {
   failDialog(message) {
     const dialogRef = this.dialog.open(FailDialog, {
       data:{ 
-        "title": "Unable to reply!!",
+        "title": "Unable to search!!",
         "message": message
       }
     });
