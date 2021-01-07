@@ -1073,9 +1073,26 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  failDialog() {
+    const dialogRef = this.dialog.open(FailDialog, {
+      data:{ 
+        "title": "Unable to search!",
+        "message": "Please enter you want to search."
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+
+  }
+
   search() {
     this.loading = true;
     console.log("entryTerm:", this.entryTerm);
+    if(!this.entryTerm){
+      this.failDialog();
+    }
     console.log("index !!!!!!!!!!!", document.getElementById("next").getAttribute("value"));
 
     const url: string = this.ics.apiRoute + "/dashboard/librarian/booksearch";
@@ -1117,6 +1134,9 @@ export class DashboardComponent implements OnInit {
 
   search2() {
     this.loading = true;
+    if(!this.categoryTerm){
+      this.failDialog();
+    }
     console.log("term:", this.categoryTerm);
     console.log("index !!!!!!!!!!!", document.getElementById("next2").getAttribute("value"));
     var splitted = document.getElementById("next2").getAttribute("value").split(",");
@@ -1164,8 +1184,10 @@ export class DashboardComponent implements OnInit {
   }
 
   search3() {
-
     this.loading = true;
+    if(!this.popularTerm){
+      this.failDialog();
+    }
     console.log("term:", this.popularTerm);
     console.log("index !!!!!!!!!!!", document.getElementById("next3").getAttribute("value"));
     const url: string = this.ics.apiRoute + "/dashboard/popualrbooksearch";
@@ -1210,6 +1232,9 @@ export class DashboardComponent implements OnInit {
     console.log("search 44444444444 !!!!!!!!!")
 
     this.loading = true;
+    if(!this.popularCategoryTerm){
+      this.failDialog();
+    }
     console.log("term:", this.popularCategoryTerm);
     console.log("index !!!!!!!!!!!", document.getElementById("next4").getAttribute("value"));
     const url: string = this.ics.apiRoute + "/dashboard/popualrbooksearch";
@@ -1394,6 +1419,22 @@ export class LoginDialog {
     this.dialogRef.close();
     this.router.navigate(['login']);
   }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+@Component({
+  selector: 'fail-dialog',
+  templateUrl: './fail-dialog.html',
+})
+export class FailDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<FailDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
+  ) { }
 
   onNoClick(): void {
     this.dialogRef.close();

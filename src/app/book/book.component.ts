@@ -27,21 +27,15 @@ export class BookComponent implements OnInit {
   subcategories = [];
   books = [];
   advertisements = [];
-  feedbacks = [];
   showBook = "false";
   showAuthor = "false";
   showPublisher = "false";
   showCategory = "false";
   showSubCategory = "false";
   showAdvertisement = "false";
-  showFeedback = "false";
   countNext = "false";
   loading = "false";
 
-  replied: string;
-  feedbackBoId = "";
-  
-  replyMessage = "";
   config: any;
   authorConfig: any;
 
@@ -70,13 +64,6 @@ export class BookComponent implements OnInit {
 
   currentPage: any;
 
-  replyForm = new FormGroup({
-
-    message: new FormControl('', [Validators.required, Validators.maxLength(50)])
-  })
-  get f() { return this.replyForm.controls; }
-
-  submitted = false;
   constructor(
     private http: HttpClient,
     public dialog: MatDialog,
@@ -430,81 +417,6 @@ export class BookComponent implements OnInit {
       });
   }
 
-  getAllFeedbacks(){
-  
-    const header: HttpHeaders = new HttpHeaders({
-      token: this.ics.token
-    });
-
-    const url: string = this.ics.apiRoute + "/operation/getFeedbacks";
-    this.http.request("get", url,
-      {
-        headers: header
-      }
-    ).subscribe(
-      (data: any) => {
-        console.log(data)
-        if(data.message == "Unauthorized Request")
-          this.loginDialog();
-        this.feedbacks = data.feedbacks;
-        this.loading = "false";
-
-      },
-      error => {
-        console.warn("error: ", error);
-      });
-  }
-
-  reply(event){
-    this.replied = "true";
-    // this.feedback.boId = Reply.textContent;
-    // console.log(Reply.textContent)
-    this.feedbackBoId = event.target.value;
-    event.target.style.color = ' #00cdac';
-    console.log(this.feedbackBoId)
-  
-  }
-
-  save(){
-    this.submitted = true;
-    this.replyMessage = this.replyForm.value;
-    if (this.replyForm.invalid) {
-      return;
-    }
-    console.log(this.replyMessage)
-    const json = {"feedbackId":this.feedbackBoId,"message":this.replyMessage}
-    const url = this.ics.apiRoute + "/operation/reply";
-    const header: HttpHeaders = new HttpHeaders({
-      token: this.ics.token
-    });
-    this.http.post(url, json,
-      {
-        headers: header
-      }
-    ).subscribe(
-      (data: any) => {
-        console.log(data)
-        if(data.message == "Unauthorized Request")
-          this.loginDialog();
-          if (data.status == "1"){
-            this.successDialog();
-            this.replyInput.nativeElement.value = ' ';
-            
-          }
-          else this.failDialog(data.msg);
-        this.loading = "false";
-
-      },
-      error => {
-        console.warn("error: ", error);
-      });
-  }
-
-  cancel(event){
-    this.replied = "false";
-    event.target.style.color = '#0000FF';
-  }
-
 
   showBooks() {
     this.loading = "true";
@@ -514,7 +426,6 @@ export class BookComponent implements OnInit {
     this.showCategory = "false"
     this.showSubCategory = "false"
     this.showPublisher = "false"
-    this.showFeedback = "false"
   }
 
   countNextPage() {
@@ -526,7 +437,6 @@ export class BookComponent implements OnInit {
     this.showCategory = "false"
     this.showSubCategory = "false"
     this.showPublisher = "false"
-    this.showFeedback = "false"
   }
   getNextPage() {
 
@@ -540,7 +450,6 @@ export class BookComponent implements OnInit {
     this.showSubCategory = "false"
     this.showPublisher = "false"
     this.showBook = "false";
-    this.showFeedback = "false"
   }
 
   showPublishers() {
@@ -551,7 +460,6 @@ export class BookComponent implements OnInit {
     this.showCategory = "false"
     this.showSubCategory = "false"
     this.showBook = "false";
-    this.showFeedback = "false"
   }
 
   showCategories() {
@@ -562,7 +470,6 @@ export class BookComponent implements OnInit {
     this.showBook = "false";
     this.showPublisher = "false";
     this.showAuthor = "false";
-    this.showFeedback = "false"
   }
 
   showSubCategories() {
@@ -573,25 +480,12 @@ export class BookComponent implements OnInit {
     this.showAuthor = "false";
     this.showCategory = "false"
     this.showBook = "false";
-    this.showFeedback = "false"
-  }
-
-  showFeedbacks(){
-    this.loading = "true";
-    this.getAllFeedbacks();
-    this.showFeedback = "true";
-    this.showBook = "false";
-    this.showSubCategory = "false";
-    this.showPublisher = "false";
-    this.showAuthor = "false";
-    this.showCategory = "false";
   }
 
   showAdvertisements(){
     this.loading = "true";
     this.getAllAdvertisements();
     this.showAdvertisement = "true";
-    this.showFeedback = "false";
     this.showBook = "false";
     this.showSubCategory = "false";
     this.showCategory = "false";

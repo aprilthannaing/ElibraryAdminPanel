@@ -95,6 +95,7 @@ import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 export const ISO_FORMAT = {
   parse: {
@@ -146,7 +147,8 @@ display: {
     UserForgotPasswordComponent,
     UserForgotPassword2Component,
     UserChangepwd2Component,
-    AdvertiseComponent
+    AdvertiseComponent,
+    FeedbackComponent
 
   ],
 

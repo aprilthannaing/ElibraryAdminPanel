@@ -19,6 +19,16 @@
             </a>
         </li>
 
+        <li *ngIf="userRole == 'SuperLibrarian' || userRole == 'Admin'">
+            <a [routerLink]="['/feedback']">
+                <i class="fa fa-comment" aria-hidden="true"></i>
+                <span style="margin-left: 4%;">Feedback</span>
+                <span (click)="showFeedbacks()"
+                    style="margin-left: 6%;background-color: blue;margin-bottom: 2%;"
+                    class="badge list">3</span>
+            </a>
+        </li>
+
         <li>
             <a [routerLink]="['/userList']">
                 <i class="fa fa-users" aria-hidden="true"></i>
