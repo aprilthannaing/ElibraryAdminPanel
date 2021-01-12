@@ -46,6 +46,8 @@ export class UserLoginComponent implements OnInit {
   }
 
   goPost(){
+
+    console.log("go post")
     this.encryptedPassword = this.encrypt(this.password);
     this._result = "";
    this.goValidation();

@@ -1,5 +1,59 @@
 <app-header></app-header>
-<div class="container">
+<div id="divbox">
+   
+    <i class="fa fa-users icon" aria-hidden="true"></i>
+    <br>
+    <span style="color: rgb(41, 41, 117);font-size:1.2vw;font-family: monospace;margin: 0% 0% 0% 40%;">Member
+        Login</span>
+
+    <div align="center">
+        <span *ngIf="_result !=null" class="label" style="color: red;">{{_result}} </span>
+    </div>
+ 
+    <div *ngIf="loading" class="lds-default" style="margin-left: 17%;margin-top: 15%;">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <div class="inputWithIcon" style="margin-top:2%;">
+        <input type="text" style="font-family:  fantasy;font-size:0.9vw;" placeholder="Email ID" [(ngModel)]="email">
+        <i style="font-size: 15px;margin-left: 3%;" class="fa fa-user" aria-hidden="true"></i>
+
+    </div>
+    <div class="inputWithIcon">
+        <input type="password" style="font-family:  fantasy;font-size:0.9vw;" placeholder="Password"
+            [(ngModel)]="password">
+        <i style=" font-size: 15px;margin-left: 3%;" class="fa fa-lock" aria-hidden="true"></i>
+    </div>
+
+    <div style="margin:2% 0% 0% 20%;">
+        <input type="checkbox" checked onclick="return false;">
+        <span style="margin: 0% 0% 0% 2%;color: blue;font-size:0.9vw;font-family: fantasy">Remember me</span>
+
+        <input type="checkbox" style="margin-left: 22%;" onclick="return false;">
+        <span style="text-decoration: underline;color: blue;font-size:0.9vw;font-family: fantasy;margin-left: 2%;"
+            (click)="goForgotPwd()">Forgot
+            Password?</span>
+    </div>  
+
+    <button class="button" (click)="goPost()">Sign in</button>
+
+    <br>
+    <span style="margin:0% 0% 0% 26%;color: blue;font-size:0.9vw;font-family: fantasy">Don't have an account?</span>
+    <span style="margin:0% 0% 0% 2%;color: rgb(87, 212, 87);font-size:0.9vw;font-family: fantasy">Contact Admin!</span>
+
+</div>
+<!--div>
     <div class="row clearfix">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  column col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
             <form class="form-horizontal" (ngSubmit)="goPost()">
@@ -40,7 +94,7 @@
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-lock"></i>
                             </span>
-                            <input id="itemid" class="form-control" Required type="password" [(ngModel)]="password"
+                            <input id="itemid" class="form-control" Required type="password"[(ngModel)]="password "
                                 [ngModelOptions]="{standalone: true}" placeholder="Password">
                         </div>
                         <a class="blue-text d-flex justify-content-end" style="font-size: 0.1"
@@ -61,4 +115,4 @@
             </form>
         </div>
     </div>
-</div>
+</div> -->

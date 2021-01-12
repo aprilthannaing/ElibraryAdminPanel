@@ -1,3 +1,115 @@
+.button {
+  background-color: rgb(52, 138, 214); 
+  color: white;
+  padding: 10px 0px;
+  width: 60%;
+  text-align: center; 
+  cursor: pointer;
+  border-radius: 10px;  
+  border: 1px solid #ddd;
+  margin: 3% 0% 8% 20%;
+  font-size: 1vw;
+  font-weight: 900px;
+} 
+ 
+input[type="text"] {
+  margin-left: 10%;
+  width: 100%;  
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin: 0px 0;
+  outline: none;
+  padding: 12px 15px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: dodgerBlue;
+  box-shadow: 0 0 8px 0 dodgerBlue;
+}
+
+.inputWithIcon input[type="text"] {
+  padding-left: 20px;
+}
+
+input[type="password"] {
+  margin-left: 10%;
+  width: 100%;  
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin: 5px 0;
+  outline: none;
+  padding: 12px 15px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+input[type="password"]:focus {
+  border-color: dodgerBlue;
+  box-shadow: 0 0 8px 0 dodgerBlue;
+}
+
+.inputWithIcon input[type="password"] {
+  padding-left: 20px;
+}
+
+.inputWithIcon {
+  width: 60%;
+  margin-left: 20%;
+  position: relative;
+  border-radius: 25px;
+
+}
+
+.inputWithIcon i {
+  position: absolute;
+  right:  0;
+  top: 8px;
+  padding: 9px 8px;
+  color: #ccc;
+  transition: 0.3s;
+}
+
+.inputWithIcon input[type="text"]:focus + i {
+  color: dodgerBlue;
+}
+
+.inputWithIcon.inputIconBg i {
+  background-color: #aaa;
+  color: #fff;
+  padding: 9px 4px;
+  border-radius: 4px 0 0 4px;
+
+}  
+
+.icon{
+  margin:0% 0% 4% 45%;
+  font-size: 50px;
+  color: rgb(146, 183, 219);
+}
+
+#divbox {
+  margin: 7% 0% 5% 0%;
+  border-radius: 20px;
+  margin-left: 33%;
+  width: 40%;
+  padding: 50px 0px;
+  box-shadow: 0px 0px 16px #7b7bd84f;
+}
+
+
+.login-nav-header {
+  z-index: 35;
+  border-bottom: 2px solid #5663ff;
+  background: #5663ff;
+  position: relative;
+}
+
+.img {
+  margin-left: 20%;
+  width: 50%;
+}
 
 .card-container.card {
   max-width: 350px;
