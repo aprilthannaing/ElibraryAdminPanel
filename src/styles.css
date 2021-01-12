@@ -90,11 +90,11 @@ input[type="password"]:focus {
 }
 
 #divbox {
-  margin: 7% 0% 5% 0%;
+  margin: 4% 0% 3% 0%;
   border-radius: 20px;
-  margin-left: 33%;
+  margin-left: 30%;
   width: 40%;
-  padding: 50px 0px;
+  padding: 60px 10px;
   box-shadow: 0px 0px 16px #7b7bd84f;
 }
 
