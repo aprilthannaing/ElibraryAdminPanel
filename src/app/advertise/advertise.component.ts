@@ -137,7 +137,7 @@ this.isImageSaved = false;
   }
 
   cancel(){
-
+    this.router.navigate(['book']);
   }
   save(){
 
@@ -153,8 +153,8 @@ this.isImageSaved = false;
     }
 
     // display form values on success
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.myForm.value, null, 4));
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.pdfForm.value, null, 4));
+    // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.myForm.value, null, 4));
+    // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.pdfForm.value, null, 4));
     const json = {
       "imageName": this.imageName,
       "image": this.image,

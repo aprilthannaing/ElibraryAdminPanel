@@ -418,6 +418,7 @@ export class BookComponent implements OnInit {
         if(data.message == "Unauthorized Request")
           this.loginDialog();
         this.advertisements = data.advertisements;
+        console.log(this.advertisements)
         // for(let i=0; i<this.advertisements.length; i++){
 
         // }
