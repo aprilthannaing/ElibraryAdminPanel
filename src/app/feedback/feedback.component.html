@@ -31,10 +31,8 @@
         <mat-label style="margin-left:28%;color: blue;font-size: 18px;"> Reply</mat-label>
         <div style="margin-top:10px;"></div>
         <div class="form-group">
-            
-            <input #replyInput
-                style="width:60%;"
-                formControlName="message" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.message.errors }">
+                <textarea #replyInput
+                style="width: 60%;" formControlName="message" type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.message.errors }"></textarea>
                 <div *ngIf="submitted && f.message.errors" class="invalid-feedback">
                     <div *ngIf="f.message.errors.required">Field is required</div>
                 </div>
