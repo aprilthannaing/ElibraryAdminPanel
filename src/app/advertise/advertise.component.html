@@ -1,8 +1,8 @@
 <app-home></app-home>
 <div class="content">
     <div style="margin-left: 25%;margin-top: 3%;">
-        <mat-label style="margin-left:32%;color: blue;font-size: 20px;">Add Advertisement</mat-label>
-        <div style="width: 100%;margin-left: 25%;">
+        <mat-label style="margin-left:28%;color: blue;font-size: 20px;">Add Advertisement</mat-label>
+        <div style="margin-left: 25%;">
             <form [formGroup]="myForm" class="example-form" style="width: 30%;">
                 <div class="form-group" style="margin-top: 20%;">
                     <mat-label>Profile picture</mat-label>
@@ -16,21 +16,28 @@
                         </div>
                 </div>
             </form>
-
-            <form [formGroup]="pdfForm" class="example-form" style="width: 30%;margin-top: 5%;">
+            <br>
+            <mat-label style="color: blue;font-size: 16px;">If have PDF or Website Link</mat-label><br><br>
+            <mat-radio-group  [(ngModel)]="selected" #radioGroup="matRadioGroup" (change)="radioChange1()">
+                <mat-radio-button color="primary" [value]="1">PDF</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <mat-radio-button color="primary" [value]="2">Website Link</mat-radio-button>
+            </mat-radio-group>
+            <form *ngIf="selected == 1" [formGroup]="pdfForm" class="example-form" style="width: 30%;margin-top: 5%;">
                 <div class="form-group">
                     <mat-label>PDF file</mat-label>
-                    <input #pdfInput [ngClass]="{ 'is-invalid': submitted && pdff.file.errors }"
+                    <input #pdfInput
                         style="width:100%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
-                        formControlName="file" id="file" type="file" class="form-control"
+                        id="file" type="file" class="form-control"
                         required (change)="onPdfChange($event)">
-                    <div *ngIf="submitted && pdff.file.errors" class="invalid-feedback">
-                        <div *ngIf="pdff.file.errors.required">Pdf file is required</div>
-                    </div>
                 </div>
             </form>
+            <br>
+            <mat-form-field *ngIf="selected == 2" style="width: 30%;">
+                <input matInput placeholder="*Website Link" [(ngModel)]="websiteLink" required>
+            </mat-form-field>
         </div>
-        <div *ngIf="image" class="card" style="width: 200px;text-align: center;margin-left: 30%;">
+        <br>
+        <div *ngIf="image" class="card" style="width: 200px;text-align: center;margin-left: 26%;">
             <div>
                 <img class="card-img-top" [src]="image" alt="Cover Photo" class="responsive"
                 style="width:180px;height:150px;margin-left: 10px;">
@@ -42,7 +49,7 @@
         
 
 
-        <div style="margin-left: 30%;margin-bottom: 10%;margin-top: 50px;">
+        <div style="margin-left: 28%;margin-bottom: 10%;margin-top: 50px;">
             <button mat-button class="mat-raised-button mat-primary" (click)="cancel()" style="margin-left: 10px;">Cancel</button>
             <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Save</button>
         </div>

@@ -27,8 +27,6 @@ export class AdvertiseComponent implements OnInit {
 
   pdfForm = new FormGroup({
 
-    file: new FormControl('', [Validators.required]),
-
     fileSource: new FormControl('', [Validators.required])
 
   });
@@ -47,6 +45,9 @@ export class AdvertiseComponent implements OnInit {
   imageError = "";
   data = {"msg":""};
   isImageSaved : boolean;
+  selected = 0;
+  websiteLink: string;
+  json = {};
   constructor(
     private ics: IntercomService,
     private http: HttpClient,
@@ -119,7 +120,9 @@ this.image = null;
 this.isImageSaved = false;
 }
   
-  
+  radioChange1(){
+
+  }
 
   onPdfChange(event){
     const reader = new FileReader();
@@ -148,22 +151,39 @@ this.isImageSaved = false;
         return;
     }
 
-    if(this.pdfForm.invalid){
-        return;
-    }
+  
 
     // display form values on success
     // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.myForm.value, null, 4));
     // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.pdfForm.value, null, 4));
-    const json = {
-      "imageName": this.imageName,
-      "image": this.image,
-      "pdfName": this.pdfName,
-      "pdf": this.pdf
+    
+    if(this.selected == 1){
+      this.json = {
+        "imageName":this.imageName,
+        "image":this.image,
+        "pdfName":this.pdfName,
+        "pdfLink":this.pdf
+      }
     }
-    console.log(json)
+    if(this.selected == 2){
+      this.json = {
+        "imageName": this.imageName,
+        "image":this.image,
+        "pdfName":"",
+        "pdfLink":this.websiteLink
+      }
+    }
+    if(this.selected == 0){
+      this.json = {
+        "imageName": this.imageName,
+        "image": this.image,
+        "pdfName": "",
+        "pdfLink": ""
+      }
+    }
+    console.log(this.json)
     const url = this.ics.apiRoute + "/operation/uploadImage";
-    this.http.post(url, json).subscribe(
+    this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
         if (data.status == "1"){
