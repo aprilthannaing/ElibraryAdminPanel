@@ -12,11 +12,21 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class AdvertiseComponent implements OnInit {
 
+  @ViewChild('mobileFileInput')
+  mobileFileInput: any;
+
   @ViewChild('fileInput')
   fileInput: any;
 
   @ViewChild('pdfInput')
   pdfInput: any;
+
+  mobileForm = new FormGroup({
+    mobileFile: new FormControl('', [Validators.required]),
+
+    fileSource: new FormControl('', [Validators.required])
+  });
+
 
   myForm = new FormGroup({
 
@@ -36,18 +46,24 @@ export class AdvertiseComponent implements OnInit {
   images = [];
   pdfShow = [];
 
+  mobileImage: string;
+  mobileImageName: string;
   imageName: string;
   image: string;
   pdfName: string;
   pdf: string;
   emptyData: {};
 
+  mobileImageError = "";
   imageError = "";
   data = {"msg":""};
+  isMobileImageSaved : boolean;
   isImageSaved : boolean;
+
   selected = 0;
   websiteLink: string;
   json = {};
+  imageSrc : string;
   constructor(
     private ics: IntercomService,
     private http: HttpClient,
@@ -59,12 +75,11 @@ export class AdvertiseComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
-      file: ['', Validators.required]
-    });
+
   }
   get f() { return this.myForm.controls; }
   get pdff() { return this.pdfForm.controls; }
+  get mobileF() { return this.mobileForm.controls;}
 
   onFileChange(fileInput: any){
     this.imageError = null;
@@ -112,17 +127,67 @@ export class AdvertiseComponent implements OnInit {
     };
 
     reader.readAsDataURL(fileInput.target.files[0]);
+  }
+}
+
+mobileFileChange(mobileFileInput: any){
+  this.mobileImage = "";
+  this.mobileImageName = "";
+  this.mobileImageError = null;
+  
+  if (mobileFileInput.target.files && mobileFileInput.target.files[0]) {
+
+    const height = 350;
+    const width = 991;
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+        const image = new Image();
+        image.src = e.target.result;
+        image.onload = rs => {
+            const img_height = rs.currentTarget['height'];
+            const img_width = rs.currentTarget['width'];
+
+            console.log(img_height, img_width);
+
+
+            if (img_height != height && img_width != width) {
+                this.mobileImageError =
+                    'Width and height of image must be 991*350 px.';
+                this.data.msg = this.mobileImageError;
+                this.mobileFileInput.nativeElement.value = '';
+                this.failDialog(this.data.msg);
+                return false;
+            }else {
+              const imgBase64Path = e.target.result;
+              this.mobileImage = imgBase64Path;
+              this.mobileImageName = mobileFileInput.target.files[0].name;
+              this.isMobileImageSaved = true;
+          }
+      };
+  };
+
+  reader.readAsDataURL(mobileFileInput.target.files[0]);
 }
 }
 
-removeImage() {
-this.image = null;
-this.isImageSaved = false;
-}
+
+  removeImage() {
+  this.image = null;
+  this.isImageSaved = false;
+  }
+
   
   radioChange1(){
-
+    console.log(this.selected)
+    if(this.selected == 1){
+      this.websiteLink = "";
+    }
+    else if(this.selected == 2){
+      this.pdf = "";
+      this.pdfName = "";
+    }
   }
+
 
   onPdfChange(event){
     const reader = new FileReader();
@@ -143,15 +208,16 @@ this.isImageSaved = false;
     this.router.navigate(['book']);
   }
   save(){
-
     this.submitted = true;
 
-    // stop here if form is invalid
-    if (this.myForm.invalid) {
-        return;
-    }
+    // if(this.mobileForm.invalid){
+    //   return;
+    // }
 
-  
+    // if (this.myForm.invalid) {
+    //   return;
+    // }
+
 
     // display form values on success
     // alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.myForm.value, null, 4));
@@ -159,36 +225,41 @@ this.isImageSaved = false;
     
     if(this.selected == 1){
       this.json = {
+        "mobileImageName": this.mobileImageName,
+        "mobileImage": this.mobileImage,
         "imageName":this.imageName,
         "image":this.image,
         "pdfName":this.pdfName,
-        "pdfLink":this.pdf
+        "pdfLink":this.pdf        
       }
     }
-    if(this.selected == 2){
+    else if(this.selected == 2){
       this.json = {
+        "mobileImageName": this.mobileImageName,
+        "mobileImage": this.mobileImage,
         "imageName": this.imageName,
         "image":this.image,
         "pdfName":"",
         "pdfLink":this.websiteLink
       }
     }
-    if(this.selected == 0){
+    else if(this.selected == 0){
       this.json = {
+        "mobileImageName": this.mobileImageName,
+        "mobileImage": this.mobileImage,
         "imageName": this.imageName,
         "image": this.image,
         "pdfName": "",
         "pdfLink": ""
       }
     }
+
     console.log(this.json)
     const url = this.ics.apiRoute + "/operation/uploadImage";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
         if (data.status == "1"){
-          console.log(data.width)
-          console.log(data.height)
           this.successDialog();
         }
         else this.failDialog(data.msg);
