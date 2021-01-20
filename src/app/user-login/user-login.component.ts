@@ -69,7 +69,7 @@ export class UserLoginComponent implements OnInit {
                           this.ics.token = data.token;
                         }else{
                          // this.router.navigate(['/home']); 
-                          this.router.navigate(['dashboard']);
+                          this.router.navigate(['userList']);
 
                           this.ics.userId = data.data.id;
                           this.ics.userRole = data.data.role;

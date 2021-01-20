@@ -18,13 +18,13 @@
             <thead>
                 <tr>
                     <th>Code</th>
-                    <th style="width: 30%;">Description</th>
-                    <th>&nbsp;</th>
+                    <th style="width: 40%;">Description</th>
+                    <th>Remove</th>
                 </tr>
             </thead>
             <tbody *ngFor="let item of lov.ref">
                 <tr  *ngIf="item.status !='INACTIVE'">
-                    <td class="col-md-3">
+                    <td>
                         <input required [(ngModel)]="item.code" type="text">
                     </td>
                     <td>

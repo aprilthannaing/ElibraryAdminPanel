@@ -3,13 +3,16 @@ import * as XLSX from 'xlsx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
-
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+const FileSaver = require('file-saver');
 @Component({
   selector: 'app-user-upload',
   templateUrl: './user-upload.component.html',
   styleUrls: ['./user-upload.component.styl']
 })
 export class UserUploadComponent implements OnInit {
+  comfirmationBox = false;
   loading = false;
   data = [];
   lov: any = {
@@ -29,7 +32,8 @@ export class UserUploadComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private route: ActivatedRoute,
-    private ics: IntercomService
+    private ics: IntercomService,
+    private confirmationDialogService: ConfirmationDialogService
   ) { }
 
   ngOnInit(): void {
@@ -300,6 +304,17 @@ setAll(completed: boolean) {
   }
   this.task.subtasks.forEach(t => t.completed = completed);
 }
+openConfirmationDialog() {
+  this.confirmationDialogService.confirm('Please confirm', 'Do you really want to Download ?')
+  .then((confirmed) => {
+    if(confirmed){
+      FileSaver.saveAs('./assets/User.xlsx',"User");
+      this.showMessage("Download Successfully!",true);
+    } 
+  }).catch(() => 
+    console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+}
+
 
 showMessage(msg, bool) {
   if (bool == true) { this.ics.sendBean({ "t1": "rp-alert", "t2": "success", "t3": msg }); }

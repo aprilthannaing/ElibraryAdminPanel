@@ -40,9 +40,6 @@ import { UserUploadComponent } from './user-upload/user-upload.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserChangepwdComponent } from './user-changepwd/user-changepwd.component';
 import { NgApexchartsModule} from "ng-apexcharts";
-import {MomentDateAdapter} from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import { MatMomentDateModule, MAT_MOMENT_DATE_FORMATS } from "@angular/material-moment-adapter";
 import { UserStatusChangeComponent } from './user-status-change/user-status-change.component';
 import { UserForgotPasswordComponent } from './user-forgot-password/user-forgot-password.component';
 import { UserForgotPassword2Component } from './user-forgot-password2/user-forgot-password2.component';
@@ -96,6 +93,9 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
 
 export const ISO_FORMAT = {
   parse: {
@@ -148,7 +148,8 @@ display: {
     UserForgotPassword2Component,
     UserChangepwd2Component,
     AdvertiseComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    ConfirmationDialogComponent
 
   ],
 
@@ -250,12 +251,15 @@ display: {
     OverlayModule,
     PortalModule,
     ScrollingModule,
-    Ng2SearchPipeModule, 
+    Ng2SearchPipeModule,
+    NgbModule, 
     
   ],
-  providers: [],
+  providers: [
+    ConfirmationDialogService
+  ],
   bootstrap: [AppComponent, DashboardComponent],
-  entryComponents: [DashboardComponent]
+  entryComponents: [DashboardComponent,ConfirmationDialogComponent]
 })
 export class AppModule { }
 

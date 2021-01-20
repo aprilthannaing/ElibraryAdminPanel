@@ -46,13 +46,13 @@ ngOnInit() {
         this.emailFlag = true;
       }
     });
+    this.getHluttaw();
+    this.getPosition();
     if(this.ics.userRole == "Admin" || this.ics.userRole == "SuperLibrarian")
         this.radioFlag = false;
     else
         this.radioFlag = true;
     this.json.status = this.lov.refStatus[0].value;
-    this.getHluttaw();
-    this.getPosition();
   }
 
   goReadByKey(id){
@@ -257,8 +257,11 @@ goSave(){
             console.log("Choose position Type");
             return false;
         }
-        if(this.json.constituencyType === '')
-            this.json.constituencyType = this.lov.refConstituency[0].value;
+        if(this.json.constituencyType === '' || this.json.constituencyType === 0)
+            if(this.lov.refConstituency.length != 0)
+                this.json.constituencyType = this.lov.refConstituency[0].value;
+            else
+                this.json.constituencyType = 8;
     }
     if(this.json.currentAddress === "" || this.json.currentAddress === null ){
         this.showMessage("Please fill correct Current Address",false); 

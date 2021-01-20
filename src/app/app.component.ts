@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { IntercomService } from './framework/intercom.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { timer } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 declare var jQuery: any;
@@ -13,11 +13,18 @@ export class AppComponent {
   title = "Admin Panel";
   _alertflag = true;
   _alertmsg = "";
+  mySubscription;
   constructor(
     private ics: IntercomService,
     private router: Router,
     private http: HttpClient,
   ) {
+    this.mySubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+         if(this.ics.token== "")
+          this.router.navigate(['login']);
+      }
+    }); 
     ics.rpbean$.subscribe(x => {
       if (x.t1 !== null && x.t1 == "rp-popup") {
         jQuery("#rootpopupsize").attr('class', 'modal-dialog modal-lg');
@@ -59,6 +66,11 @@ export class AppComponent {
       }
     });
    }
+   ngOnDestroy(){
+    if (this.mySubscription) {
+      this.mySubscription.unsubscribe();
+    }
+  }
   ngOnInit() {
     setInterval(() => this.chkActive(), 10000);
   }
