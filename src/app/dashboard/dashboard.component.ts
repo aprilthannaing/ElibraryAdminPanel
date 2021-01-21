@@ -146,11 +146,14 @@ export class DashboardComponent implements OnInit {
       headers: header
     }).subscribe(
       (data: any) => {
+        console.log("popualr books!!!!!!!!!!", data)
         this.categoryNameList = data.nameList;
         this.popularBookCount = data.bookCount;
         this.getPieChart(this.ics, this.http, this.userId);
       },
       error => {
+        console.log("error!!!!!!!!!!", error)
+
         console.warn("error: ", error);
       });
 
@@ -819,7 +822,7 @@ export class DashboardComponent implements OnInit {
 
     var parameter = this.popularCategoryStartDate + "," + this.popularCategoryEndDate + "," + index;
     console.log("parameter !!!!!", parameter)
-        window.open(this.ics.apiRoute + "/book/exportPopularBooksBySubCategory" + ".xlsx?input=" + parameter, "_blank");
+    window.open(this.ics.apiRoute + "/book/exportPopularBooksBySubCategory" + ".xlsx?input=" + parameter, "_blank");
 
   }
 
@@ -873,6 +876,8 @@ export class DashboardComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/dashboard/librarian/bookentry";
     this.http.request('post', url).subscribe(
       (data: any) => {
+
+        console.log("entries !!!!!!!!!!", data)
         data.bookCount.forEach(element => {
           this.bookCount.push(element);
         });
@@ -1075,7 +1080,7 @@ export class DashboardComponent implements OnInit {
 
   failDialog(message) {
     const dialogRef = this.dialog.open(FailDialog, {
-      data:{ 
+      data: {
         "title": "Unable to search!",
         "message": message
       }
@@ -1090,7 +1095,7 @@ export class DashboardComponent implements OnInit {
   search() {
     this.loading = true;
     console.log("entryTerm:", this.entryTerm);
-    if(!this.entryTerm){
+    if (!this.entryTerm) {
       this.failDialog("Please enter you want to search!");
     }
     console.log("index !!!!!!!!!!!", document.getElementById("next").getAttribute("value"));
@@ -1112,7 +1117,7 @@ export class DashboardComponent implements OnInit {
         document.getElementById("count").textContent = data.total_count;
 
         this.books = data.books;
-        if(data.total_count == '0'){
+        if (data.total_count == '0') {
           document.getElementById("mytitle1").style.display = "none";
           this.failDialog("This book is not found!");
         }
@@ -1121,8 +1126,8 @@ export class DashboardComponent implements OnInit {
 
         document.getElementById("firstPage").innerHTML = data.current_page;
         document.getElementById("lastPage").innerHTML = data.last_page;
-        
-        if ( this.currentPage  >= data.last_page) {
+
+        if (this.currentPage >= data.last_page) {
           document.getElementById("firstPage").style.display = "none";
           document.getElementById("lastPage").style.display = "none";
           document.getElementById("next").style.display = "none";
@@ -1139,7 +1144,7 @@ export class DashboardComponent implements OnInit {
 
   search2() {
     this.loading = true;
-    if(!this.categoryTerm){
+    if (!this.categoryTerm) {
       this.failDialog("Please enter you want to search!");
     }
     console.log("term:", this.categoryTerm);
@@ -1166,7 +1171,7 @@ export class DashboardComponent implements OnInit {
         var tblBody = document.getElementById("mytbody2");
         tblBody.innerHTML = '';
         document.getElementById("count2").textContent = data.total_count;
-        if(data.total_count == '0'){
+        if (data.total_count == '0') {
           document.getElementById("mytitle2").style.display = "none";
           this.failDialog("This book is not found!");
         }
@@ -1176,7 +1181,7 @@ export class DashboardComponent implements OnInit {
         this.currentPage2 = currentPage + "";
         document.getElementById("firstPage2").innerHTML = data.current_page;
         document.getElementById("lastPage2").innerHTML = data.last_page;
-        
+
         if (this.currentPage2 >= data.last_page) {
           document.getElementById("firstPage2").style.display = "none";
           document.getElementById("lastPage2").style.display = "none";
@@ -1194,7 +1199,7 @@ export class DashboardComponent implements OnInit {
 
   search3() {
     this.loading = true;
-    if(!this.popularTerm){
+    if (!this.popularTerm) {
       this.failDialog("Please enter you want to search!");
     }
     console.log("term:", this.popularTerm);
@@ -1214,7 +1219,7 @@ export class DashboardComponent implements OnInit {
         var tblBody = document.getElementById("mytbody3");
         tblBody.innerHTML = '';
         document.getElementById("count3").textContent = data.total_count;
-        if(data.total_count == '0'){
+        if (data.total_count == '0') {
           document.getElementById("mytitle3").style.display = "none";
           this.failDialog("This book is not found!");
         }
@@ -1243,7 +1248,7 @@ export class DashboardComponent implements OnInit {
   search4() {
 
     console.log("search 44444444444 !!!!!!!!!")
-    if(!this.popularCategoryTerm){
+    if (!this.popularCategoryTerm) {
       this.failDialog("Please enter you want to search!");
     }
     this.loading = true;
@@ -1268,7 +1273,7 @@ export class DashboardComponent implements OnInit {
         var tblBody = document.getElementById("mytbody4");
         tblBody.innerHTML = '';
         document.getElementById("count4").textContent = data.total_count;
-        if(data.total_count == '0'){
+        if (data.total_count == '0') {
           document.getElementById("mytitle4").style.display = "none";
           this.failDialog("This book is not found!");
         }
@@ -1403,31 +1408,31 @@ export class DashboardComponent implements OnInit {
 
 
   first4() {
-    if(this.popularCategoryTerm){
+    if (this.popularCategoryTerm) {
       this.search4();
-    }else{
+    } else {
       this.currentPage4 = "1";
       this.getBooksByPaganation4();
     }
-    
+
   }
 
   last4() {
-    if(this.popularCategoryTerm){
-        this.search4();
-    }else{
+    if (this.popularCategoryTerm) {
+      this.search4();
+    } else {
       this.currentPage4 = document.getElementById("lastPage4").innerHTML;
       this.getBooksByPaganation4();
     }
-    
+
   }
 
 
 
   next4() {
-    if(this.popularCategoryTerm){
+    if (this.popularCategoryTerm) {
       this.search4();
-    }else{
+    } else {
       this.getBooksByPaganation4();
     }
   }
@@ -1463,7 +1468,7 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; message: string }
   ) { }
 
   onNoClick(): void {

@@ -63,6 +63,7 @@ export class BookComponent implements OnInit {
   count: string;
 
   currentPage: any;
+  apiRoute: string = '';
 
   constructor(
     private http: HttpClient,
@@ -80,6 +81,7 @@ export class BookComponent implements OnInit {
         totalItems: 0
       }
     this.userRole = this.ics.userRole;
+    this.apiRoute = this.ics.apiRouteForImage;
   }
 
   radioChange1() {

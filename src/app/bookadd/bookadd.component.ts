@@ -20,7 +20,7 @@ export class BookaddComponent implements OnInit {
   pdf: string;
   publisherForm: FormGroup;
   authorForm: FormGroup;
-  json = { "userId" : "", "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "accessionNo":"", "callNumber": "", "description": "" };
+  json = { "userId": "", "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "accessionNo": "", "callNumber": "", "description": "" };
   categories = [];
   subcategories = [];
   publishers = [];
@@ -31,6 +31,7 @@ export class BookaddComponent implements OnInit {
   subCategoryTerm: string;
   selectedEntry;
   loading = false;
+  apiRoute: string = '';
 
 
   emptyData = {};
@@ -105,8 +106,9 @@ export class BookaddComponent implements OnInit {
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
     private ics: IntercomService) {
-      this.userRole = this.ics.userRole;
-      console.log(this.userRole)
+    this.apiRoute = this.ics.apiRouteForImage;
+    this.userRole = this.ics.userRole;
+    console.log(this.userRole)
     this.publisherForm = this.formBuilder.group({
       pubs: this.formBuilder.array([], [Validators.required])
 
@@ -119,7 +121,7 @@ export class BookaddComponent implements OnInit {
 
 
   ngOnInit(): void {
-    
+
     this.loading = true;
     this.getAllCategories();
     this.getAllPublishers();
@@ -155,7 +157,7 @@ export class BookaddComponent implements OnInit {
     }).subscribe(
       (data: any) => {
         console.warn("data: ", data);
-        if(data.err_msg == "Unauthorized Request")
+        if (data.err_msg == "Unauthorized Request")
           this.loginDialog();
         this.categories = data.categories;
 
@@ -239,7 +241,7 @@ export class BookaddComponent implements OnInit {
       });
   }
 
-  
+
   onSelectionChange(entry) {
     this.selectedEntry = entry;
   }
@@ -256,7 +258,7 @@ export class BookaddComponent implements OnInit {
     this.json.subCategory = this.selectedEntry;
     console.log(this.json.pdfName)
     this.json.userId = this.ics.userId;
-  
+
     console.log("json", this.json)
     const url: string = this.ics.apiRoute + "/operation/saveBook";
     this.http.post(url, this.json).subscribe(
@@ -286,7 +288,7 @@ export class BookaddComponent implements OnInit {
 
   failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
-      data:{ 
+      data: {
         "title": "Unable to add book!!",
         "message": data.msg
       }
@@ -299,7 +301,7 @@ export class BookaddComponent implements OnInit {
   }
   loginDialog() {
     const dialogRef = this.dialog.open(LoginDialog, {
-      data:{ 
+      data: {
         "title": "Please login first!!",
       }
     });
@@ -337,7 +339,7 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; message: string }
   ) { }
 
   onNoClick(): void {
@@ -354,7 +356,7 @@ export class LoginDialog {
   constructor(
     public dialogRef: MatDialogRef<LoginDialog>,
     public router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: {title: string}
+    @Inject(MAT_DIALOG_DATA) public data: { title: string }
   ) { }
 
   route(): void {

@@ -13,8 +13,21 @@ export class IntercomService {
   _activeTimeout:number = 0;
   _sessiontime:string = "10";
   verifyCode: string = "";
+<<<<<<< Updated upstream
   apiRoute: string = "http://136.228.165.174:8080/elibrary";
   //apiRoute: string = "http://localhost:8082";
+=======
+
+  // apiRoute: string = "http://136.228.165.174:8080/elibrary";
+  // apiRouteForImage: string = "http://136.228.165.174:8080";
+
+  // apiRoute: string = "http://localhost:8080/elibrary";
+  // apiRouteForImage: string = "http://localhost:8080";
+
+  apiRoute: string = "http://localhost:8082";
+  apiRouteForImage: string = "http://localhost:8080";
+
+>>>>>>> Stashed changes
   private _rpbeanSource = new Subject<any>();
   rpbean$ = this._rpbeanSource.asObservable();
   private _mybean: any;

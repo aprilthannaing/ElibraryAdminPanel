@@ -49,6 +49,7 @@ export class BookeditComponent implements OnInit {
   selectedPublishers = [];
   selectedAuthors = [];
   userRole = "";
+  apiRoute: string = '';
 
   onSelectionChange(entry) {
     this.selectedEntry = entry;
@@ -102,6 +103,7 @@ export class BookeditComponent implements OnInit {
     private actRoute: ActivatedRoute,
     public datePipe: DatePipe,
     private ics: IntercomService) {
+    this.apiRoute = this.ics.apiRouteForImage;
 
     this.userRole = this.ics.userRole;
     this.boId = this.actRoute.snapshot.params.boId;
