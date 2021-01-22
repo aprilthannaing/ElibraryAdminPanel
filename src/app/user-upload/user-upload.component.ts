@@ -19,6 +19,7 @@ export class UserUploadComponent implements OnInit {
     "refHluttaw": [{ "value": "", "caption": "" }],
     "refDept": [{ "value": "", "caption": "" }],
     "refPosition": [{ "value": "", "caption": "" }],
+    "refconstituency": [{ "value": "", "caption": "" }]
   };
   userArrayList:any = this.getObj();
   checkArrayList:any = [];
@@ -27,7 +28,7 @@ export class UserUploadComponent implements OnInit {
       "userArray":[]
     }
   }
-  userObj = {"flag": false,"sessionId":"","boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":"","roleType":""} 
+  userObj = {"constituencyType":"","flag": false,"sessionId":"","boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":"","roleType":""} 
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -40,6 +41,7 @@ export class UserUploadComponent implements OnInit {
     this.getHluttaw();
     this.getDepartment();
     this.getPosition();
+    this.getConstituency();
   }
   goClear(){
     this.data = [];
@@ -89,7 +91,7 @@ export class UserUploadComponent implements OnInit {
         
         //User
         for(let i=0;i<this.data.length;i++){
-          this.userObj = {"flag": false,"sessionId":"","boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":"","roleType":""} 
+          this.userObj = {"constituencyType":"","flag": false,"sessionId":"","boId": "", "name" : "", "email":"", "phoneNo":"","type":"","hlutawType":"","deptType":"","positionType":"","status":"","roleType":""} 
     
           for(let j=0;j<this.data[i].length+1;j++){
             if(j==0)
@@ -105,6 +107,8 @@ export class UserUploadComponent implements OnInit {
             else if(j==5)
             this.userObj.positionType  = (this.data[i][j]==undefined ? "" : this.data[i][j]);
             else if(j==6)
+            this.userObj.constituencyType = (this.data[i][j]==undefined ? "" : this.data[i][j]);
+            else if(j==7)
             this.userObj.type  = this.data[i][j];
             else
             this.userObj.flag  = false;
@@ -260,7 +264,18 @@ export class UserUploadComponent implements OnInit {
                     }
                   }
                 }
-              
+                //constituency
+                  for (let k = 0; k < this.lov.refconstituency.length; k++) {
+                    if (this.checkArrayList[j].hlutawType == this.lov.refconstituency[k].joinid) {
+                      if(this.checkArrayList[j].type == "Representative"){
+                        if(this.lov.refconstituency[k].caption == this.checkArrayList[j].constituencyType)
+                          this.checkArrayList[j].constituencyType = this.lov.refconstituency[k].value;
+                      }else{
+                        if(this.lov.refconstituency[k].code == "0")
+                        this.checkArrayList[j].constituencyType = this.lov.refconstituency[0].value;
+                      }
+                    }
+                  }
             }
           }
         }
@@ -268,8 +283,13 @@ export class UserUploadComponent implements OnInit {
       }
       for(let i = 0; i<this.lov.refPosition.length; i++){
         for(let j = 0; j< this.checkArrayList.length; j++){
-          if(this.lov.refPosition[i].caption == this.checkArrayList[j].positionType)
+          if(this.checkArrayList[j].type != "Representative"){
+            if(this.lov.refPosition[i].caption == this.checkArrayList[j].positionType)
+              this.checkArrayList[j].positionType = this.lov.refPosition[i].value;
+          }else{
+            if(this.lov.refPosition[i].code == "0")
             this.checkArrayList[j].positionType = this.lov.refPosition[i].value;
+          }
         }
       }
       }
@@ -315,7 +335,28 @@ openConfirmationDialog() {
     console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
 }
 
+getConstituency() {
+  const url = this.ics.apiRoute + '/setUp/getConstituencyAll';
+  const json = {"":""}
+  try {
+      this.http.post(url,json).subscribe(
+          (data:any) => {
+              if (data != null && data != undefined) {
+                this.lov.refconstituency = data.refConst;
+            }
+          },
+          error => {
+              if (error.name == "HttpErrorResponse") {
+                  alert("Connection Timed Out!");
+              }
+              else {
 
+              }
+          }, () => { });
+  } catch (e) {
+      alert(e);
+  }
+}
 showMessage(msg, bool) {
   if (bool == true) { this.ics.sendBean({ "t1": "rp-alert", "t2": "success", "t3": msg }); }
   if (bool == false) { this.ics.sendBean({ "t1": "rp-alert", "t2": "warning", "t3": msg }); }

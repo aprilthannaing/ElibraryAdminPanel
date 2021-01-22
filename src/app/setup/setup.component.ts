@@ -249,7 +249,8 @@ export class SetupComponent implements OnInit {
   }
   getHluttawByConst() {
     const url = this.ics.apiRoute + '/setUp/getHluttaw';
-    const json = {"type":"representative"}
+    //const json = {"type":"representative"}
+    const json = {"type":""}
     try {
         this.http.post(url,json).subscribe(
             (data:any) => {

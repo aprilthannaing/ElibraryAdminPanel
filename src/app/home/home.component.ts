@@ -14,7 +14,7 @@ import { IntercomService } from '../framework/intercom.service';
   styleUrls: ['./home.component.styl']
 })
 export class HomeComponent implements OnInit {
-
+  count_user = 0 ;
   books = [];
   userRole = "";
   showBook = false;
@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
 
     })
     this.userRole = this.ics.userRole;
+    this.NewUserApprovel();
   }
 
   getPendingBooks() {
@@ -187,6 +188,24 @@ export class HomeComponent implements OnInit {
     });
 
   }
+  jsonReq = {"searchText":"","text1":"", "text2":"", "text3":"","fromDate":"","toDate":""};
+  NewUserApprovel(){
+    try {
+      const url = this.ics.apiRoute + '/user/selectUserInfobyStatus';
+        this.http.post(url,this.jsonReq).subscribe(
+            (data:any) => {
+              this.ics.count_user = data.length;
+              this.count_user = this.ics.count_user;
+            },
+            error => {
+                if (error.name == "HttpErrorResponse") {
+                    alert("Connection Timed Out!");
+                }
+            }, () => { });
+    } catch (e) {
+        alert(e);
+    }
+  }
 }
 
 
@@ -242,6 +261,5 @@ export class SuccessDialog {
   onNoClick(): void {
     this.dialogRef.close();
   }
-
 }
 

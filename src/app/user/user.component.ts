@@ -34,6 +34,8 @@ constructor(
   private route: ActivatedRoute,
   private ics: IntercomService
 ) { 
+    this.getHluttaw();
+    this.getPosition();
 }
 
 ngOnInit() {
@@ -46,8 +48,6 @@ ngOnInit() {
         this.emailFlag = true;
       }
     });
-    this.getHluttaw();
-    this.getPosition();
     if(this.ics.userRole == "Admin" || this.ics.userRole == "SuperLibrarian")
         this.radioFlag = false;
     else
@@ -63,6 +63,8 @@ ngOnInit() {
             (data:any) => {
                 if (data != null && data != undefined) {
                     this.json = data;
+                    this.getDepartment();
+                    this.getConstituency();
                 }
             this.loading = false;
             },
@@ -257,11 +259,8 @@ goSave(){
             console.log("Choose position Type");
             return false;
         }
-        if(this.json.constituencyType === '' || this.json.constituencyType === 0)
-            if(this.lov.refConstituency.length != 0)
-                this.json.constituencyType = this.lov.refConstituency[0].value;
-            else
-                this.json.constituencyType = 8;
+
+        this.json.constituencyType = this.lov.refConstituency[0].value;
     }
     if(this.json.currentAddress === "" || this.json.currentAddress === null ){
         this.showMessage("Please fill correct Current Address",false); 
@@ -329,9 +328,9 @@ getConstituency() {
   }
 
 changeModule() {
-    if(this.json.type === "Representative")
-        this.getConstituency();
-    else
+   // if(this.json.type === "Representative")
+   // else
+    this.getConstituency();
     this.getDepartment();
 }
 goList(){
@@ -341,7 +340,10 @@ goSetup(id){
     this.router.navigate(['/setup', 'read', id]);
 }
 goNew() {
-    this.router.navigate(['/user']);
+    this.json = this.userObj();
+    this.emailFlag = false;
+    this.json.status = this.lov.refStatus[0].value;
+    //this.router.navigate(['/user']);
 }
 goUpload(){
     this.router.navigate(['/user-upload']);

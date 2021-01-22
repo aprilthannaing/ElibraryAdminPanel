@@ -49,6 +49,7 @@ export class UserStatusChangeComponent implements OnInit {
                 for(let user of this.userObj){
                     user.date = this.datePipe.transform(user.modifiedDate, 'dd/MM/yyyy');
                 }
+                this.ics.count_user = data.length;
             }
             this.loading = false;
             },
