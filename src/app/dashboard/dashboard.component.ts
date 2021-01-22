@@ -879,14 +879,8 @@ export class DashboardComponent implements OnInit {
       (data: any) => {
 
         console.log("entries !!!!!!!!!!", data)
-        data.bookCount.forEach(element => {
-          this.bookCount.push(element);
-        });
-
-        data.nameList.forEach(element => {
-          this.librarians.push(element);
-        });
-
+        this.bookCount = data.bookCount;
+        this.librarians = data.nameList;
         this.getBarChart(this.userId, this.ics.apiRoute);
         this.loading = false;
       },
@@ -1262,7 +1256,7 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
     console.log("term:", this.popularCategoryTerm);
     console.log("index !!!!!!!!!!!", document.getElementById("next4").getAttribute("value"));
-    const url: string = this.ics.apiRoute + "/dashboard/popualrbooksearch";
+    const url: string = this.ics.apiRoute + "/dashboard/popualrbooksearchbysub";
     const index = document.getElementById("next4").getAttribute("value");
     var splitted = index.split(",");
 
@@ -1274,6 +1268,7 @@ export class DashboardComponent implements OnInit {
       sub_category_id: splitted[1]
 
     }
+    console.log("json $$$$$$$$$$$$$$$$$", json)
 
     this.http.post(url, json).subscribe(
       (data: any) => {
