@@ -16,6 +16,7 @@ import {
   ApexNonAxisChartSeries,
   ApexResponsive,
 } from "ng-apexcharts";
+
 import { TestBed } from '@angular/core/testing';
 import { IfStmt } from "@angular/compiler";
 
@@ -890,6 +891,7 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
       error => {
+        this.loading = false;
         console.warn("error: ", error);
       });
   }
@@ -983,6 +985,7 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
       error => {
+        this.loading = false;
         console.warn("error: ", error);
       });
 
@@ -1012,6 +1015,7 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
       error => {
+        this.loading = false;
         console.warn("error: ", error);
       });
 
@@ -1039,10 +1043,10 @@ export class DashboardComponent implements OnInit {
         console.log("current page!!!!!", this.currentPage3);
         console.log("last page3!!!!!", document.getElementById("lastPage3").innerHTML);
 
-
         this.loading = false;
       },
       error => {
+        this.loading = false;
         console.warn("error: ", error);
       });
 
@@ -1073,6 +1077,7 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
       error => {
+        this.loading = false;
         console.warn("error: ", error);
       });
 
@@ -1137,6 +1142,7 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
       error => {
+        this.loading = false;
         console.warn("error: ", error);
       });
     this.entryTerm = "";
@@ -1192,6 +1198,7 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
       error => {
+        this.loading = false;
         console.warn("error: ", error);
       });
     this.categoryTerm = "";
@@ -1240,6 +1247,7 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
       error => {
+        this.loading = false;
         console.warn("error: ", error);
       });
     this.popularTerm = "";
@@ -1299,6 +1307,8 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
       error => {
+        this.loading = false;
+        this.failDialog(error.message);
         console.warn("error: ", error);
       });
     this.popularCategoryTerm = "";

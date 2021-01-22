@@ -3,7 +3,6 @@ import * as XLSX from 'xlsx';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 const FileSaver = require('file-saver');
 @Component({

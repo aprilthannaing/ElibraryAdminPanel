@@ -126,10 +126,10 @@
 
     <!-- ---------------------  books by librarian  ---------------- -->
 
-    <p style="text-decoration: underline;margin-left:14.5%;display: none;margin-top:15%;" (click)="myFunction()" id="status">{{status}}
+    <p style="text-decoration: underline;margin-left:14.5%;display: none;padding: 13% 0% 0% 0%;" (click)="myFunction()" id="status">{{status}}
     </p>
 
-    <div style="margin-left:10%;display: none;max-height: 700px;" id="mydiv">
+    <div style="margin-left:10%;display: none;max-height: 500px;" id="mydiv">
 
 
 
@@ -157,7 +157,7 @@
                 <button type="submit" (click)="search()"><i class="fa fa-search"></i></button>
             </div>
 
-            <div style="margin-top: 5%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;">
+            <div style="margin-top: 5%;height: 300px;overflow-y: auto;width:90%;overflow-x:auto;">
                 <table class="table-striped table-condensed table-hover tblborder" id="myTable">
                     <thead>
                         <tr id="mytitle2">
@@ -208,7 +208,7 @@
     <!-- --------------------- popular books by sub category ---------------- -->
 
 
-    <mat-form-field class="mat" style="margin-left:40%;width: 25%;margin-top: 10%">
+    <mat-form-field class="mat" style="padding: 13% 0% 0% 40%;">
         <mat-label style="font-weight: bold;">Choose Category</mat-label>
         <select matNativeControl required (change)="selectChangeHandler($event)">
             <option></option>
@@ -227,7 +227,7 @@
         {{status4}}
     </p>
 
-    <div style="margin-left:10%;display: none;max-height:500px;margin-bottom: 20%;" id="mydiv4">
+    <div style="margin-left:10%;display: none;max-height:300px;margin-bottom: 20%;" id="mydiv4">
         <mat-form-field color="accent" style="margin-left: 5%;">
             <input matInput [matDatepicker]="picker7" placeholder="From" [(ngModel)]="popularCategoryStartDate">
             <mat-datepicker-toggle matSuffix [for]="picker7"></mat-datepicker-toggle>
@@ -249,7 +249,7 @@
                 <input type="text" placeholder="Search.." name="search2" [(ngModel)]="popularCategoryTerm">
                 <button type="submit" (click)="search4()"><i class="fa fa-search"></i></button>
             </div>
-            <div style="margin-top: 7%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;">
+            <div style="margin-top: 7%;height: 300px;overflow-y: auto;width:90%;overflow-x:auto;">
                 <table class="table-striped table-condensed table-hover tblborder" id="myTable4">
                     <thead>
                         <tr id="mytitle3">
@@ -308,7 +308,7 @@
         {{status2}}
     </p>
 
-    <div style="margin-left:10%;display: none;max-height:500px;" id="mydiv2">
+    <div style="margin-left:10%;display: none;max-height:300px;" id="mydiv2">
         <mat-form-field color="accent" style="margin-left: 5%;">
             <input matInput [matDatepicker]="picker3" placeholder="From" [(ngModel)]="categoryStartDate">
             <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
@@ -330,7 +330,7 @@
                 <input type="text" placeholder="Search.." name="search2" [(ngModel)]="categoryTerm">
                 <button type="submit" (click)="search2()"><i class="fa fa-search"></i></button>
             </div>
-            <div style="margin-top: 7%;height: 500px;overflow-y: auto;width:90%;overflow-x:auto;">
+            <div style="margin-top: 7%;height: 300px;overflow-y: auto;width:90%;overflow-x:auto;">
                 <table class="table-striped table-condensed table-hover tblborder" id="myTable2">
                     <thead>
                         <tr id="mytitle4">
