@@ -111,7 +111,7 @@ export class BookComponent implements OnInit {
       console.log(this.term)
       const json = {
         "page": this.config.currentPage,
-        "user_id": "USR2",
+        "user_id": this.ics.userId,
         "category_id": "",
         "sub_category_id": "",
         "author_id": "",
@@ -363,8 +363,8 @@ export class BookComponent implements OnInit {
   getAllBooks() {
     const json = {
       "page": this.config.currentPage,
-      "title": "all",
-      "user_id": "USR1"
+      "title": "latest",
+      "user_id": this.ics.userId,
     }
     console.log(json)
     const header: HttpHeaders = new HttpHeaders({
