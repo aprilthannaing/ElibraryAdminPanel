@@ -312,6 +312,14 @@ getConstituency() {
             (data:any) => {
                 if (data != null && data != undefined) {
                     this.lov.refConstituency = data.refConst;
+                    for(let i = 0; i< this.lov.refConstituency.length; i++){
+                        if(this.lov.refConstituency[i].status == "INACTIVE"){
+                            this.lov.refConstituency.splice(i,1);
+                            i--;
+                        }
+                      }
+                      if(this.json.constituencyType == "")
+                  this.json.constituencyType=this.lov.refConstituency[0].value;
                 }
             },
             error => {
