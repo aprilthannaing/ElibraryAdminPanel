@@ -26,14 +26,14 @@
     </div>
 
     <div class="inputWithIcon" style="margin-top:2%;">
-        <input type="text" style="font-family:  fantasy;font-size:0.9vw;" placeholder="Email ID" [(ngModel)]="email">
+        <input type="text" autofocus style="font-family:  fantasy;font-size:0.9vw;" placeholder="Email ID" [(ngModel)]="email">
         <i style="font-size: 15px;margin-left: 3%;" class="fa fa-user" aria-hidden="true"></i>
 
     </div>
     <div class="inputWithIcon">
-        <input type="password" style="font-family:  fantasy;font-size:0.9vw;" placeholder="Password"
+        <input type="password" style="font-family:  fantasy;font-size:0.9vw;" placeholder="Password" (keyup)="searchKeyup($event)"
             [(ngModel)]="password">
-        <i style=" font-size: 15px;margin-left: 3%;" class="fa fa-lock" aria-hidden="true"></i>
+        <i style=" font-size: 15px;margin-left: 3%;" class="fa fa-lock" aria-hidden="true" ></i>
     </div>
 
     <div style="margin:2% 0% 0% 20%;">

@@ -81,37 +81,37 @@ export class UserChangepwd2Component implements OnInit {
            this.loading = false;
            alert(e);
        }
-    }else{
-      this.showMessage(this._result,false);
     }
-    
    }
    goValidation(){
-     if(this.oldpwd === ""){
-       this._result = "Please enter your old password";
-       return false;
-     }
-     if(this.newpwd === ""){
-      this._result = "Please enter your new password.";
+    if(this.oldpwd == null || this.oldpwd == ""){
+      this.showMessage("Please enter your old password",false);
+      return false;
+    }
+    if(this.newpwd == null || this.newpwd == ""){
+      this.showMessage("Please enter your new password",false)
+      return false;
+    }
+    if(this.newpwd1 == ""){
+      this.showMessage("Please confirm your new password.",false)
       return false;
      }
-     if(this.newpwd1 === ""){
-      this._result = "Please confirm your new password.";
+    if(this.newpwd === this.oldpwd){
+      this.showMessage("Your new password cannot be the same as your old password. Please enter a different password",false)
       return false;
-     }
-     if(this.newpwd != this.newpwd1){
-      this._result = "your new password must be same with your confirm password.";
+    }
+    if(this.newpwd != this.newpwd1){
+      this.showMessage("your new password must be same with your confirm password.",false)
       return false;
-     }
-     if(this.oldpwd === this.newpwd){
-       this._result = "Your new password cannot be the same as your old password. Please enter a different password";
-       return false;
-      }
-      return true;
+    }
+    return true;
    }
    showMessage(msg, bool) {
     if (bool == true) { this.ics.sendBean({ "t1": "rp-alert", "t2": "success", "t3": msg }); }
     if (bool == false) { this.ics.sendBean({ "t1": "rp-alert", "t2": "warning", "t3": msg }); }
     if (bool == undefined) { this.ics.sendBean({ "t1": "rp-alert", "t2": "primary", "t3": msg }); }
   }
+  ret:boolean = false;
+  state = false;
+  desc = "";
 }

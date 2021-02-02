@@ -46,7 +46,6 @@ export class UserLoginComponent implements OnInit {
   }
 
   goPost() {
-
     console.log("go post")
     this.encryptedPassword = this.encrypt(this.password);
     this._result = "";
@@ -157,5 +156,9 @@ export class UserLoginComponent implements OnInit {
     if (bool == false) { this.ics.sendBean({ "t1": "rp-alert", "t2": "warning", "t3": msg }); }
     if (bool == undefined) { this.ics.sendBean({ "t1": "rp-alert", "t2": "primary", "t3": msg }); }
   }
-
+  searchKeyup(e: any) {
+    if (e.which == 13) {
+      this.goPost();
+    }
+  }
 }
