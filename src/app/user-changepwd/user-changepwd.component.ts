@@ -48,8 +48,6 @@ export class UserChangepwdComponent implements OnInit {
     if(this.goValidation()){
       this.encryptedOldPassword = this.encryt(this.oldpwd);
       this.encryptedNewPassword = this.encryt(this.newpwd);
-      console.log(this.encryptedOldPassword)
-      console.log(this.encryptedNewPassword)
       this._result = "";
       if(this._result == ""){
          const url = this.ics.apiRoute + '/user/goChangepwdByAdmin';
@@ -58,7 +56,6 @@ export class UserChangepwdComponent implements OnInit {
           "new_password": this.encryptedNewPassword,
           "email": this.ics.email
         }
-        console.log(json)
         try {
             this.http.post(url,json,{headers: new HttpHeaders().set('token', this.ics.token)}).subscribe(
                  (data:any) => {

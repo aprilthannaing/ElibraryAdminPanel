@@ -60,7 +60,6 @@ export class UserLoginComponent implements OnInit {
       try {
         this.http.post(url, json).subscribe(
           (data: any) => {
-            console.log(data)
             if (data != null && data != undefined) {
               if (data.status) {
                 if (data.changePwd) {

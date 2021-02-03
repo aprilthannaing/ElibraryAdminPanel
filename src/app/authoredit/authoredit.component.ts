@@ -52,14 +52,12 @@ export class AuthoreditComponent implements OnInit {
 
   }
   deleteBook(event){
-    console.log(event.target.value)
     const json = {
       bookId: event.target.value
     }
     const url: string = this.ics.apiRoute + "/operation/deleteBook";
     this.http.post(url, json).subscribe(
       (data: any) => {
-        console.log("delete book: ", data);
       },
       error => {
         console.log("error ", error);
@@ -82,10 +80,7 @@ export class AuthoreditComponent implements OnInit {
         this.books = data.books;
 
         this.imageSrc = this.ics.apiRoute + data.author.profilePicture;
-        console.log(this.imageSrc)
         this.myForm.value.file = this.json.profilePicture;
-        console.log(this.myForm.value.file)
-
       },
       error => {
         console.warn("error: ", error);
@@ -171,12 +166,9 @@ export class AuthoreditComponent implements OnInit {
   }
 
   save() {
-    console.log(this.json)
     const url: string = this.ics.apiRoute + "/operation/editAuthor";
     this.json.imageSrc = this.imageSrc;
     this.json.profilePicture = this.myForm.value.file;
-    console.log(this.json.profilePicture)
-    console.log("json: ", this.json)
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);
@@ -291,7 +283,6 @@ export class AlertDialog {
   }
 
   submit(): void {
-    console.log("this.data.boId: ", this.data.boId)
     this.dialogRef.close();
 
     const json = {

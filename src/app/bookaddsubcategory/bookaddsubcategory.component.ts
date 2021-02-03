@@ -67,7 +67,6 @@ export class BookaddsubcategoryComponent implements OnInit {
       });
   }
   changeCategory(e) {
-    console.log("form value: ", this.form.value);
     const url: string = this.ics.apiRoute + "/category/boId";
     this.http.post(url, this.form.value).subscribe(
       (data: any) => {
@@ -97,11 +96,8 @@ export class BookaddsubcategoryComponent implements OnInit {
       categoryBoId: this.category,
 
     }
-
-    console.log("json!!!" , json)
     this.http.post(url, json).subscribe(
       (data: any) => {
-        console.log("response: ", data);
         if (data.status == "1")
           this.successDialog();
         else this.failDialog(data);

@@ -71,7 +71,6 @@ export class BookaddauthorComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/operation/saveAuthor"; 
     this.json.imageSrc = this.imageSrc;
     this.json.profilePicture = this.myForm.value.file; 
-    console.log("json: ", this.json)  
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         console.warn("data: ", data);

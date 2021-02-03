@@ -85,7 +85,6 @@ export class BookComponent implements OnInit {
   }
 
   radioChange1() {
-    console.log(this.selected)
     this.getAllAuthors();
 
   }
@@ -108,7 +107,6 @@ export class BookComponent implements OnInit {
     if(!this.term){
       this.failDialog("Please enter you want to search!");
     }else{
-      console.log(this.term)
       const json = {
         "page": this.config.currentPage,
         "user_id": this.ics.userId,
@@ -119,7 +117,6 @@ export class BookComponent implements OnInit {
         "end_date": "",
         "searchTerms": this.term
       }
-      console.log(json)
       const header: HttpHeaders = new HttpHeaders({
         token: this.ics.token
       });
@@ -132,7 +129,6 @@ export class BookComponent implements OnInit {
           this.config.totalItems = data.total_count;
           this.searchBooks = data.books;
           this.books = this.searchBooks;
-          console.log(this.books)
         },
         error => {
           console.warn("error:", error);
@@ -144,10 +140,7 @@ export class BookComponent implements OnInit {
   }
   changedBySearch(event) {
     this.config.currentPage = event;
-    console.log(this.config.currentPage)
     this.books = this.searchByKeywords();
-    console.log(this.books)
-
   }
 
   searchAuthorByKeywords() {
@@ -158,7 +151,6 @@ export class BookComponent implements OnInit {
         "page": this.config.currentPage,
         "name": this.authorTerm
       }
-      console.log(json)
       const header: HttpHeaders = new HttpHeaders({
         token: this.ics.token
       });
@@ -168,14 +160,12 @@ export class BookComponent implements OnInit {
         headers: header
       }).subscribe(
         (data: any) => {
-          console.log(data)
           if(data.err_msg == "Unauthorized Request")
             this.loginDialog();
           this.authorConfig.currentPage = data.current_page;
           this.authorConfig.totalItems = data.total_count;
           this.searchAuthors = data.author;
           this.authors = this.searchAuthors;
-          console.log(this.authors)
         },
         error => {
           console.warn("error:", error);
@@ -188,7 +178,6 @@ export class BookComponent implements OnInit {
 
   authorBySearch(event) {
     this.authorConfig.currentPage = event;
-    console.log(this.authorConfig.currentPage)
     this.authors = this.searchAuthorByKeywords();
   }
 
@@ -304,7 +293,6 @@ export class BookComponent implements OnInit {
       "selected": this.selected,
       "page": this.authorConfig.currentPage
     }
-    console.log(json)
     const url: string = this.ics.apiRoute + "/author/allBySelected";
     this.http.post(url, json).subscribe(
       (data: any) => {
@@ -312,7 +300,6 @@ export class BookComponent implements OnInit {
         this.authors = data.authors;
         this.authorConfig.totalItems = data.total_count;
         data.authors.forEach(element => {
-          console.log(this.ics.apiRoute + "/" + element.profilePicture)
         });
         this.loading = "false";
       },
@@ -334,9 +321,6 @@ export class BookComponent implements OnInit {
         if(data.err_msg == "Unauthorized Request")
           this.loginDialog();
         this.categories = data.categories;
-        console.log(" data.categories!!!" + data.categories)
-
-
         this.loading = "false";
       },
       error => {
@@ -351,8 +335,6 @@ export class BookComponent implements OnInit {
       (data: any) => {
         this.subcategories = data.subcategories;
         this.loading = "false";
-        console.log("categories: ", data.subcategories)
-
       },
       error => {
         console.warn("error: ", error);
@@ -366,7 +348,6 @@ export class BookComponent implements OnInit {
       "title": "latest",
       "user_id": this.ics.userId,
     }
-    console.log(json)
     const header: HttpHeaders = new HttpHeaders({
       token: this.ics.token
     });
@@ -378,15 +359,12 @@ export class BookComponent implements OnInit {
       }
     ).subscribe(
       (data: any) => {
-        console.log(data)
         if(data.message == "Unauthorized Request")
           this.loginDialog();
         this.books = data.books;
         this.last = data.last_page;
         this.count = data.total_count;
         this.config.totalItems = data.total_count;
-        console.log(this.last)
-        console.log(this.count)
         this.loading = "false";
 
       },
@@ -420,7 +398,6 @@ export class BookComponent implements OnInit {
         if(data.message == "Unauthorized Request")
           this.loginDialog();
         this.advertisements = data.advertisements;
-        console.log(this.advertisements)
         // for(let i=0; i<this.advertisements.length; i++){
 
         // }
@@ -527,7 +504,6 @@ export class BookComponent implements OnInit {
       headers : header
     }).subscribe(
       (data: any) => {
-        console.log(data)
         if(data.err_msg == "Unauthorized Request")
           this.loginDialog();
         
@@ -552,22 +528,15 @@ export class BookComponent implements OnInit {
   }
 
   editAuthor(e) {
-    console.log("click event: ", e.target.value)
-
   }
 
   editPublisher(e) {
-    console.log("click event: ", e.target.value)
-
   }
 
   editCategory(e) {
-    console.log("click event: ", e.target.value)
-
   }
 
   editSubCategory(e) {
-    console.log("click event: ", e.target.value)
   }
 
   loginDialog() {
@@ -646,8 +615,6 @@ export class AlertDialog {
         this.data.books.splice(i, 1);
       }
     }
-
-    console.log("this.data.boId: ", this.data.boId)
     this.dialogRef.close();
     const json = {
       bookId: this.data.boId
@@ -655,7 +622,6 @@ export class AlertDialog {
     const url: string = this.ics.apiRoute + "/operation/deleteBook";
     this.http.post(url, json).subscribe(
       (data: any) => {
-        console.log("delete book: ", data);
       },
       error => {
         console.log("error ", error);

@@ -106,10 +106,6 @@ export class AdvertiseComponent implements OnInit {
           image.onload = rs => {
               const img_height = rs.currentTarget['height'];
               const img_width = rs.currentTarget['width'];
-
-              console.log(img_height, img_width);
-
-
               if (img_height != height && img_width != width) {
                   this.imageError =
                       'Width and height of image must be 1170*268 px.';
@@ -146,10 +142,6 @@ mobileFileChange(mobileFileInput: any){
         image.onload = rs => {
             const img_height = rs.currentTarget['height'];
             const img_width = rs.currentTarget['width'];
-
-            console.log(img_height, img_width);
-
-
             if (img_height != height && img_width != width) {
                 this.mobileImageError =
                     'Width and height of image must be 991*350 px.';
@@ -178,7 +170,6 @@ mobileFileChange(mobileFileInput: any){
 
   
   radioChange1(){
-    console.log(this.selected)
     if(this.selected == 1){
       this.websiteLink = "";
     }
@@ -253,8 +244,6 @@ mobileFileChange(mobileFileInput: any){
         "pdfLink": ""
       }
     }
-
-    console.log(this.json)
     const url = this.ics.apiRoute + "/operation/uploadImage";
     this.http.post(url, this.json).subscribe(
       (data: any) => {

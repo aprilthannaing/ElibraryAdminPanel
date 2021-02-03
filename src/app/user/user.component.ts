@@ -173,7 +173,6 @@ goDelete(){
     this.loading = true;
     this.json.sessionId = this.ics.token;
     if(this.json.boId == ""){
-        console.log("User Id not Found");
         this.showMessage("User Id not Found",false);   
     }else{
         const url = this.ics.apiRoute + '/user/deleteUserinfo';
@@ -187,8 +186,6 @@ goDelete(){
                             this.showMessage(data.desc,true);   
                         }else
                             this.showMessage(data.desc,false);   
-                        console.log(data.desc);
-                      
                     }
                 },
                 error => {
@@ -208,42 +205,34 @@ goDelete(){
 }
 goSave(){
     this.json.sessionId = this.ics.token;
-    console.log("session Id : " ,this.ics.token)
     if(this.json.name === ""){
         this.showMessage("Please fill correct User Name",false);   
-        console.log("Please fill correct User Name");
         return false;
     }
     if(this.json.email === ""){
         this.showMessage("Please fill correct User Email",false);   
-        console.log("Please fill correct User Email");
         return false;
     }
     if(this.json.phoneNo === ""){
         this.showMessage("Please fill correct User Phone No",false);   
-        console.log("Please fill correct User Phone No");
         return false;
     }
     if(this.json.roleType === ""){
         this.showMessage("Choose User Role",false);   
-        console.log("Choose User Role");
         return false;
     }
 
     if(this.json.type === ""){
         this.showMessage("Choose User Level",false);   
-        console.log("Choose User Level");
         return false;
     }
     if(this.json.hlutawType === 1){
         this.showMessage("Choose Hlutaw Type",false); 
-        console.log("Choose hlutaw Type");
         return false;
     }
     if(this.json.type === 'Representative' ){
-        if(this.json.constituencyType === ''){
+        if(this.json.constituencyType === '' || this.json.constituencyType === 0){
             this.showMessage("Choose Constituency Type",false); 
-            console.log("Choose department Type");
             return false;
         }
         this.json.deptType = this.lov.refDept[0].value;
@@ -251,12 +240,10 @@ goSave(){
     }else{
         if(this.json.deptType === ''){
             this.showMessage("Choose Department Type",false); 
-            console.log("Choose department Type");
             return false;
         }
         if(this.json.positionType === ''){
             this.showMessage("Choose Position Type",false); 
-            console.log("Choose position Type");
             return false;
         }
 
@@ -287,8 +274,6 @@ goSaveURL() {
                   }else{
                     this.showMessage(data.desc,false);
                   }
-                   
-                console.log(data.desc);
               }
           },
           error => {
@@ -325,9 +310,6 @@ getConstituency() {
             error => {
                 if (error.name == "HttpErrorResponse") {
                     alert("Connection Timed Out!");
-                }
-                else {
-  
                 }
             }, () => { });
     } catch (e) {

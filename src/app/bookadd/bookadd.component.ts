@@ -108,7 +108,6 @@ export class BookaddComponent implements OnInit {
     private ics: IntercomService) {
     this.apiRoute = this.ics.apiRouteForImage;
     this.userRole = this.ics.userRole;
-    console.log(this.userRole)
     this.publisherForm = this.formBuilder.group({
       pubs: this.formBuilder.array([], [Validators.required])
 
@@ -160,8 +159,6 @@ export class BookaddComponent implements OnInit {
         if (data.err_msg == "Unauthorized Request")
           this.loginDialog();
         this.categories = data.categories;
-
-        // console.log("subcategories: " + this.categories.subcategories);
       },
       error => {
         console.warn("error: ", error);
@@ -228,13 +225,11 @@ export class BookaddComponent implements OnInit {
   })
 
   changeCategory(e) {
-    console.log("form vlaue: ", this.form.value);
     const url: string = this.ics.apiRoute + "/category/boId";
     this.http.post(url, this.form.value).subscribe(
       (data: any) => {
         console.warn("data: ", data);
         this.subcategories = data.subcategories;
-        console.log(this.subcategories)
       },
       error => {
         console.warn("error: ", error);
@@ -256,10 +251,7 @@ export class BookaddComponent implements OnInit {
     this.json.pdfName = this.pdfForm.value.file;
     this.json.category = this.form.value;
     this.json.subCategory = this.selectedEntry;
-    console.log(this.json.pdfName)
     this.json.userId = this.ics.userId;
-
-    console.log("json", this.json)
     const url: string = this.ics.apiRoute + "/operation/saveBook";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
@@ -281,7 +273,6 @@ export class BookaddComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.router.navigate(['book']);
-      console.log('The dialog was closed');
     });
 
   }

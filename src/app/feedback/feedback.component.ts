@@ -50,7 +50,6 @@ export class FeedbackComponent implements OnInit {
       }
     ).subscribe(
       (data: any) => {
-        console.log(data)
         if (data.message == "Unauthorized Request")
           this.loginDialog();
         this.feedbacks = data.feedbacks;
@@ -79,9 +78,7 @@ export class FeedbackComponent implements OnInit {
     if (this.replyForm.invalid) {
       return;
     }
-
     const json = { "feedbackId": this.feedbackBoId, "message": this.replyForm.value.message}
-    console.log("json !!!!!!!!!!", json)
     const url = this.ics.apiRoute + "/operation/reply";
     const header: HttpHeaders = new HttpHeaders({
       token: this.ics.token
@@ -92,7 +89,6 @@ export class FeedbackComponent implements OnInit {
       }
     ).subscribe(
       (data: any) => {
-        console.log(data)
         if (data.message == "Unauthorized Request")
           this.loginDialog();
         if (data.status == "1") {
@@ -119,8 +115,6 @@ export class FeedbackComponent implements OnInit {
     // console.log(Reply.textContent)
     this.feedbackBoId = event.target.value;
     event.target.style.color = ' #00cdac';
-    console.log(this.feedbackBoId)
-
   }
 
   failDialog(message) {

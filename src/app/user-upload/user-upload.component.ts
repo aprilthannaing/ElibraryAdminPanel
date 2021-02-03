@@ -83,8 +83,6 @@ export class UserUploadComponent implements OnInit {
         const wb     : XLSX.WorkBook  = XLSX.read(bstr, {type: 'binary'});
         const wsname : string         = wb.SheetNames[0];
         const ws     : XLSX.WorkSheet = wb.Sheets[wsname];
-        console.log(ws);
-
         this.data = (XLSX.utils.sheet_to_json(ws,{header: 1}))
         this.data = this.data.splice(1, this.data.length);
         
@@ -113,7 +111,6 @@ export class UserUploadComponent implements OnInit {
             this.userObj.flag  = false;
           }
           this.userArrayList.userArray.push(this.userObj);
-          console.log(this.userArrayList);
         }
       };
       reader.readAsBinaryString(target.files[0]);
@@ -223,8 +220,6 @@ export class UserUploadComponent implements OnInit {
                         }else{
                           this.showMessage(data.desc,false);
                         }
-                        
-                      console.log(data.desc);
                     }
                     this.loading = false;
                 },

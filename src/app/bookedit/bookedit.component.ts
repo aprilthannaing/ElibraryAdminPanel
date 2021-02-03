@@ -120,7 +120,6 @@ export class BookeditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("heerefjksdfjk")
     this.findByBoId();
     this.getAllCategories();
     this.getAllPublishers();
@@ -190,7 +189,6 @@ export class BookeditComponent implements OnInit {
     }).subscribe(
       (data: any) => {
         this.categories = data.categories;
-        console.log(" this.categories: ", this.categories)
       },
       error => {
         console.warn("error: ", error);
@@ -229,9 +227,6 @@ export class BookeditComponent implements OnInit {
     this.http.post(url, this.form.value).subscribe(
       (data: any) => {
         this.subcategories = data.subcategories;
-        console.log(" this.subcategories:  ", this.subcategories)
-        console.log(" subCategoryBoId boid:  ", this.subCategoryBoId)
-
       },
       error => {
         console.warn("error: ", error);
@@ -287,8 +282,6 @@ export class BookeditComponent implements OnInit {
     this.json.subCategory = this.selectedEntry == undefined ? this.subCategoryBoId : this.selectedEntry;
     this.json.state = "APPROVE";
     // this.json.publishedDate = this.datePipe.transform(this.json.publishedDate, 'MM/dd/yyyy');
-
-    console.log("this.json: ", this.json)
     const url: string = this.ics.apiRoute + "/operation/editBook";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
@@ -313,8 +306,6 @@ export class BookeditComponent implements OnInit {
     this.json.category = this.form.value.category == '' ? this.categoryBoId : this.form.value.category;
     this.json.subCategory = this.selectedEntry == undefined ? this.subCategoryBoId : this.selectedEntry;
     // this.json.publishedDate = this.datePipe.transform(this.json.publishedDate, 'MM/dd/yyyy');
-
-    console.log("this.json: ", this.json)
     const url: string = this.ics.apiRoute + "/operation/editBook";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
@@ -330,8 +321,6 @@ export class BookeditComponent implements OnInit {
   }
 
   findByBoId() {
-
-
     console.log("find by boid.........................")
     const json = {
       boId: this.boId
@@ -342,17 +331,10 @@ export class BookeditComponent implements OnInit {
       (data: any) => {
         this.subcategories = data.book.category.subCategories;
         this.json.publishedDate = data.book.publishedDate
-        console.log("book by boId: ", data.book.boId)
-
         this.json = data.book;
-        console.log(data.book.seriesIndex)
         this.datePickerForm.value.selectedDate = this.json.publishedDate;
         // this.json.publishedDate = this.datePipe.transform(this.json.publishedDate, 'MM/dd/yyyy');
-
-        console.log("PUBLISHED DATE:", this.json.publishedDate)
-
         //this.json.downloadApproval = data.book.downloadApproval == "false" ? "" : "true";
-
         this.json.description = data.book.comment == null ? "" : data.book.comment.description;
         this.imageSrc = this.ics.apiRouteForImage + data.book.coverPhoto;
         this.json.profileName = data.book.coverPhoto;

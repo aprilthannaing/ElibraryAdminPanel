@@ -65,7 +65,6 @@ export class UserListComponent implements OnInit {
     }
     const url = this.ics.apiRoute + '/user/selectUserInfo';
     this.loading = true;
-    console.log(this.jsonReq)
     try {
         this.http.post(url,this.jsonReq).subscribe(
         

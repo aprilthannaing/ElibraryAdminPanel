@@ -51,7 +51,6 @@ export class BookaddpublisherComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.router.navigate(['book']);
-      console.log('The dialog was closed');
     });
 
   }

@@ -57,7 +57,6 @@ export class HomeComponent implements OnInit {
   }
 
   manageBooks() {
-    console.log("userRole", this.ics.userRole)
     this.router.navigate(['book']);
   }
 
@@ -95,7 +94,6 @@ export class HomeComponent implements OnInit {
       error => {
         console.warn("error: ", error);
       });
-    console.log("approve!!", this.books)
 
   }
 
@@ -139,13 +137,11 @@ export class HomeComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/book/approve";
     this.http.post(url, data, { headers: header }).subscribe(
       (data: any) => {
-        console.log("data: ", data)
         if (data.status){
           this.successDialog();
 
           for (let i = 0; i < this.books.length; ++i) {
             this.approvedBooks.value.forEach(element => {
-              console.log("element", element)
               if (this.books[i].boId === element) {
                 this.books.splice(i, 1);
               }
@@ -171,7 +167,6 @@ export class HomeComponent implements OnInit {
     this.http.request('get', url, {
       headers: header
     }).subscribe((data: any) => {
-      console.log("data: ", data)
       this.feedbackCount = data;
     },
     error => {
@@ -231,7 +226,6 @@ export class ApproveDialog {
   }
 
   submit(): void {
-    console.log("this.data.boId: ", this.data.bookBoIds)
     this.dialogRef.close();
 
     const header: HttpHeaders = new HttpHeaders({
@@ -241,7 +235,6 @@ export class ApproveDialog {
     const url: string = this.ics.apiRoute + "/book/approve";
     this.http.post(url, this.data, { headers: header }).subscribe(
       (data: any) => {
-        console.log("data: ", data)
       },
       error => {
         console.warn("error: ", error);

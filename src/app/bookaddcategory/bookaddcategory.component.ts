@@ -60,9 +60,7 @@ export class BookaddcategoryComponent implements OnInit {
       const index = this.subcategoryDisplay.controls.findIndex(x => x.value === e.target.value);
       this.subcategoryDisplay.removeAt(index);
     }
-    console.log(this.subcategoryDisplay)
     this.displayJson.subcategoryBoId = this.subcategoryDisplay.value;
-    console.log(this.displayJson)
   }
 
 
@@ -73,8 +71,6 @@ export class BookaddcategoryComponent implements OnInit {
       (data: any) => {
         console.warn("data: ", data);
         this.subcategories = data.subcategories;
-        console.log(this.subcategories)
-
       },
       error => {
         console.warn("error: ", error);
