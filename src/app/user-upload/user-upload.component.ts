@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { IntercomService } from '../framework/intercom.service';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+
+
 const FileSaver = require('file-saver');
 @Component({
   selector: 'app-user-upload',

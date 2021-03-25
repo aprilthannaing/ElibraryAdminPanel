@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   count: string;
   loading = false;
   feedbackCount: string;
+  userName = "";
 
 
   ngOnInit(): void {
@@ -42,6 +43,7 @@ export class HomeComponent implements OnInit {
 
     })
     this.userRole = this.ics.userRole;
+    this.userName = this.ics.uesrName;
     this.NewUserApprovel();
   }
 

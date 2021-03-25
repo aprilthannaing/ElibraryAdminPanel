@@ -90,8 +90,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
@@ -252,7 +250,8 @@ display: {
     PortalModule,
     ScrollingModule,
     Ng2SearchPipeModule,
-    NgbModule, 
+    NgbModule,
+    NgApexchartsModule,
     
   ],
   providers: [

@@ -5,36 +5,110 @@
 
     <div>
         <mat-label style="margin-left:37%;color: blue;font-size: 20px;"> Book Management</mat-label>
+        <div class="d-flex flex-column navmenu">
+            <nav class="nav-menu">
+                <ul>
+                    <li class="active">
+                        <div class="row div">
+                            <div class="col-6">
+                                <span class="span" [routerLink]="['/addbook']">Add Book </span>
+                            </div>
+                            <div class="col-6 countDiv">
+                                <div class="countWidth">
+                                     <span (click)="showBooks()" class="bookCount">{{bookCount}}</span>
+                                </div>
+                            </div>
+                        </div>
 
-        <ul class="list-group" style="width: 50%;margin-top:2%;margin-left: 20%;">
-            <li class="list-group-item"><span style="margin-left:5%">Book </span>
-                <i style="margin-left:70%" class="fa fa-plus" aria-hidden="true" [routerLink]="['/addbook']"></i>
-                <span (click)="showBooks()" class="badge list">{{bookCount}}</span></li>
+                    </li>
+                    <li class="active">
+                        <div class="row div">
+                            <div class="col-6">
+                                <span class="span" [routerLink]="['/addauthor']">Add Author </span>
+                            </div>
+                            <div class="col-6 countDiv">
+                                <div class="countWidth">
 
-            <li class="list-group-item"><span style="margin-left:5%">Author</span>
-                <i style="margin-left:69%" class="fa fa-plus" aria-hidden="true" [routerLink]="['/addauthor']"></i>
-                <span (click)="showAuthors()" class="badge list">{{authorCount}}</span></li>
+                                    <span (click)="showAuthors()" class="bookCount">{{authorCount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="active">
+                        <div class="row div">
+                            <div class="col-6">
+                                <span class="span" [routerLink]="['/addpublisher']">Add Publisher </span>
+                            </div>
+                            <div class="col-6 countDiv">
+                                <div class="countWidth">
 
-            <li class="list-group-item"><span style="margin-left:5%">Publisher</span>
-                <i style="margin-left:66.5%" class="fa fa-plus" aria-hidden="true" [routerLink]="['/addpublisher']"></i>
-                <span (click)="showPublishers()" class="badge list">{{publisherCount}}</span></li>
+                                    <span (click)="showPublishers()" class="bookCount">{{publisherCount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="active">
+                        <div class="row div">
+                            <div class="col-6">
+                                <span class="span" [routerLink]="['/addcategory']">Add Category </span>
+                            </div>
+                            <div class="col-6 countDiv">
+                                <div class="countWidth">
+                                    <span (click)="showCategories()" class="bookCount">{{categoryCount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="active" [routerLink]="['/addsubcategory']">
+                        <div class="row div">
+                            <div class="col-6">
+                                <span class="span">Add SubCategory </span>
+                            </div>
+                            <div class="col-6 countDiv">
+                                <div class="countWidth">
+                                    <span (click)="showSubCategories()" class="bookCount">{{subcategoryCount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="active" [routerLink]="['/advertise']">
+                        <div class="row div">
+                            <div class="col-6">
+                                <span class="span">Add Advertisement</span>
+                            </div>
+                            <div class="col-6 countDiv">
+                                <div class="countWidth">
 
-            <li class="list-group-item"><span style="margin-left:5%">Category</span>
-                <i style="margin-left:67%" class="fa fa-plus" aria-hidden="true" [routerLink]="['/addcategory']"></i>
-                <span (click)="showCategories()" class="badge list">{{categoryCount}}</span></li>
-                <div *ngIf="loading == 'true'" style="margin-left: 16%;" class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                    <span (click)="showAdvertisements()" class="bookCount">{{advertisementCount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
-            <li class="list-group-item"><span style="margin-left:5%">Sub-Category</span>
-                <i style="margin-left:62.5%" class="fa fa-plus" aria-hidden="true"
-                    [routerLink]="['/addsubcategory']"></i> 
-                <span (click)="showSubCategories()" class="badge list test">{{subcategoryCount}}</span></li>
 
-            <li class="list-group-item"><span style="margin-left:5%">Advertisement</span>
-                <i style="margin-left:61.5%" class="fa fa-plus" aria-hidden="true"
-                    [routerLink]="['/advertise']"></i>
-                <span (click)="showAdvertisements()" class="badge list test">{{advertisementCount}}</span></li>
-        </ul>
-    </div>       
+
+
+
+
+        <div *ngIf="loading == 'true'" style="margin-left: 16%;" class="lds-default">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+    </div>
 
     <div style="margin-left:10%;" *ngIf="showBook == 'true' ">
         <div class="row">
@@ -42,19 +116,20 @@
                 <mat-label> Search Here</mat-label>
                 <input matInput placeholder="Book" [(ngModel)]="term">
             </mat-form-field>
-            
+
             <div style="padding-top: 20px;">
-                <button type="submit" (click)="searchByKeywords()" (change)="changedBySearch($event)"><i class="fa fa-search"></i></button>
+                <button type="submit" (click)="searchByKeywords()" (change)="changedBySearch($event)"><i
+                        class="fa fa-search"></i></button>
             </div>
         </div>
-        
+
         <div style="height: 500px; width:90%;overflow-y: auto;overflow-x:auto;">
             <table class="table table-striped table-condensed table-hover tblborder">
-                
+
                 <thead>
                     <tr>
                         <td style="color:blue;font-weight: bold;" colspan="12">Book List</td>
-                    </tr>               
+                    </tr>
                     <tr>
                         <th style="width: 5%;text-align: left;">Edit</th>
                         <th style="width: 10%;text-align: left;">BookTitle </th>
@@ -71,7 +146,7 @@
                     <tr *ngFor="let obj of books | paginate:config">
                         <td style="width: 5%;text-align: left;">
                             <i style="margin-left:12%" value="{{obj.boId}}" [routerLink]="['/editbook/', obj.boId]"
-                                class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                class="fa fa-edit" aria-hidden="true"></i>
 
                         </td>
                         <td at-implicit at-sortable at-attribute style="width: 10%;text-align: left;">{{obj.title}}</td>
@@ -84,22 +159,22 @@
                             <input style="text-align: center;" type="checkbox" [(ngModel)]="obj.downloadApproval">
 
                         </td>
-                    
+
                         <td style="width: 5%;text-align: left;">
-                            <i style="margin-left:12%" value="{{obj.boId}}" (click)="deleteBook($event)" class="fa fa-trash"
-                                aria-hidden="true"></i>
+                            <i style="margin-left:12%" value="{{obj.boId}}" (click)="deleteBook($event)"
+                                class="fa fa-trash" aria-hidden="true"></i>
 
                         </td>
                     </tr>
                 </tbody>
-            </table> 
+            </table>
         </div>
-        <div *ngIf = "config.totalItems != 0" style="text-align: center;">
+        <div *ngIf="config.totalItems != 0" style="text-align: center;">
             <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
         </div>
     </div>
-    
-    
+
+
     <div style="margin-left:10%;" *ngIf="showAuthor == 'true' ">
         <div class="row">
             <mat-form-field style="width: 50%;margin-top: 2%;width: 30%;">
@@ -107,13 +182,14 @@
                 <input matInput placeholder="Author" [(ngModel)]="authorTerm">
             </mat-form-field>
             <div style="padding-top: 20px;">
-                <button type="submit" (click)="searchAuthorByKeywords()" (change)="authorBySearch($event)"><i class="fa fa-search"></i></button>
+                <button type="submit" (click)="searchAuthorByKeywords()" (change)="authorBySearch($event)"><i
+                        class="fa fa-search"></i></button>
             </div>
         </div>
 
 
         <div class="row">
-            <mat-radio-group  [(ngModel)]="selected" #radioGroup="matRadioGroup" (change)="radioChange1()">
+            <mat-radio-group [(ngModel)]="selected" #radioGroup="matRadioGroup" (change)="radioChange1()">
                 <mat-radio-button color="primary" [value]="1">Local</mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;
                 <mat-radio-button color="primary" [value]="2">International</mat-radio-button>
             </mat-radio-group>
@@ -128,7 +204,8 @@
                     <tr>
                         <th scope="col" style="width: 5%;text-align: left;">Edit</th>
 
-                        <th scope="col" style="width: 10%;text-align: left;">Profile <Picture></Picture></th>
+                        <th scope="col" style="width: 10%;text-align: left;">Profile <Picture></Picture>
+                        </th>
                         <th scope="col" style="width: 10%;text-align: left;">Type</th>
 
                         <th scope="col" style="width: 10%;text-align: left;">Name</th>
@@ -140,18 +217,18 @@
                     <tr *ngFor="let item of authors | paginate:authorConfig">
                         <!-- | filter:authorTerm; -->
                         <td>
-                            <i style="margin-left:12%" value="{{item.boId}}" [routerLink]="['/editauthor/', item.boId]" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i style="margin-left:12%" value="{{item.boId}}" [routerLink]="['/editauthor/', item.boId]"
+                                class="fa fa-edit" aria-hidden="true"></i>
 
                         </td>
                         <td>
-                            <img class="profile" src="{{apiRoute}}{{item.profilePicture}}"
-                                alt="W3Schools.com">
+                            <img class="profile" src="{{apiRoute}}{{item.profilePicture}}" alt="W3Schools.com">
                         </td>
                         <td>{{item.authorType}}</td>
 
                         <td>{{item.name}}</td>
                         <td>{{item.sort}}</td>
-<!--                     
+                        <!--                     
                         <td>
                             <i style="margin-left:12%" value="{{item.boId}}" (click)="deleteAuthor($event)" class="fa fa-trash" aria-hidden="true"></i>
 
@@ -161,11 +238,11 @@
                 </tbody>
             </table>
         </div>
-        <div *ngIf = "authorConfig.totalItems != 0" style="text-align: center;">
-            <pagination-controls (pageChange)="authorPageChanged($event)"></pagination-controls> 
+        <div *ngIf="authorConfig.totalItems != 0" style="text-align: center;">
+            <pagination-controls (pageChange)="authorPageChanged($event)"></pagination-controls>
         </div>
     </div>
-    
+
 
 
 
@@ -192,12 +269,13 @@
                 <tbody>
                     <tr *ngFor="let item of publishers | filter:publisherTerm;">
                         <td>
-                            <i style="margin-left:12%" value="{{item.boId}}" [routerLink]="['/editpublisher/', item.boId]" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i style="margin-left:12%" value="{{item.boId}}"
+                                [routerLink]="['/editpublisher/', item.boId]" class="fa fa-edit" aria-hidden="true"></i>
 
                         </td>
                         <td>{{item.name}}</td>
                         <td>{{item.sort}}</td>
-<!--                     
+                        <!--                     
                         <td>
                             <i style="margin-left:12%" value="{{item.boId}}" (click)="deletePublisher($event)" class="fa fa-trash" aria-hidden="true"></i>
 
@@ -216,7 +294,7 @@
                 <input matInput placeholder="Category" [(ngModel)]="categoryTerm">
             </mat-form-field>
         </div>
-        <div style= "height: 500px;overflow-y: auto;width:53%;overflow-x:auto">
+        <div style="height: 500px;overflow-y: auto;width:53%;overflow-x:auto">
             <table class="table table-striped table-condensed table-hover tblborder">
                 <thead>
                     <tr>
@@ -233,12 +311,13 @@
                 <tbody>
                     <tr *ngFor="let item of categories | filter:categoryTerm;">
                         <td>
-                            <i style="margin-left:12%" value="{{item.boId}}" [routerLink]="['/editcategory/', item.boId]" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i style="margin-left:12%" value="{{item.boId}}"
+                                [routerLink]="['/editcategory/', item.boId]" class="fa fa-edit" aria-hidden="true"></i>
 
                         </td>
                         <td>{{item.priority}}</td>
                         <td>{{item.myanmarName}}</td>
-                        <td>{{item.engName}}</td>                  
+                        <td>{{item.engName}}</td>
                         <!-- <td>
                             <i style="margin-left:12%" value="{{item.boId}}" (click)="deleteCategory($event)" class="fa fa-trash" aria-hidden="true"></i>
 
@@ -274,15 +353,17 @@
 
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of subcategories | filter:subcategoryTerm;">                    
+                    <tr *ngFor="let item of subcategories | filter:subcategoryTerm;">
                         <td>
-                            <i style="margin-left:12%" value="{{item.boId}}" [routerLink]="['/editsubcategory/', item.boId]"  class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i style="margin-left:12%" value="{{item.boId}}"
+                                [routerLink]="['/editsubcategory/', item.boId]" class="fa fa-edit"
+                                aria-hidden="true"></i>
 
                         </td>
                         <td style="text-align: center;">{{item.priority}}</td>
                         <td style="text-align: center;">{{item.myanmarName}}</td>
-                        <td style="text-align: center;">{{item.engName}}</td>                     
-                    
+                        <td style="text-align: center;">{{item.engName}}</td>
+
                     </tr>
                 </tbody>
             </table>
@@ -290,7 +371,7 @@
     </div>
 
     <div style="margin-left:30%;" *ngIf="showAdvertisement == 'true' ">
-    
+
         <div style="height: 400px;overflow-y: auto;width:40%;overflow-x:auto">
             <table class="table table-striped table-condensed table-hover tblborder">
                 <thead>
@@ -303,18 +384,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of advertisements">                    
+                    <tr *ngFor="let item of advertisements">
                         <td style="text-align: center;">
-                    
-                                <mat-label style="margin-left:50%;color: blue;font-size: 13px;">{{item.type}}</mat-label><br>
-                                <img class="card-img-top" src="{{apiRoute}}{{item.name}}" class="responsive"
+
+                            <mat-label style="margin-left:50%;color: blue;font-size: 13px;">{{item.type}}</mat-label>
+                            <br>
+                            <img class="card-img-top" src="{{apiRoute}}{{item.name}}" class="responsive"
                                 style="width:100px;height:80px;margin-left: 10px;">
-                    
-                        </td>                     
+
+                        </td>
                         <td style="width: 3%;text-align: left;">
                             <br><br>
-                            <i style="margin-left:20%" value="{{item.boId}}" (click)="deleteAdvertisement($event)" class="fa fa-trash"
-                                aria-hidden="true"></i>
+                            <i style="margin-left:20%" value="{{item.boId}}" (click)="deleteAdvertisement($event)"
+                                class="fa fa-trash" aria-hidden="true"></i>
 
                         </td>
                     </tr>
