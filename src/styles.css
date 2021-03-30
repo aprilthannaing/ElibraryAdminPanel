@@ -152,7 +152,7 @@ input[type="text"] {
   margin-bottom: 20px;
 } */
 .cardview {
-  padding: 0px 12px 5px 12px;
+  padding: 0% 0% 0% 17%;
   border-radius: 2px;
   overflow-x: hidden;
 }
