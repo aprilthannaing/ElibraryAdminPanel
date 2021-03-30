@@ -1,44 +1,28 @@
 <app-home></app-home>
 
 <div class="content">
-    <div style="margin-left: 5%;margin-top: 3%;">
-        <mat-label style="margin-left:28.5%;color: blue;font-size: 20px;"> Book Edit Form</mat-label>
+    <div style="margin-left: 15%;margin-top: 3%;">
+        <mat-label style="margin-left:32%;color: blue;font-size: 20px;"> Book Edit Form</mat-label>
         <br>
-        <img [src]="imageSrc" *ngIf="imageSrc" alt="Cover Photo" class="responsive"
-            style="box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;">
+        <img [src]="imageSrc" *ngIf="imageSrc" alt="Cover Photo" class="responsive" style="padding: 0% 4% 0% 4%;">
 
-        <div class="row" style="width: 100%;margin-left: 7%;">
-
-            <form [formGroup]="myForm" class="example-form" style="width: 30%;">
-                <div class="form-group" style="margin-top: 13%;">
-                    <mat-label>Cover Photo: </mat-label>
-                    <mat-label>{{json.profileName}}</mat-label>
-
-                    <input
-                        style="width:100%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
-                        formControlName="file" id="file" type="file" class="form-control"
-                        (change)="onFileChange($event)">
-
-                    <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger" style="width: 100%;">
-                        <div *ngIf="f.file.errors.required">Cover Photo is required.</div>
-                    </div>
-                </div>
-            </form>
-
-            <form [formGroup]="pdfForm" class="example-form" style="width: 30%;margin-top: 2%;">
-                <div class="form-group">
-                    <div style="margin-left:20%;width: 100%;height: 38px;">
+        <form [formGroup]="pdfForm" class="example-form" style="margin-top: 2%;">
+            <div class="form-group">
+                <div class="row" style="padding: 0% 25% 0% 8%">
+                    <div class="col-6" style="padding: 2% 0% 0% 0%">
                         <mat-label>{{json.pdfName}}</mat-label>
                     </div>
-                    <input
-                        style=" margin-left:20%;width:100%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;position: inherit;"
-                        formControlName="file" id="file" type="file" class="form-control"
-                        (change)="onPdfChange($event)">
-
+                    <div class="col-6">
+                        <input
+                            style="color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;position: inherit;"
+                            formControlName="file" id="file" type="file" class="form-control"
+                            (change)="onPdfChange($event)">
+                    </div>
                 </div>
-            </form>
 
-        </div>
+            </div>
+        </form>
+
         <mat-form-field class="mat">
             <mat-label>Call Number</mat-label>
             <input matInput placeholder="Ex. 1956.1" required [(ngModel)]="json.callNo">
@@ -79,6 +63,7 @@
         </mat-form-field>
 
 
+
         <form [formGroup]="datePickerForm" class="datePicker">
             <mat-form-field color="accent" class="mat">
                 <input matInput [matDatepicker]="picker1" placeholder="Published Date" formControlName="selectedDate"
@@ -86,12 +71,14 @@
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
             </mat-form-field>
+
+            <label *ngIf="userRole == 'Admin' || userRole == 'SuperLibrarian'" class="mat">Download Approval
+                <input type="checkbox" [(ngModel)]="json.downloadApproval">
+            </label>
         </form>
 
-        <label *ngIf="userRole == 'Admin' || userRole == 'SuperLibrarian'" class="container">Download Approval
-            <input type="checkbox" [(ngModel)]="json.downloadApproval">
-            <span class="checkmark"></span>
-        </label>
+
+
         <div>
             <mat-form-field style="margin-left: 10%;width: 50%;">
                 <mat-label> Author</mat-label>
@@ -120,8 +107,7 @@
                                         [checked]="checkAuthorContainOrNot(item.boId)">
                                 </td>
                                 <td style="max-width: 20%;">
-                                    <img class="profile" src="{{apiRoute}}/{{item.profilePicture}}"
-                                        alt="W3Schools.com">
+                                    <img class="profile" src="{{apiRoute}}/{{item.profilePicture}}" alt="W3Schools.com">
                                 </td>
                                 <td style="max-width: 20%;">{{item.authorType}}
                                 </td>
@@ -238,13 +224,13 @@
             </div>
         </form>
 
-        <div class="md-form" style="margin-left:4.2%;width:70%">
+        <div class="md-form" style="padding:3% 3% 3% 3%;width: 70%;">
             <textarea placeholder="Fill Description" type="text" id="form8" class="md-textarea form-control" mdbInput
                 [(ngModel)]="json.description"></textarea>
         </div>
 
 
-        <div style="margin-left: 24%;margin-bottom: 10%;">
+        <div style="padding: 0% 5% 10% 25%">
             <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
             <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;"
                 *ngIf="userRole != 'SuperLibrarian'">Save</button>

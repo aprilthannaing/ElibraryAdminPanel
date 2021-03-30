@@ -6,8 +6,8 @@
         <img [src]="imageSrc" *ngIf="imageSrc" alt="Cover Photo" class="responsive"
             style="box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;">
 
-        <div class="row" style="width: 100%;margin-left: 7%;">
-
+        <div class="row" style="margin-left:15%;">
+<!-- 
             <form [formGroup]="myForm" class="example-form" style="width: 30%;">
                 <div class="form-group">
                     <mat-label>Cover Photo & PDF File</mat-label>
@@ -17,7 +17,8 @@
                         formControlName="file" id="file" type="file" class="form-control"
                         (change)="onFileChange($event)" required>
                 </div>
-            </form>
+            </form> -->
+            <label style="padding:5% 0% 0% 0%">Choose PDF File:</label>
 
             <form [formGroup]="pdfForm" class="example-form" style="width: 30%;margin-top: 2%;">
                 <div class="form-group">
@@ -240,13 +241,13 @@
             </div>
         </form>
 
-        <div class="md-form" style="margin-left:4.2%;width:70%">
+        <div class="md-form" style="padding:3% 3% 3% 3%;width: 70%;">
             <textarea placeholder="Fill Description" type="text" id="form8" class="md-textarea form-control" mdbInput
                 [(ngModel)]="json.description"></textarea>
         </div>
 
 
-        <div style="margin-left: 24%;margin-bottom: 10%;">
+        <div style="padding: 0% 5% 10% 25%">
             <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
             <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Save</button>
 

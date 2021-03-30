@@ -12,10 +12,11 @@
                         <div class="row div">
                             <div class="col-6">
                                 <span class="span" [routerLink]="['/addbook']">Add Book </span>
+
                             </div>
                             <div class="col-6 countDiv">
                                 <div class="countWidth">
-                                     <span (click)="showBooks()" class="bookCount">{{bookCount}}</span>
+                                    <span (click)="showBooks()" class="bookCount">{{bookCount}}</span>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +113,7 @@
 
     <div style="margin-left:10%;" *ngIf="showBook == 'true' ">
         <div class="row">
-            <mat-form-field style="width: 50%;margin-top: 2%;width: 30%;">
+            <mat-form-field style="width: 30%;padding:0% 2% 2% 1% ">
                 <mat-label> Search Here</mat-label>
                 <input matInput placeholder="Book" [(ngModel)]="term">
             </mat-form-field>
@@ -150,7 +151,7 @@
 
                         </td>
                         <td at-implicit at-sortable at-attribute style="width: 10%;text-align: left;">{{obj.title}}</td>
-                        <td style="width: 10%;text-align: left;">{{obj.callNo}}</td>
+                        <td style="width: 10%;text-align: left;">{{obj.accessionNo}}</td>
                         <td style="color: blue;" style="width: 10%;text-align: left;color: blue;">{{obj.state}}</td>
                         <td style="width: 10%;text-align: left;"> {{obj.createdDate}}</td>
                         <td style="width: 10%;text-align: left;">{{obj.size}}</td>

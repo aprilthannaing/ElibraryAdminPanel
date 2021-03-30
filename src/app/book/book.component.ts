@@ -144,6 +144,7 @@ export class BookComponent implements OnInit {
   }
 
   searchAuthorByKeywords() {
+    this.loading = "true";
     if(!this.authorTerm){
       this.failDialog("Please enter you want to search!");
     }else{
@@ -160,6 +161,8 @@ export class BookComponent implements OnInit {
         headers: header
       }).subscribe(
         (data: any) => {
+          this.loading = "false";
+
           if(data.err_msg == "Unauthorized Request")
             this.loginDialog();
           this.authorConfig.currentPage = data.current_page;
@@ -168,6 +171,7 @@ export class BookComponent implements OnInit {
           this.authors = this.searchAuthors;
         },
         error => {
+          this.loading = "false";
           console.warn("error:", error);
         }
       )
@@ -345,7 +349,7 @@ export class BookComponent implements OnInit {
   getAllBooks() {
     const json = {
       "page": this.config.currentPage,
-      "title": "latest",
+      "title": "latestAll",
       "user_id": this.ics.userId,
     }
     const header: HttpHeaders = new HttpHeaders({

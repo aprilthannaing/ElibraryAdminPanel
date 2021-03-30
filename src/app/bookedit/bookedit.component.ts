@@ -329,12 +329,11 @@ export class BookeditComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/book/boId";
     this.http.post(url, json).subscribe(
       (data: any) => {
+        console.log("book !!!!!!!!" , data.book)
         this.subcategories = data.book.category.subCategories;
         this.json.publishedDate = data.book.publishedDate
         this.json = data.book;
         this.datePickerForm.value.selectedDate = this.json.publishedDate;
-        // this.json.publishedDate = this.datePipe.transform(this.json.publishedDate, 'MM/dd/yyyy');
-        //this.json.downloadApproval = data.book.downloadApproval == "false" ? "" : "true";
         this.json.description = data.book.comment == null ? "" : data.book.comment.description;
         this.imageSrc = this.ics.apiRouteForImage + data.book.coverPhoto;
         this.json.profileName = data.book.coverPhoto;

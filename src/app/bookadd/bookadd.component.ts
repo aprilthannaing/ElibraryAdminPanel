@@ -216,9 +216,7 @@ export class BookaddComponent implements OnInit {
     category: new FormControl('', Validators.required)
 
   });
-  // get categoryF() {
-  //   return this.pdfForm.controls;
-  // }
+
 
   subCategoryform = new FormGroup({
     subcategory: new FormControl('', Validators.required)
@@ -243,25 +241,28 @@ export class BookaddComponent implements OnInit {
 
   save() {
     this.loading = true;
-    this.json.imageSrc = this.imageSrc;
     this.json.pdf = this.pdf;
     this.json.authors = this.authorForm.value.auths;
     this.json.publishers = this.publisherForm.value.pubs;
     this.json.profileName = this.myForm.value.file;
     this.json.pdfName = this.pdfForm.value.file;
-    this.json.category = this.form.value;
+    var obj = { "category": "" };
+    obj = this.form.value;
+    this.json.category = obj.category;
     this.json.subCategory = this.selectedEntry;
     this.json.userId = this.ics.userId;
+    console.log("book saving data: ", this.json);
+
     const url: string = this.ics.apiRoute + "/operation/saveBook";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
         this.loading = false;
-        console.warn("data: ", data);
         if (data.status == "1")
           this.successDialog();
         else this.failDialog(data);
       },
       error => {
+        this.loading = false;
         console.warn("error: ", error);
         this.failDialog(this.emptyData);
       });

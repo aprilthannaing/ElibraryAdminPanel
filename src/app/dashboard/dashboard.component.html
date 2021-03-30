@@ -1,11 +1,10 @@
 <app-home></app-home>
 
 <div class="content">
-    <div class="row" style="margin-top: 2%;width: 100%;">
-        <mat-label style="margin-left:15%;color: blue;font-size: 20px;"> Book Entries By Each Librarian</mat-label>
-        <mat-label style="margin-left:23%;color: blue;font-size: 20px;"> Latest Popular Books</mat-label>
+    <!-- <div class="row" style="margin-top: 2%;width: 100%;">
     </div>
 
+     -->
     <div *ngIf="loading == true" style="margin-left: 33%;" class="lds-default">
         <div></div>
         <div></div>
@@ -36,14 +35,18 @@
     </div>
 
     <div class="row">
-        <div id="chart" style="margin-left: 10%;">
+        <div id="chart">
+            <mat-label style="color: blue;font-size: 20px;"> Book Entries By Each Librarian</mat-label>
+
             <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
                 [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
                 [yaxis]="chartOptions.yaxis" [xaxis]="chartOptions.xaxis" [legend]="chartOptions.legend"
                 [colors]="chartOptions.colors" [grid]="chartOptions.grid"></apx-chart>
         </div>
 
-        <div id="chart3" style="margin-top: 5%;margin-left: 12%;">
+        <div id="chart3">
+            <mat-label style="margin-left:10%;color: blue;font-size: 20px;"> Latest Popular Books</mat-label>
+
             <apx-chart [series]="chartOptions3.series1" [chart]="chartOptions3.chart" [labels]="chartOptions3.labels"
                 [responsive]="chartOptions3.responsive"></apx-chart>
         </div>
