@@ -1,66 +1,58 @@
 <app-home></app-home>
 <div class="cardview">
-        <div style="margin-bottom: 20px;">
-            <h2>User Management Form</h2>
-                <div class="col-4" style="float: left;">
-                    <div class="input-group">
-                        <span class="input-group-btn" >
-                            <button class="btn btn-primary" type="button" (click)="goBack();">New</button>
-                        </span>
-                        <input id="textinput" name="textinput" type="text" placeholder="Search" [(ngModel)]="jsonReq.searchText" (keyup)="searchKeyup($event)" class="form-control">
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary" type="button" (click)="Searching()" >
-                        <span class="glyphicon glyphicon-search"></span>Search
-                        </button>
-                        </span>        
-                    </div>
+        <h2>User Management Form</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-btn" >
+                        <button class="btn btn-primary" type="button" (click)="goBack();">New</button>
+                    </span>
+                    <input id="textinput" name="textinput" type="text" placeholder="Search" [(ngModel)]="jsonReq.searchText" (keyup)="searchKeyup($event)" class="form-control">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" (click)="Searching()" >
+                    <span class="glyphicon glyphicon-search"></span>Search
+                    </button>
+                    </span>        
                 </div>
-                <div style="float: right;">
-                    <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
-                    <span style="float: right;">Page {{config.currentPage}} of {{ config.totalItems }} items</span>
-                </div>
+            </div>
+            <div class="col-md-6">
+                <pagination-controls (pageChange)="pageChanged($event)" style="float: right;"></pagination-controls>
+            </div>
+            <div class="col-md-12">
+                <span style="float: right;padding-right: 15px;">Page {{config.currentPage}} of {{ config.totalItems }} items</span>
+            </div>
         </div> 
-        <div class="col-md-12 filtersearch" style="padding-top:20px;">
-            <div class="col-md-2">
+        <div class="col-md-12 row" style="padding-top:20px;">
                 <mat-form-field>
                     <mat-label>Hluttaw Type</mat-label>
                     <select (change)="changeHluttaw($event)" matNativeControl [(ngModel)]="jsonReq.text1">
                         <option *ngFor="let item of lov.refHluttaw" value="{{item.value}}">{{item.caption}}</option>
                     </select>
                 </mat-form-field>
-            </div>
-            <div class="col-md-2">
                 <mat-form-field>
                     <mat-label >Department Type</mat-label>
                     <select (change)="changeDepartment($event)" matNativeControl [(ngModel)]="jsonReq.text2">
                         <option *ngFor="let item of lov.refDept" value="{{item.value}}">{{item.caption}}</option>
                     </select>
                 </mat-form-field>
-            </div>
-            <div class="col-md-2">
                 <mat-form-field>
                     <mat-label>Position</mat-label>
                     <select  (change)="changePosition($event)" matNativeControl [(ngModel)]="jsonReq.text3">
                         <option *ngFor="let item of lov.refPosition" value="{{item.value}}">{{item.caption}}</option>
                     </select>
                 </mat-form-field>
-            </div>
-            <div class="col-md-2">
-                <mat-form-field class="mat" color="accent">
+                <mat-form-field color="accent">
                     <input matInput [max]="jsonReq.toDate" [matDatepicker]="picker1" placeholder="From Date" [(ngModel)]="jsonReq.fromDate">
                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                     <mat-datepicker #picker1></mat-datepicker>
                 </mat-form-field>
-            </div>
-            <div class="col-md-2">
-                <mat-form-field class="mat" color="accent">
+                <mat-form-field  color="accent">
                     <input matInput [min]="jsonReq.fromDate" [matDatepicker]="picker2" placeholder="To Date" [(ngModel)]="jsonReq.toDate">
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
-            </div>
         </div>
-        <div class="col-md-12" style="overflow-x:auto" *ngIf="userObj.length > 0">
+        <div style="overflow-x:auto" *ngIf="userObj.length > 0">
 
             <table class="table table-striped table-condensed table-hover tblborder">
                 <thead>
@@ -69,7 +61,7 @@
                     <th>Name </th>
                     <th>Email </th>      
                     <th>Phone No</th> 
-                     <th>Type</th> 
+                    <th>Type</th> 
                     <th>Hluttaw</th> 
                     <th>Department</th> 
                     <th>Position</th> 
@@ -82,7 +74,7 @@
                 <tbody *ngFor="let obj of userObj | paginate:config">
                 <tr>
                     <td>
-                        <i (click)="goto(obj.boId)" class="fa fa-edit" aria-hidden="true"></i>
+                        <a (click)="goto(obj.boId)"  aria-hidden="true">edit</a>
                     </td>
                     <td>{{obj.name}}</td>
                     <td>{{obj.email}}</td>

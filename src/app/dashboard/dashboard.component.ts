@@ -459,6 +459,16 @@ export class DashboardComponent implements OnInit {
         }
       ],
       chart: {
+        toolbar: {
+          export: {
+            csv: {
+              filename: "abcd",
+              columnDelimiter: ',',
+              // headerCategory: 'category',
+              // headerValue: 'value',
+            },
+          },
+        },
         height: 550,
         type: "bar",
         events: {
