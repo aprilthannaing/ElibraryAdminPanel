@@ -60,10 +60,10 @@
                             </div>
                         </div>
                     </li>
-                    <li class="active" [routerLink]="['/addsubcategory']">
+                    <li class="active" >
                         <div class="row div">
                             <div class="col-6">
-                                <span class="span">Add SubCategory </span>
+                                <span class="span" [routerLink]="['/addsubcategory']">Add SubCategory </span>
                             </div>
                             <div class="col-6 countDiv">
                                 <div class="countWidth">
@@ -72,10 +72,10 @@
                             </div>
                         </div>
                     </li>
-                    <li class="active" [routerLink]="['/advertise']">
+                    <li class="active">
                         <div class="row div">
                             <div class="col-6">
-                                <span class="span">Add Advertisement</span>
+                                <span class="span"  [routerLink]="['/advertise']">Add Advertisement</span>
                             </div>
                             <div class="col-6 countDiv">
                                 <div class="countWidth">
@@ -157,7 +157,7 @@
                         <td style="width: 10%;text-align: left;">{{obj.size}}</td>
 
                         <td style="width: 10%;text-align: left;">
-                            <input style="text-align: center;" type="checkbox" [(ngModel)]="obj.downloadApproval">
+                            <input style="text-align: center;" type="checkbox" [(ngModel)]="obj.downloadApproval" onclick="return false;">
 
                         </td>
 
