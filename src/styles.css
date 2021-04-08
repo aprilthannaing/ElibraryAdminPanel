@@ -1520,3 +1520,36 @@ section {
     padding-right: 20px 15px;
   }
 }
+
+
+.span {
+  display: flex;
+  align-items: center;
+  color: #3d648c;
+  padding: 12px 15px;    
+  transition: 0.3s;
+  font-size: 15px;    
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.span2 {
+  display: flex;
+  align-items: center;
+  color: blue;
+  padding: 0% 0% 2% 10%;    
+  transition: 0.3s;
+  font-size: 15px;    
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+span:hover {
+color: #351873;
+}
+
+
+span2:hover {
+  color: #351873;
+  }
+  

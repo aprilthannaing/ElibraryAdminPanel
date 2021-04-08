@@ -7,17 +7,7 @@
             style="box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;">
 
         <div class="row" style="margin-left:15%;">
-<!-- 
-            <form [formGroup]="myForm" class="example-form" style="width: 30%;">
-                <div class="form-group">
-                    <mat-label>Cover Photo & PDF File</mat-label>
 
-                    <input
-                        style="width:100%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
-                        formControlName="file" id="file" type="file" class="form-control"
-                        (change)="onFileChange($event)" required>
-                </div>
-            </form> -->
             <label style="padding:5% 0% 0% 0%">Choose PDF File:</label>
 
             <form [formGroup]="pdfForm" class="example-form" style="width: 30%;margin-top: 2%;">
@@ -31,7 +21,20 @@
 
         </div>
 
-        <div *ngIf="loading" style="margin-left: 24%;" class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div *ngIf="loading" style="margin-left: 24%;" class="lds-default">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
 
         <mat-form-field class="mat">
             <mat-label>Class Number</mat-label>
@@ -67,7 +70,7 @@
         </mat-form-field>
         <mat-form-field class="mat">
             <mat-label>Accession Number</mat-label>
-            <input matInput placeholder="0001" [(ngModel)]="json.accessionNo" required>
+            <input matInput placeholder="0001" [(ngModel)]="json.accessionNo">
 
         </mat-form-field>
 
@@ -79,24 +82,38 @@
             <mat-datepicker #picker1 panelClass="datepickerOne" color="warn" font-size="20px"></mat-datepicker>
         </mat-form-field>
 
-        <!-- style="padding-right:200px;" -->
         <label *ngIf="userRole == 'Admin' || userRole == 'SuperLibrarian'" class="mat">Download Approval
             <input type="checkbox" [(ngModel)]="json.downloadApproval">
             <span class="checkmark"></span>
         </label>
 
-        <!-- <label class="container">Download Approval
-                <input type="checkbox" [(ngModel)]="json.downloadApproval">
-                <span class="checkmark"></span>
-            </label> -->
-
         <div>
-            <mat-form-field style="margin-left: 10%;width: 50%;">
+            <mat-form-field style="margin-left: 10%;width: 50%;" *ngIf="showOldList">
                 <mat-label> Author</mat-label>
                 <input matInput placeholder="Search Here" [(ngModel)]="authorTerm">
             </mat-form-field>
+            <span class="span2" (click)="addNewAuthor()">Add Author </span>
+
+            <div style="padding: 3% 0% 3% 0%;display: none;margin: 0% 40% 0% 10%;border-radius: 10px;background-color: rgb(170, 221, 255);" id="addNewAuthor">
+                <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+                    <mat-label> Name</mat-label>
+                    <input matInput placeholder="Noam Chomsky" [(ngModel)]="json.authorName" required>
+                </mat-form-field>
+                <br>
+
+
+                <mat-form-field style="width: 40%; margin-left: 5%;">
+                    <mat-label style="font-weight: bold;">Choose Author Type</mat-label>
+                    <select matNativeControl required [(ngModel)]="json.authorType">
+                        <option value="local">LOCAL</option>
+                        <option value="international">INTERNATIONAL</option>
+                    </select>
+                </mat-form-field>
+            </div>
+
+
         </div>
-        <form [formGroup]="authorForm" style="margin-left: 10%;">
+        <form [formGroup]="authorForm" style="margin-left: 10%;" *ngIf="showOldList">
 
             <div class="form-group">
                 <div style="width: 55%;overflow: auto; height:250px;">
@@ -118,8 +135,7 @@
                                         (change)="onAuthorsCheckboxChange($event)">
                                 </td>
                                 <td style="width: 50%;">
-                                    <img class="profile" src="{{apiRoute}}{{item.profilePicture}}"
-                                        alt="W3Schools.com">
+                                    <img class="profile" src="{{apiRoute}}{{item.profilePicture}}" alt="W3Schools.com">
                                 </td>
                                 <td>{{item.authorType}}</td>
                                 <td>{{item.name}}

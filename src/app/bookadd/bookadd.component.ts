@@ -20,7 +20,7 @@ export class BookaddComponent implements OnInit {
   pdf: string;
   publisherForm: FormGroup;
   authorForm: FormGroup;
-  json = { "userId": "", "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "accessionNo": "", "callNumber": "", "description": "" };
+  json = { "userId": "", "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "accessionNo": "", "callNumber": "", "description": "", "authorName": "", "authorType": "" };
   categories = [];
   subcategories = [];
   publishers = [];
@@ -32,6 +32,11 @@ export class BookaddComponent implements OnInit {
   selectedEntry;
   loading = false;
   apiRoute: string = '';
+
+  authorType: string;
+  authorName: string;
+
+  showOldList = true;
 
 
   emptyData = {};
@@ -237,6 +242,14 @@ export class BookaddComponent implements OnInit {
 
   onSelectionChange(entry) {
     this.selectedEntry = entry;
+  }
+
+  addNewAuthor() {
+    console.log("add new author !!!!!!!!!!!!!!")
+    var newAuthor = document.getElementById("addNewAuthor");
+    newAuthor.style.display = "block";
+    this.showOldList = false;
+
   }
 
   save() {
