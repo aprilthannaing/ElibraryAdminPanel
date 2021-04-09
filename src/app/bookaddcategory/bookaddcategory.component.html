@@ -3,23 +3,6 @@
     <div style="margin-left: 20%;margin-top: 3%;">
         <p style="margin-left: 5%;color: blue;">Category Form</p>
 
-        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
-            <mat-label> Category (Myanmar)</mat-label>
-            <input matInput placeholder="မြန်မာစာအုပ်များ" [(ngModel)]="myaName" required>
-        </mat-form-field>
-
-
-        <br>
-        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
-            <mat-label> Category (English)</mat-label>
-            <input matInput placeholder="Myanmar books" [(ngModel)]="engName" required>
-        </mat-form-field>
-        <br>
-        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
-            <mat-label> Priority</mat-label>
-            <input matInput placeholder="1 (ASC)" [(ngModel)]="priority" required>
-        </mat-form-field>
-        <br>
         <mat-form-field class="mat" style="width: 40%; margin-left: 5%">
             <mat-label> Sub-Categories</mat-label>
             <input matInput placeholder="Search Here" [(ngModel)]="term">
@@ -36,7 +19,7 @@
                                 <th></th>
                                 <th scope="col">Myanmar Name</th>
                                 <th style="width: 40%;" scope="col">English Name</th>
-                                <th  *ngIf="userRole == 'Admin'" scope="col">Display</th>
+                                <th *ngIf="userRole == 'Admin'" scope="col">Display</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,15 +29,9 @@
                                 </td>
                                 <td>{{item.myanmarName}}</td>
                                 <td>{{item.engName}}</td>
-                                <td  *ngIf="userRole == 'Admin'">
+                                <td *ngIf="userRole == 'Admin'">
                                     <input type="checkbox" value="{{item.boId}}" (change)="onCheckboxSelection($event)">
                                 </td>
-
-                                <!-- <td *ngIf = "!item.engName;else elseBlock">{{item.myanmarName}}
-                                </td>
-                                <ng-template #elseBlock><td *ngIf = "!item.myanmarName;else elseBlock1">{{item.engName}}</td></ng-template>
-                                <ng-template #elseBlock1><td>{{item.engName}}({{item.myanmarName}})</td></ng-template>
-                                -->
                             </tr>
                         </tbody>
                     </table>
@@ -63,14 +40,27 @@
         </form>
 
 
+        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+            <mat-label> Category (Myanmar)</mat-label>
+            <input matInput placeholder="မြန်မာစာအုပ်များ" [(ngModel)]="myaName" required>
+        </mat-form-field>
+
+
+        <br>
+        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+            <mat-label> Category (English)</mat-label>
+            <input matInput placeholder="Myanmar books" [(ngModel)]="engName" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+            <mat-label> Priority</mat-label>
+            <input matInput placeholder="1 (ASC)" [(ngModel)]="priority" required (keyup)="searchKeyup($event)">
+        </mat-form-field>
+
         <div style="margin-left: 12%;">
             <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
             <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Submit</button>
         </div>
-
-
-
-
 
     </div>
 </div>

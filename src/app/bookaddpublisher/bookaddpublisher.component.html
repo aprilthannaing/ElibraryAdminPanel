@@ -5,13 +5,13 @@
 
         <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
             <mat-label> Name</mat-label>
-            <input matInput placeholder="Noam Chomsky" [(ngModel)]="json.name" required>
+            <input matInput placeholder="Noam Chomsky" [(ngModel)]="json.name" required (keyup)="searchKeyup($event)">
         </mat-form-field>
         <br>
 
         <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
             <mat-label> Sort</mat-label>
-            <input matInput placeholder="Chomsky, Noam" [(ngModel)]="json.sort">
+            <input matInput placeholder="Chomsky, Noam" [(ngModel)]="json.sort" (keyup)="searchKeyup($event)">
         </mat-form-field>
         <br>
 

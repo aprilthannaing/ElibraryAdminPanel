@@ -77,6 +77,13 @@ export class BookaddcategoryComponent implements OnInit {
       });
   }
 
+
+  searchKeyup(e: any) {
+    if (e.which == 13) {
+      this.save();
+    }
+  }
+
   save() {
     
     const json =

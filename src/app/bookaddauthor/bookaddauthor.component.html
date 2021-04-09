@@ -1,4 +1,4 @@
- <app-home></app-home>
+<app-home></app-home>
 <div class="content">
     <div style="margin-left: 20%;margin-top: 3%;">
         <mat-label style="margin-left:15%;color: blue;font-size: 20px;"> Author Registration Form</mat-label>
@@ -9,20 +9,15 @@
                     <mat-label style="margin-left: 7%;">Profile Picture</mat-label>
                     <img [src]="imageSrc" *ngIf="imageSrc" alt="Cover Photo" class="responsive"
                         style="box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;">
-                        <input
-                            style="margin-left:7%;width:50%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
-                            formControlName="file" id="file" type="file" class="form-control"
-                            (change)="onFileChange($event)" required>       
-                       
+                    <input
+                        style="margin-left:7%;width:50%;color:white;background-color:rgb(137, 137, 255);margin-top: 20px;margin-bottom: 20px;box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;"
+                        formControlName="file" id="file" type="file" class="form-control"
+                        (change)="onFileChange($event)" required>
+
                 </div>
             </div>
         </form>
 
-        <br>
-        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
-            <mat-label> Name</mat-label>
-            <input matInput placeholder="Noam Chomsky" [(ngModel)]="json.name" required>
-        </mat-form-field>
         <br>
 
         <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
@@ -38,6 +33,13 @@
                 <option value="international">INTERNATIONAL</option>
             </select>
         </mat-form-field>
+        <br>
+        <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+            <mat-label> Name</mat-label>
+            <input matInput placeholder="Noam Chomsky" [(ngModel)]="json.name" required (keyup)="searchKeyup($event)">
+        </mat-form-field>
+
+
 
         <div style="margin-left: 12%;">
             <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
@@ -47,5 +49,3 @@
 
     </div>
 </div>
-
-

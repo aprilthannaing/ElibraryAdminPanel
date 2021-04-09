@@ -10,7 +10,7 @@ import { IntercomService } from '../framework/intercom.service';
 })
 export class BookaddpublisherComponent implements OnInit {
 
-  json = { "name" :"", "sort" : ""}
+  json = { "name": "", "sort": "" }
 
   emptyData = {};
 
@@ -24,12 +24,17 @@ export class BookaddpublisherComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  cancel(){
+  cancel() {
     this.router.navigate(['book']);
   }
 
-  
-  save(){
+  searchKeyup(e: any) {
+    if (e.which == 13) {
+      this.save();
+    }
+  }
+
+  save() {
     const url: string = this.ics.apiRoute + "/operation/savePublisher";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
@@ -57,7 +62,7 @@ export class BookaddpublisherComponent implements OnInit {
 
   failDialog(data) {
     const dialogRef = this.dialog.open(FailDialog, {
-      data:{ 
+      data: {
         "title": "Unable to add publisher!!",
         "message": data.msg
       }
@@ -95,7 +100,7 @@ export class FailDialog {
 
   constructor(
     public dialogRef: MatDialogRef<FailDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; message: string }
   ) { }
 
   onNoClick(): void {

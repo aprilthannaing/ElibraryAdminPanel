@@ -87,6 +87,13 @@ export class BookaddsubcategoryComponent implements OnInit {
     this.selectedEntry = entry;
   }
 
+  searchKeyup(e: any) {
+    if (e.which == 13) {
+      this.save();
+    }
+  }
+
+
   save() {    
     const url: string = this.ics.apiRoute + "/operation/savesubcategory";
     const json = {

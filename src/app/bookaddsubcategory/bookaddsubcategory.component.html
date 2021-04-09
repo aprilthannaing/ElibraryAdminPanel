@@ -3,6 +3,18 @@
     <div style="margin-left: 30%;margin-top: 3%;">
         <p style="margin-left: 5%;color: blue;">Sub-Category Form</p>
 
+
+        <mat-form-field class="mat" style="width: 40%;">
+            <mat-label style="font-weight: bold;">Choose Category</mat-label>
+            <select matNativeControl [(ngModel)]="category" required>
+                <option></option>
+                <option *ngFor="let item of categories" [value]="item.boId">{{item.myanmarName}}({{item.engName}})
+                </option>
+            </select>
+
+        </mat-form-field>
+        <br>
+
         <mat-form-field style="width: 40%;">
             <input matInput placeholder="For eg. ပညာေရး" [(ngModel)]="myanmarName">
         </mat-form-field>
@@ -13,23 +25,14 @@
         <br>
         <mat-form-field class="mat" style="width: 40%;">
             <mat-label> Priority</mat-label>
-            <input matInput placeholder="1 (ASC)" [(ngModel)]="priority" required>
+            <input matInput placeholder="1 (ASC)" [(ngModel)]="priority" required (keyup)="searchKeyup($event)">
         </mat-form-field>
-    
-        <br>
-        <mat-form-field class="mat" style="width: 40%;">
-            <mat-label style="font-weight: bold;">Choose Category</mat-label>
-            <select matNativeControl  [(ngModel)]="category" required>
-                <option></option>
-                <option *ngFor="let item of categories" [value]="item.boId">{{item.myanmarName}}({{item.engName}})</option>   
-            </select>
 
-        </mat-form-field>
-    <div style="margin-left: 30%;">
-        <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
-        <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Submit</button>
+        <div style="margin-left: 30%;">
+            <button mat-button (click)="cancel()" style="margin-left: 10px;">Cancel</button>
+            <button class="mat-raised-button mat-primary" (click)="save()" style="margin-left: 20px;">Submit</button>
+        </div>
     </div>
-</div>
 </div>
 
 <!-- <form [formGroup]="form" style="width:40%;margin-left: 25%;">
