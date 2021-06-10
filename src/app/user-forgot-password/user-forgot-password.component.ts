@@ -19,7 +19,7 @@ export class UserForgotPasswordComponent implements OnInit {
   private ics: IntercomService
   ) {
     if(this.ics.token === "" || this.ics.token == null){
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
       this.showMessage("Session Time Out",false);
     }
    }

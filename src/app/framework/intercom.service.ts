@@ -18,11 +18,12 @@ export class IntercomService {
   count_user = 0;
   //apiRoute: string = "http://136.228.165.174:8080/elibrary";
   //apiRouteForImage: string = "http://136.228.165.174:8080";
-   apiRoute: string = "http://localhost:8082";
-   apiRouteForImage: string = "http://localhost:8080/";
+   //apiRoute: string = "http://localhost:8082";
+   //apiRouteForImage: string = "http://localhost:8082/";
 
-  // apiRoute: string = "http://hluttawlibrary.pds.hluttaw.mm/elibrary";
-  // apiRouteForImage: string = "http://hluttawlibrary.pds.hluttaw.mm/";
+   apiRoute: string = "http://hluttawlibrary.pds.hluttaw.mm/elibrary";
+   apiRouteForImage: string = "http://hluttawlibrary.pds.hluttaw.mm";
+
 
   private _rpbeanSource = new Subject<any>();
   rpbean$ = this._rpbeanSource.asObservable();
@@ -46,7 +47,7 @@ export class IntercomService {
     let json = { "userid": this.userId }
     this.http.post(url, json, { headers: new HttpHeaders().set('token', this.token) }).subscribe(
       data => {
-        this.router.navigate(['login']);
+        this.router.navigate(['/']);
         this.clearICS();
       },
       error => { }, () => { });

@@ -40,8 +40,8 @@ import { FeedbackComponent } from './feedback/feedback.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: UserLoginComponent },
+  { path: '#', redirectTo: '', pathMatch: 'full' },
+  { path: '', component: UserLoginComponent },
   { path: 'home', component: HomeComponent },
   { path: 'header', component: HeaderComponent },
   { path: 'dashboard', component: DashboardComponent },

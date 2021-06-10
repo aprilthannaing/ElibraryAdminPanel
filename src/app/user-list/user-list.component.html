@@ -15,12 +15,6 @@
                     </span>        
                 </div>
             </div>
-            <div class="col-md-6">
-                <pagination-controls (pageChange)="pageChanged($event)" style="float: right;"></pagination-controls>
-            </div>
-            <div class="col-md-12">
-                <span style="float: right;padding-right: 15px;">Page {{config.currentPage}} of {{ config.totalItems }} items</span>
-            </div>
         </div> 
         <div class="col-md-12 row" style="padding-top:20px;">
                 <mat-form-field>
@@ -60,37 +54,43 @@
                     <th>Edit</th>
                     <th>Name </th>
                     <th>Email </th>      
-                    <th>Phone No</th> 
+                    <th>Phone No</th>
+                    <th>Role</th> 
+                    <th>Status</th> 
                     <th>Type</th> 
                     <th>Hluttaw</th> 
                     <th>Department</th> 
                     <th>Position</th> 
                     <th>Constituency</th> 
-                    <th>Role</th>
                     <th>Modified Date</th>   
-                    <th>Status</th> 
                 </tr>
                 </thead>
                 <tbody *ngFor="let obj of userObj | paginate:config">
                 <tr>
                     <td>
-                        <a (click)="goto(obj.boId)"  aria-hidden="true">edit</a>
+                        <a (click)="goto(obj.boId)"  aria-hidden="true"><i class="fa fa-edit"></i></a>
                     </td>
                     <td>{{obj.name}}</td>
-                    <td>{{obj.email}}</td>
+                    <td style="font-weight: 600">{{obj.email}}</td>
                     <td>{{obj.phoneNo}}</td>
+                    <td>{{obj.role}}</td>
+                    <td *ngIf="obj.status == 'ACTIVE'" style="color: green;font-weight: 600">{{obj.status}}</td>
+                    <td *ngIf="obj.status == 'NEW'" style="color: Blue;font-weight: 600">{{obj.status}}</td>
+                    <td *ngIf="obj.status == 'EXPIRED'" style="color: red;font-weight: 600">{{obj.status}}</td>
                     <td>{{obj.type}}</td>
                     <td>{{obj.hlutawName}}</td>
                     <td>{{obj.deptName}}</td>
                     <td>{{obj.positionName}}</td>
                     <td>{{obj.constituencyName}}</td>
-                    <td>{{obj.role}}</td>
                     <td>{{obj.modifiedDate}}</td>
-                    <td>{{obj.status}}</td>
                 </tr>  
                 </tbody>
             </table>
-        </div>
+                <div style="float: right;">
+                    <pagination-controls (pageChange)="pageChanged($event)" ></pagination-controls>
+                    <span style="float: right;margin-right: 12px;">Page {{config.currentPage}} of {{ config.totalItems }} items</span>
+                </div>
+            </div>
         <div *ngIf="loading" class="lds-default" style="margin-top: 10%; margin-left: 30%;">
             <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
         </div>

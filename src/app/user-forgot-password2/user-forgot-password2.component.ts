@@ -66,7 +66,7 @@ export class UserForgotPassword2Component implements OnInit {
                          this._result = data.message;
                        else{
                         this.showMessage(data.message,true);
-                         this.router.navigate(['/login']); 
+                         this.router.navigate(['/']); 
                        }
                    }
                },

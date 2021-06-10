@@ -63,7 +63,7 @@ export class UserChangepwdComponent implements OnInit {
                          if(!data.status)
                            this._result = data.message;
                          else{
-                           this.router.navigate(['/login']); 
+                           this.router.navigate(['/']); 
                            this.showMessage("Your password was changed.Please login with this password.",true);
                            this.ics.userRole = "";
                            this.ics.token = "";

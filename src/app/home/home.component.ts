@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit {
     this.http.post(url, json, { headers: new HttpHeaders().set('token', this.ics.token) }).subscribe(
       data => {
         this.clearICS();
-        this.router.navigate(['login']);
+        this.router.navigate(['/']);
       },
       error => { }, () => { });
   }

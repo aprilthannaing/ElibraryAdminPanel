@@ -201,7 +201,7 @@ export class UserUploadComponent implements OnInit {
           valid = true;
           this.changeLOV();
           this.saveURL();
-          return;
+          //return;
         } 
       }
       if(!valid)

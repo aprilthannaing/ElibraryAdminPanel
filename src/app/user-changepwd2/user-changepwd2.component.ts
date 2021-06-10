@@ -63,7 +63,7 @@ export class UserChangepwd2Component implements OnInit {
                          this.showMessage(data.message,false);
                        else{
                          this.showMessage("Password changed Successfully!\nPlease login again.",true);
-                         this.router.navigate(['/login']); 
+                         this.router.navigate(['/']); 
                        }
                    }
                    this.loading = false;

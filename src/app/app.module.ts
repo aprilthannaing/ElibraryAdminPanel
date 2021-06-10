@@ -94,6 +94,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 export const ISO_FORMAT = {
   parse: {
@@ -255,6 +256,7 @@ display: {
     
   ],
   providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     ConfirmationDialogService
   ],
   bootstrap: [AppComponent, DashboardComponent],

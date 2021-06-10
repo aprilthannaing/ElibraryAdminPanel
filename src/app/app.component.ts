@@ -24,7 +24,7 @@ export class AppComponent {
       this.mySubscription = this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
             if(this.ics.token== "")
-            this.router.navigate(['login']);
+            this.router.navigate(['/']);
             else if(this.dashboard){
               this.router.navigate(['dashboard']);
               this.dashboard = false;
