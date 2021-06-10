@@ -1,7 +1,7 @@
 <app-home></app-home>
-<div style="margin-left:20%;padding-top: 50px;">
+<div style="margin-left:20%;padding-top: 50px;margin-bottom: 30px;">
     <mat-label style="color: blue;font-size: 19px;font-weight: bold;"> Feedback List</mat-label>
-    <div style="height: 600px;overflow-y: auto;width:95%;overflow-x:auto;padding-top: 10px;">
+    <div style="height: auto;overflow-y: auto;width:95%;overflow-x:auto;padding-top: 10px;">
         <table class="table table-striped table-condensed table-hover tblborder">
             <thead>
 
@@ -17,18 +17,16 @@
                         <i id="reply" value="{{item.boId}}" (click)="reply($event)">{{item.message}}</i>
 
                     </td>
-
-                    <!-- <span #Reply (click)="reply(Reply)">{{item.boId}}</span> -->
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
-<div *ngIf="replied == 'true' " style="padding-top: 20px;">
+<div *ngIf="replied == 'true' " style="padding-top: 10px;">
 
-    <form [formGroup]="replyForm" style="width: 60%;margin-left:40%;">
+    <form [formGroup]="replyForm" style="width: 60%;margin-left:40%;margin-bottom: 100px;">
         <mat-label style="margin-left:28%;color: blue;font-size: 18px;"> Reply</mat-label>
-        <div style="margin-top:10px;"></div>
+        <div style="margin-top:10px;">Your last reply : <span style="font-weight:600">{{oldReply}}</span></div>
         <div class="form-group">
             <textarea #replyInput style="width: 60%;" formControlName="message" type="text" class="form-control"
                 [ngClass]="{ 'is-invalid': submitted && f.message.errors }"></textarea>

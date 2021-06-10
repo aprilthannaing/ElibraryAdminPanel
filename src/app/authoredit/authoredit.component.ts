@@ -165,6 +165,12 @@ export class AuthoreditComponent implements OnInit {
 
   }
 
+  searchKeyup(e: any) {
+    if (e.which == 13) {
+      this.save();
+    }
+  }
+
   save() {
     const url: string = this.ics.apiRoute + "/operation/editAuthor";
     this.json.imageSrc = this.imageSrc;

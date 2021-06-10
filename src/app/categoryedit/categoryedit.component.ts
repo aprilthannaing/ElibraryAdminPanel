@@ -112,6 +112,14 @@ export class CategoryeditComponent implements OnInit {
       });
   }
 
+  
+  searchKeyup(e: any) {
+    if (e.which == 13) {
+      this.save();
+    }
+  }
+
+
   save() {
 
     this.json.categories = this.form.value.subs;

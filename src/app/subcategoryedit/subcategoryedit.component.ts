@@ -51,7 +51,7 @@ export class SubcategoryeditComponent implements OnInit {
       headers: header
     }).subscribe(
       (data: any) => {
-        if(data.err_msg == "Unauthorized Request")
+        if (data.err_msg == "Unauthorized Request")
           this.loginDialog();
         console.warn("categories: ", data);
         this.categories = data.categories;
@@ -86,7 +86,7 @@ export class SubcategoryeditComponent implements OnInit {
 
   }
 
-  deleteBook(event){
+  deleteBook(event) {
     console.log(event.target.value)
     const json = {
       bookId: event.target.value
@@ -100,7 +100,14 @@ export class SubcategoryeditComponent implements OnInit {
         console.log("error ", error);
       });
 
-    
+
+  }
+
+
+  searchKeyup(e: any) {
+    if (e.which == 13) {
+      this.save();
+    }
   }
 
 
@@ -127,7 +134,7 @@ export class SubcategoryeditComponent implements OnInit {
 
   }
 
-  
+
   delete() {
     this.alertDialog({});
 
@@ -174,7 +181,7 @@ export class SubcategoryeditComponent implements OnInit {
 
   loginDialog() {
     const dialogRef = this.dialog.open(LoginDialog, {
-      data:{ 
+      data: {
         "title": "Please login first!!",
       }
     });
@@ -259,7 +266,7 @@ export class AlertDialog {
       });
   }
 }
-  
+
 @Component({
   selector: 'login-dialog',
   templateUrl: './login-dialog.html',
@@ -269,7 +276,7 @@ export class LoginDialog {
   constructor(
     public dialogRef: MatDialogRef<LoginDialog>,
     public router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: {title: string}
+    @Inject(MAT_DIALOG_DATA) public data: { title: string }
   ) { }
 
   route(): void {

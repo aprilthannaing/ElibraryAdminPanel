@@ -75,26 +75,24 @@
         </mat-form-field>
 
         <br>
-
         <mat-form-field color="accent" class="mat">
-            <input matInput [matDatepicker]="picker1" placeholder="Published Date" [(ngModel)]="json.publishedDate">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1 panelClass="datepickerOne" color="warn" font-size="20px"></mat-datepicker>
+            <mat-label>Published Year</mat-label>
+            <input matInput placeholder="2011" [(ngModel)]="json.publishedDate">
         </mat-form-field>
+
 
         <label *ngIf="userRole == 'Admin' || userRole == 'SuperLibrarian'" class="mat">Download Approval
             <input type="checkbox" [(ngModel)]="json.downloadApproval">
             <span class="checkmark"></span>
         </label>
 
+
+
         <div>
-            <mat-form-field style="margin-left: 10%;width: 50%;" *ngIf="showOldList">
-                <mat-label> Author</mat-label>
-                <input matInput placeholder="Search Here" [(ngModel)]="authorTerm">
-            </mat-form-field>
             <span class="span2" (click)="addNewAuthor()">Add Author </span>
 
-            <div style="padding: 3% 0% 3% 0%;display: none;margin: 0% 40% 0% 10%;border-radius: 10px;background-color: rgb(170, 221, 255);" id="addNewAuthor">
+            <div style="padding: 3% 0% 3% 0%;display: none;margin: 0% 40% 0% 10%;border-radius: 10px;background-color: rgb(170, 221, 255);"
+                id="addNewAuthor">
                 <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
                     <mat-label> Name</mat-label>
                     <input matInput placeholder="Noam Chomsky" [(ngModel)]="json.authorName" required>
@@ -110,10 +108,13 @@
                     </select>
                 </mat-form-field>
             </div>
-
-
         </div>
-        <form [formGroup]="authorForm" style="margin-left: 10%;" *ngIf="showOldList">
+
+        <mat-form-field style="margin-left: 10%;width: 50%;">
+            <mat-label> Author</mat-label>
+            <input matInput placeholder="Search Here" [(ngModel)]="authorTerm">
+        </mat-form-field>
+        <form [formGroup]="authorForm" style="margin-left: 10%;">
 
             <div class="form-group">
                 <div style="width: 55%;overflow: auto; height:250px;">
@@ -222,10 +223,31 @@
         </form>
 
 
-        <mat-form-field style="margin-left: 10%;width: 50%;">
+        <div>
+
+            <span class="span2" (click)="addNewPublisher()">Add Publisher </span>
+
+            <div style="padding: 3% 0% 3% 0%;display: none;margin: 0% 40% 0% 10%;border-radius: 10px;background-color: rgb(170, 221, 255);"
+                id="addNewPublisher">
+                <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+                    <mat-label> Name</mat-label>
+                    <input matInput placeholder="Noam Chomsky" [(ngModel)]="json.publisherName">
+                </mat-form-field>
+                <br>
+                <mat-form-field class="mat" style="width: 40%; margin-left: 5%;">
+                    <mat-label> Sort</mat-label>
+                    <input matInput placeholder="Noam Chomsky" [(ngModel)]="json.publisherSort">
+                </mat-form-field>
+            </div>
+
+        </div>
+
+
+        <mat-form-field style="margin: 2% 0% 0% 10%;width: 50%;">
             <mat-label> Publisher</mat-label>
             <input matInput placeholder="Search Here" [(ngModel)]="publisherTerm">
         </mat-form-field>
+
 
         <form [formGroup]="publisherForm" style="margin-left: 10%;">
 

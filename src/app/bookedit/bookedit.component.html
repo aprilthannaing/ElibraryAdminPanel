@@ -62,31 +62,21 @@
             <input matInput placeholder="1.0" required [(ngModel)]="json.accessionNo">
         </mat-form-field>
 
+        <mat-form-field class="mat">
+            <mat-label>Published Date"</mat-label>
+            <input matInput placeholder="1.0" required [(ngModel)]="json.publishedDate">
+        </mat-form-field>
+
 
         <div class="row">
             <div class="col-4">
-
-                <form [formGroup]="datePickerForm" class="datePicker">
-                    <mat-form-field color="accent" class="mat2">
-                        <input matInput [matDatepicker]="picker1" placeholder="Published Date"
-                            formControlName="selectedDate" required [(ngModel)]="json.publishedDate">
-                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                        <mat-datepicker #picker1></mat-datepicker>
-                    </mat-form-field>
-
-                </form>
             </div>
-            <div class="col-8" style="padding:2% 0% 0% 6.5%">
-
+            <div class="col-8" style="padding:2% 0% 0% 6.5%;position: relative;top: -56px;">
                 <label *ngIf="userRole == 'Admin' || userRole == 'SuperLibrarian'" class="mat">Download Approval
                     <input type="checkbox" [(ngModel)]="json.downloadApproval">
-
                 </label>
             </div>
         </div>
-
-
-
 
 
         <div>

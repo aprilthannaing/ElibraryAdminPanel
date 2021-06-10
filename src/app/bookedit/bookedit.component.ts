@@ -331,11 +331,11 @@ export class BookeditComponent implements OnInit {
       (data: any) => {
         console.log("book !!!!!!!!" , data.book)
         this.subcategories = data.book.category.subCategories;
-        this.json.publishedDate = data.book.publishedDate
+        //this.json.publishedDate = data.book.publishedDate
         this.json = data.book;
         this.datePickerForm.value.selectedDate = this.json.publishedDate;
         this.json.description = data.book.comment == null ? "" : data.book.comment.description;
-        this.imageSrc = this.ics.apiRouteForImage + "/" + data.book.coverPhoto;
+        this.imageSrc = this.ics.apiRouteForImage + data.book.coverPhoto;
         this.json.profileName = data.book.coverPhoto;
         this.json.pdfName = data.book.path;
 
@@ -347,6 +347,7 @@ export class BookeditComponent implements OnInit {
         });
 
         data.book.publishers.forEach(element => {
+          this.publisherTerm = element.name;
           this.onPublisherChange(element.boId, true);
         });
 

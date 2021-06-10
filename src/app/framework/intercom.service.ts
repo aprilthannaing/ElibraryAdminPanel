@@ -22,8 +22,7 @@ export class IntercomService {
    apiRouteForImage: string = "http://localhost:8080/";
 
   // apiRoute: string = "http://hluttawlibrary.pds.hluttaw.mm/elibrary";
-  // apiRouteForImage: string = "http://hluttawlibrary.pds.hluttaw.mm";
-
+  // apiRouteForImage: string = "http://hluttawlibrary.pds.hluttaw.mm/";
 
   private _rpbeanSource = new Subject<any>();
   rpbean$ = this._rpbeanSource.asObservable();

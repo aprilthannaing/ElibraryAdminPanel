@@ -105,6 +105,7 @@ export class DashboardComponent implements OnInit {
   popularCategoryEndDate = "";
 
   popularSubBookCount = [];
+  userRole = "";
 
   constructor(
     private dialog: MatDialog,
@@ -112,6 +113,7 @@ export class DashboardComponent implements OnInit {
     private http: HttpClient,
   ) {
     this.userId = this.ics.userId;
+    this.userRole = this.ics.userRole;
     this.check();
 
   }
@@ -129,6 +131,7 @@ export class DashboardComponent implements OnInit {
     this.getEntries();
     this.getAllCategories();
     this.getPopularBooks();
+ 
   }
 
   check() {

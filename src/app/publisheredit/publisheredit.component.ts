@@ -32,6 +32,13 @@ export class PublishereditComponent implements OnInit {
     this.router.navigate(['book']);
   }
 
+  
+  searchKeyup(e: any) {
+    if (e.which == 13) {
+      this.save();
+    }
+  }
+
 
   save() {
     console.log(this.json)

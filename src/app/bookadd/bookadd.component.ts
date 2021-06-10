@@ -20,7 +20,7 @@ export class BookaddComponent implements OnInit {
   pdf: string;
   publisherForm: FormGroup;
   authorForm: FormGroup;
-  json = { "userId": "", "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "accessionNo": "", "callNumber": "", "description": "", "authorName": "", "authorType": "" };
+  json = { "userId": "", "profileName": "", "pdfName": "", "category": "", "subCategory": "", "authors": "", "publishers": "", "imageSrc": "", "pdf": "", "downloadApproval": "", "title": "", "ISBN": "", "sort": "", "publishedDate": "", "edition": "", "volume": "", "seriesIndex": "", "accessionNo": "", "callNumber": "", "description": "", "authorName": "", "authorType": "", "publisherName": "", "publisherSort": "" };
   categories = [];
   subcategories = [];
   publishers = [];
@@ -35,10 +35,6 @@ export class BookaddComponent implements OnInit {
 
   authorType: string;
   authorName: string;
-
-  showOldList = true;
-
-
   emptyData = {};
   userRole = "";
 
@@ -248,7 +244,11 @@ export class BookaddComponent implements OnInit {
     console.log("add new author !!!!!!!!!!!!!!")
     var newAuthor = document.getElementById("addNewAuthor");
     newAuthor.style.display = "block";
-    this.showOldList = false;
+  }
+
+  addNewPublisher() {
+    var addNewPublisher = document.getElementById("addNewPublisher");
+    addNewPublisher.style.display = "block";
 
   }
 

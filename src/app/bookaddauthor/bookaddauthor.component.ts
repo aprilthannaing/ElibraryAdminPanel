@@ -66,6 +66,7 @@ export class BookaddauthorComponent implements OnInit {
     this.router.navigate(['book']);
 
   }
+  
   searchKeyup(e: any) {
     if (e.which == 13) {
       this.save();

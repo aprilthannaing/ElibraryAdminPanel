@@ -19,6 +19,7 @@ export class FeedbackComponent implements OnInit {
 
   replyMessage = "";
   feedbacks = [];
+  oldReply = "";
 
   replyForm = new FormGroup({
 
@@ -53,6 +54,7 @@ export class FeedbackComponent implements OnInit {
         if (data.message == "Unauthorized Request")
           this.loginDialog();
         this.feedbacks = data.feedbacks;
+        console.log("feedbacks ....", this.feedbacks)
 
       },
       error => {
@@ -78,7 +80,7 @@ export class FeedbackComponent implements OnInit {
     if (this.replyForm.invalid) {
       return;
     }
-    const json = { "feedbackId": this.feedbackBoId, "message": this.replyForm.value.message}
+    const json = { "feedbackId": this.feedbackBoId, "message": this.replyForm.value.message }
     const url = this.ics.apiRoute + "/operation/reply";
     const header: HttpHeaders = new HttpHeaders({
       token: this.ics.token
@@ -111,11 +113,30 @@ export class FeedbackComponent implements OnInit {
 
   reply(event) {
     this.replied = "true";
-    // this.feedback.boId = Reply.textContent;
-    // console.log(Reply.textContent)
     this.feedbackBoId = event.target.value;
-    event.target.style.color = ' #00cdac';
+    console.log(" this.feedbackBoId !!!", this.feedbackBoId)
+    event.target.parentNode.style.backgroundColor = ' #00cdac';
+
+
+    const json = {
+      "feedbackId": this.feedbackBoId
+    }
+    const header: HttpHeaders = new HttpHeaders({
+      token: this.ics.token
+    });
+    const url: string = this.ics.apiRoute + "/operation/getReply";
+    this.http.post(url, json, {
+      headers: header
+    }).subscribe(
+      (data: any) => {
+        console.log("data: ", data.reply);
+        this.oldReply = data.reply;
+      },
+      error => {
+        console.warn("error: ", error);
+      });
   }
+
 
   failDialog(message) {
     const dialogRef = this.dialog.open(FailDialog, {
@@ -128,7 +149,6 @@ export class FeedbackComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
-
   }
 
   successDialog() {
