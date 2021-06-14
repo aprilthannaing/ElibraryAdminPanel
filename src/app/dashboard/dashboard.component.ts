@@ -945,17 +945,7 @@ export class DashboardComponent implements OnInit {
     const booksBySub = [];
     this.http.post(url, json).subscribe(
       (data: any) => {
-        console.log("selectChangeHandler data: ", data)
-        // data.bookCount.forEach(element => {
-        //   bookCount.push(element);
-        //   this.bookCount2 = bookCount;
-        // });
-
-        // data.nameList.forEach(element => {
-        //   booksBySub.push(element);
-        //   this.bookBySub = booksBySub;
-        // });
-
+        console.log("selectChangeHandler data: ", data) 
         this.bookCount2 = data.bookCount;
         this.bookBySub = data.nameList;
         this.popularSubBookCount = data.popualrBookCount;
