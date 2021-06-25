@@ -1504,7 +1504,6 @@ section {
   }
 }
 
-
 .span {
   display: flex;
   align-items: center;
@@ -1540,3 +1539,6 @@ span2:hover {
     font-family: pyidaungsu !important;
 }
 
+.apexcharts-text tspan{
+    font-family: pyidaungsu !important;
+}
