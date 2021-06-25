@@ -1,10 +1,6 @@
 <app-home></app-home>
 
-<div class="content">
-    <!-- <div class="row" style="margin-top: 2%;width: 100%;">
-    </div>
-
-     -->
+<div class="content">   
     <div *ngIf="loading == true" style="margin-left: 33%;" class="lds-default">
         <div></div>
         <div></div>
@@ -32,6 +28,11 @@
         <div></div>
         <div></div>
         <div></div>
+    </div>
+
+    <div class="exportDiv">
+        <span class="bold">Do you want to report users within 3 months?</span><br><br>
+        <span class="exportBtn" (click)="exportUsers()">Export Users</span>
     </div>
 
     <div class="row">

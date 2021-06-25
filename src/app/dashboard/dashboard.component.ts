@@ -184,6 +184,7 @@ export class DashboardComponent implements OnInit {
 
             http.post(url, json).subscribe(
               (data: any) => {
+                console.log("popularbooks !!!!!!!!!!!")
                 console.log("data!!!!!!!!!!!!!!!!!!!!", data);
                 const json = data;
 
@@ -821,10 +822,7 @@ export class DashboardComponent implements OnInit {
 
   exportCategoryBooks() { //2
     const index = document.getElementById("next2").getAttribute("value");
-    console.log("index !!!!!!!!!!" + index)
-
     var parameter = this.categoryStartDate + "," + this.categoryEndDate + "," + index;
-    console.log("parameter !!!!!", parameter)
     window.open(this.ics.apiRoute + "/book/exportBooksByCategory" + ".xlsx?input=" + parameter, "_blank");
 
 
@@ -1252,13 +1250,10 @@ export class DashboardComponent implements OnInit {
 
   search4() {
 
-    console.log("search 44444444444 !!!!!!!!!")
     if (!this.popularCategoryTerm) {
       this.failDialog("Please enter you want to search!");
     }
     this.loading = true;
-    console.log("term:", this.popularCategoryTerm);
-    console.log("index !!!!!!!!!!!", document.getElementById("next4").getAttribute("value"));
     const url: string = this.ics.apiRoute + "/dashboard/popualrbooksearchbysub";
     const index = document.getElementById("next4").getAttribute("value");
     var splitted = index.split(",");
@@ -1271,7 +1266,6 @@ export class DashboardComponent implements OnInit {
       sub_category_id: splitted[1]
 
     }
-    console.log("json $$$$$$$$$$$$$$$$$", json)
 
     this.http.post(url, json).subscribe(
       (data: any) => {
@@ -1444,6 +1438,12 @@ export class DashboardComponent implements OnInit {
       this.getBooksByPaganation4();
     }
   }
+
+  exportUsers(){
+    window.open(this.ics.apiRoute + "/dashboard/enteredUsers" + ".xlsx", "_blank");
+  }
+
+
 }
 
 @Component({
