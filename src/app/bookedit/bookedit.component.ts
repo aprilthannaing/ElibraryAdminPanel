@@ -269,7 +269,9 @@ export class BookeditComponent implements OnInit {
   }
 
   approveBook() {
+    console.log("boId !!!!!!!!!", this.boId)
     console.log("Approve !!!!!!!!!")
+    console.log("download approval !!!", this.json.downloadApproval)
 
     this.json.imageSrc = this.imageSrc;
     this.json.pdf = this.pdf;
@@ -281,7 +283,6 @@ export class BookeditComponent implements OnInit {
     this.json.category = this.form.value.category == '' ? this.categoryBoId : this.form.value.category;
     this.json.subCategory = this.selectedEntry == undefined ? this.subCategoryBoId : this.selectedEntry;
     this.json.state = "APPROVE";
-    // this.json.publishedDate = this.datePipe.transform(this.json.publishedDate, 'MM/dd/yyyy');
     const url: string = this.ics.apiRoute + "/operation/editBook";
     this.http.post(url, this.json).subscribe(
       (data: any) => {
