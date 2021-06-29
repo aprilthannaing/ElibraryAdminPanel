@@ -1,6 +1,6 @@
 
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { Event, Router, RouterEvent, NavigationStart, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
@@ -64,12 +64,15 @@ export class BookComponent implements OnInit {
 
   currentPage: any;
   apiRoute: string = '';
+  downlaodApprovalBooks: FormArray;
+  form: FormGroup;
 
   constructor(
     private http: HttpClient,
     public dialog: MatDialog,
     private router: Router,
-    private ics: IntercomService) {
+    private ics: IntercomService,
+    private formBuilder: FormBuilder,) {
     this.config = {
       itemsPerPage: 10,
       currentPage: this.currentPage,
@@ -82,6 +85,12 @@ export class BookComponent implements OnInit {
       }
     this.userRole = this.ics.userRole;
     this.apiRoute = this.ics.apiRouteForImage;
+
+
+    this.form = this.formBuilder.group({
+      downlaodApprovalBooks: this.formBuilder.array([], [Validators.required])
+
+    })
   }
 
   radioChange1() {
@@ -104,9 +113,9 @@ export class BookComponent implements OnInit {
   }
 
   searchByKeywords() {
-    if(!this.term){
+    if (!this.term) {
       this.failDialog("Please enter you want to search!");
-    }else{
+    } else {
       const json = {
         "page": this.config.currentPage,
         "user_id": this.ics.userId,
@@ -136,18 +145,43 @@ export class BookComponent implements OnInit {
       )
       return this.searchBooks;
     }
-    
+
   }
   changedBySearch(event) {
     this.config.currentPage = event;
     this.books = this.searchByKeywords();
   }
 
+  setDownlaodApprovalBooks(e) {
+    this.downlaodApprovalBooks = this.form.get('downlaodApprovalBooks') as FormArray;
+    this.downlaodApprovalBooks.push(new FormControl(e.target.value));
+
+  }
+
+  setDownloadApproval() {
+    console.log("download approval books !!!!!!!!", this.downlaodApprovalBooks.value)
+    const data = {
+      "bookBoIds": this.downlaodApprovalBooks.value
+    }
+
+    const url: string = this.ics.apiRoute + "/book/setDownlaodApproval";
+    this.http.post(url, data).subscribe(
+      (data: any) => {
+        if (data.status) {
+          this.successDialog();
+          this.downlaodApprovalBooks.clear();
+        }
+      },
+      error => {
+        console.warn("error: ", error);
+      });
+  }
+
   searchAuthorByKeywords() {
     this.loading = "true";
-    if(!this.authorTerm){
+    if (!this.authorTerm) {
       this.failDialog("Please enter you want to search!");
-    }else{
+    } else {
       const json = {
         "page": this.config.currentPage,
         "name": this.authorTerm
@@ -156,14 +190,14 @@ export class BookComponent implements OnInit {
         token: this.ics.token
       });
       const url = this.ics.apiRoute + "/author/search";
-  
+
       this.http.post(url, json, {
         headers: header
       }).subscribe(
         (data: any) => {
           this.loading = "false";
 
-          if(data.err_msg == "Unauthorized Request")
+          if (data.err_msg == "Unauthorized Request")
             this.loginDialog();
           this.authorConfig.currentPage = data.current_page;
           this.authorConfig.totalItems = data.total_count;
@@ -177,7 +211,7 @@ export class BookComponent implements OnInit {
       )
       return this.searchAuthors;
     }
-    
+
   }
 
   authorBySearch(event) {
@@ -322,7 +356,7 @@ export class BookComponent implements OnInit {
       headers: header
     }).subscribe(
       (data: any) => {
-        if(data.err_msg == "Unauthorized Request")
+        if (data.err_msg == "Unauthorized Request")
           this.loginDialog();
         this.categories = data.categories;
         this.loading = "false";
@@ -363,7 +397,7 @@ export class BookComponent implements OnInit {
       }
     ).subscribe(
       (data: any) => {
-        if(data.message == "Unauthorized Request")
+        if (data.message == "Unauthorized Request")
           this.loginDialog();
         this.books = data.books;
         this.last = data.last_page;
@@ -379,39 +413,39 @@ export class BookComponent implements OnInit {
 
   pageChanged(event) {
     this.config.currentPage = event;
-    if(!this.term)
+    if (!this.term)
       this.getAllBooks();
-    else{
+    else {
       this.searchByKeywords();
     }
-    
+
   }
 
-  getAllAdvertisements(){
+  getAllAdvertisements() {
     const header: HttpHeaders = new HttpHeaders({
       token: this.ics.token
     });
 
     const url: string = this.ics.apiRoute + "/operation/getAdvertisements";
-    this.http.request("get", url, 
-    {
-      headers: header
-    }).subscribe(
-      (data : any)=> {
-        console.warn("data:" + data)
-        if(data.message == "Unauthorized Request")
-          this.loginDialog();
-        this.advertisements = data.advertisements;
-        // for(let i=0; i<this.advertisements.length; i++){
+    this.http.request("get", url,
+      {
+        headers: header
+      }).subscribe(
+        (data: any) => {
+          console.warn("data:" + data)
+          if (data.message == "Unauthorized Request")
+            this.loginDialog();
+          this.advertisements = data.advertisements;
+          // for(let i=0; i<this.advertisements.length; i++){
 
-        // }
-        // this.advertisementImage = "http://localhost:8080/" + this.advertisementImage[]
-        this.loading = "false";
+          // }
+          // this.advertisementImage = "http://localhost:8080/" + this.advertisementImage[]
+          this.loading = "false";
 
-      },
-      error => {
-        console.warn("error: ", error);
-      });
+        },
+        error => {
+          console.warn("error: ", error);
+        });
   }
 
 
@@ -479,7 +513,7 @@ export class BookComponent implements OnInit {
     this.showBook = "false";
   }
 
-  showAdvertisements(){
+  showAdvertisements() {
     this.loading = "true";
     this.getAllAdvertisements();
     this.showAdvertisement = "true";
@@ -494,7 +528,7 @@ export class BookComponent implements OnInit {
     this.alertDialog({}, e.target.value)
   }
 
-  deleteAdvertisement(e){
+  deleteAdvertisement(e) {
     this.confirmDialog();
 
     const url: string = this.ics.apiRoute + "/operation/deleteAdvertisement";
@@ -505,12 +539,12 @@ export class BookComponent implements OnInit {
       "boId": e.target.value
     }
     this.http.post(url, json, {
-      headers : header
+      headers: header
     }).subscribe(
       (data: any) => {
-        if(data.err_msg == "Unauthorized Request")
+        if (data.err_msg == "Unauthorized Request")
           this.loginDialog();
-        
+
       },
       error => {
         console.warn("error:", error);
@@ -545,7 +579,7 @@ export class BookComponent implements OnInit {
 
   loginDialog() {
     const dialogRef = this.dialog.open(LoginDialog, {
-      data:{ 
+      data: {
         "title": "Please login first!!",
       }
     });
@@ -569,7 +603,7 @@ export class BookComponent implements OnInit {
 
   failDialog(message) {
     const dialogRef = this.dialog.open(FailDialog, {
-      data:{ 
+      data: {
         "title": "Unable to search!!",
         "message": message
       }
@@ -632,74 +666,74 @@ export class AlertDialog {
       });
 
   }
-  
-}  
 
-  @Component({
-    selector: 'login-dialog',
-    templateUrl: './login-dialog.html',
-  })
-  export class LoginDialog {
-  
-    constructor(
-      public dialogRef: MatDialogRef<LoginDialog>,
-      public router: Router,
-      @Inject(MAT_DIALOG_DATA) public data: {title: string}
-    ) { }
-  
-    route(): void {
-      this.dialogRef.close();
-      this.router.navigate(['login']);
-    }
-  }
+}
 
-  @Component({
-    selector: 'success-dialog',
-    templateUrl: './success-dialog.html',
-  })
-  export class SuccessDialog {
-  
-    constructor(
-      public dialogRef: MatDialogRef<SuccessDialog>,
-    ) { }
-  
-    onNoClick(): void {
-      this.dialogRef.close();
-    }
-  
+@Component({
+  selector: 'login-dialog',
+  templateUrl: './login-dialog.html',
+})
+export class LoginDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<LoginDialog>,
+    public router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: { title: string }
+  ) { }
+
+  route(): void {
+    this.dialogRef.close();
+    this.router.navigate(['login']);
   }
-  
-  @Component({
-    selector: 'fail-dialog',
-    templateUrl: './fail-dialog.html',
-  })
-  export class FailDialog {
-  
-    constructor(
-      public dialogRef: MatDialogRef<FailDialog>,
-      @Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}
-    ) { }
-  
-    onNoClick(): void {
-      this.dialogRef.close();
-    }
+}
+
+@Component({
+  selector: 'success-dialog',
+  templateUrl: './success-dialog.html',
+})
+export class SuccessDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<SuccessDialog>,
+  ) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
-  @Component({
-    selector: 'confirm-dialog',
-    templateUrl: './confirm-dialog.html',
-  })
-  export class ConfirmDialog {
-  
-    constructor(
-      public dialogRef: MatDialogRef<ConfirmDialog>,
-      public router: Router,
-    ) { }
-  
-    confirm(): void {
-      this.dialogRef.close();
-      
-    }
+}
+
+@Component({
+  selector: 'fail-dialog',
+  templateUrl: './fail-dialog.html',
+})
+export class FailDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<FailDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; message: string }
+  ) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
+}
+
+@Component({
+  selector: 'confirm-dialog',
+  templateUrl: './confirm-dialog.html',
+})
+export class ConfirmDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmDialog>,
+    public router: Router,
+  ) { }
+
+  confirm(): void {
+    this.dialogRef.close();
+
+  }
+}
 
 

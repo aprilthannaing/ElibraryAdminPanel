@@ -14,7 +14,7 @@ import { IntercomService } from '../framework/intercom.service';
   styleUrls: ['./home.component.styl']
 })
 export class HomeComponent implements OnInit {
-  count_user = 0 ;
+  count_user = 0;
   books = [];
   userRole = "";
   showBook = false;
@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
     })
 
     this.form = this.formBuilder.group({
-       downlaodApprovalBooks: this.formBuilder.array([], [Validators.required])
+      downlaodApprovalBooks: this.formBuilder.array([], [Validators.required])
 
     })
     this.userRole = this.ics.userRole;
@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/book/pending";
     this.http.request('post', url).subscribe(
       (data: any) => {
-        console.log("pending books !!!!!!" , data.books)
+        console.log("pending books !!!!!!", data.books)
         this.books = data.books;
         this.showBook = true;
       },
@@ -105,10 +105,10 @@ export class HomeComponent implements OnInit {
 
   }
 
-  setDownlaodApprovalBooks(e){
+  setDownlaodApprovalBooks(e) {
     this.downlaodApprovalBooks = this.form.get('downlaodApprovalBooks') as FormArray;
     // if (e.target.checked) {
-      this.downlaodApprovalBooks.push(new FormControl(e.target.value));
+    this.downlaodApprovalBooks.push(new FormControl(e.target.value));
     // } else {
     //   const index = this.downlaodApprovalBooks.controls.findIndex(x => x.value === e.target.value);
     //   this.downlaodApprovalBooks.removeAt(index);
@@ -140,30 +140,26 @@ export class HomeComponent implements OnInit {
 
   }
 
-  setDownloadApproval(){
+  setDownloadApproval() {
     this.loading = true;
-    console.log("download approval books !!!!!!!!" , this.downlaodApprovalBooks.value)
+    console.log("download approval books !!!!!!!!", this.downlaodApprovalBooks.value)
     const data = {
       "bookBoIds": this.downlaodApprovalBooks.value
     }
 
-    
     const url: string = this.ics.apiRoute + "/book/setDownlaodApproval";
     this.http.post(url, data).subscribe(
       (data: any) => {
-
-        if (data.status){
+        if (data.status) {
           this.successDialog();
-          this.loading = false;   
+          this.loading = false;
           this.downlaodApprovalBooks.clear();
         }
       },
       error => {
         console.warn("error: ", error);
-        this.loading = false;    
-
+        this.loading = false;
       });
-
   }
 
 
@@ -180,7 +176,7 @@ export class HomeComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/book/approve";
     this.http.post(url, data, { headers: header }).subscribe(
       (data: any) => {
-        if (data.status){
+        if (data.status) {
           this.successDialog();
 
           for (let i = 0; i < this.books.length; ++i) {
@@ -188,7 +184,7 @@ export class HomeComponent implements OnInit {
               if (this.books[i].boId === element) {
                 this.books.splice(i, 1);
               }
-            });          
+            });
           }
         }
         this.getPendingBooks();
@@ -200,7 +196,7 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  getFeedbackCount(){
+  getFeedbackCount() {
     const header: HttpHeaders = new HttpHeaders({
       token: this.ics.token
     });
@@ -210,9 +206,9 @@ export class HomeComponent implements OnInit {
     }).subscribe((data: any) => {
       this.feedbackCount = data;
     },
-    error => {
-      console.warn("error: ", error);
-    })
+      error => {
+        console.warn("error: ", error);
+      })
   }
 
   successDialog() {
@@ -224,22 +220,22 @@ export class HomeComponent implements OnInit {
     });
 
   }
-  jsonReq = {"searchText":"","text1":"", "text2":"", "text3":"","fromDate":"","toDate":""};
-  NewUserApprovel(){
+  jsonReq = { "searchText": "", "text1": "", "text2": "", "text3": "", "fromDate": "", "toDate": "" };
+  NewUserApprovel() {
     try {
       const url = this.ics.apiRoute + '/user/selectUserInfobyStatus';
-        this.http.post(url,this.jsonReq).subscribe(
-            (data:any) => {
-              this.ics.count_user = data.length;
-              this.count_user = this.ics.count_user;
-            },
-            error => {
-                if (error.name == "HttpErrorResponse") {
-                    alert("Connection Timed Out!");
-                }
-            }, () => { });
+      this.http.post(url, this.jsonReq).subscribe(
+        (data: any) => {
+          this.ics.count_user = data.length;
+          this.count_user = this.ics.count_user;
+        },
+        error => {
+          if (error.name == "HttpErrorResponse") {
+            alert("Connection Timed Out!");
+          }
+        }, () => { });
     } catch (e) {
-        alert(e);
+      alert(e);
     }
   }
 }
