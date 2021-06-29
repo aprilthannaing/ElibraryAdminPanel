@@ -18,11 +18,11 @@ export class IntercomService {
   count_user = 0;
   //apiRoute: string = "http://136.228.165.174:8080/elibrary";
   //apiRouteForImage: string = "http://136.228.165.174:8080";
-   //apiRoute: string = "http://localhost:8082";
-   //apiRouteForImage: string = "http://localhost:8082/";
+   apiRoute: string = "http://localhost:8082";
+   apiRouteForImage: string = "http://localhost:8082/";
 
-   apiRoute: string = "http://hluttawlibrary.pds.hluttaw.mm/elibrary";
-   apiRouteForImage: string = "http://hluttawlibrary.pds.hluttaw.mm";
+  //  apiRoute: string = "http://hluttawlibrary.pds.hluttaw.mm/elibrary";
+  //  apiRouteForImage: string = "http://hluttawlibrary.pds.hluttaw.mm";
 
 
   private _rpbeanSource = new Subject<any>();

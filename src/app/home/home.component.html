@@ -112,7 +112,10 @@
                 <th class="header" style="width: 10%;text-align: left;">State</th>
                 <th class="header" style="width: 10%;text-align: left;">Created Date</th>
                 <th class="header" style="width: 10%;text-align: left;">Size</th>
-                <th class="header" style="width: 10%;text-align: left;">Download Approval</th>
+                <th class="header" style="width: 10%;text-align: left;">
+                    <button type="button" style="margin-left: 20px;background-color: #26599b;border-radius: 10px;" class="btn btn-primary"
+                    (click)="setDownloadApproval()">Download Approval</button>
+                    </th>
                 <th class="header" style="width: 10%;text-align: left;color: black;">
                     <button type="button" style="margin-left: 20px;background-color: #26599b;border-radius: 10px;" class="btn btn-primary"
                         (click)="approveBooks()">Approve</button>
@@ -156,8 +159,8 @@
                     <td style="width: 10%;text-align: left;">{{obj.size}}</td>
 
                     <td style="width: 10%;text-align: left;">
-                        <input style="text-align: center; display: inline;" onclick="return false;" type="checkbox"
-                            [(ngModel)]="obj.downloadApproval">
+                        <input style="text-align: center; display: inline;" type="checkbox"
+                        (change)="setDownlaodApprovalBooks($event)" value="{{obj.Id}}" [(ngModel)]="obj.downloadApproval">
 
                     </td>
 

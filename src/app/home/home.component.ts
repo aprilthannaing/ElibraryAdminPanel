@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   loading = false;
   feedbackCount: string;
   userName = "";
-
+  downlaodApprovalBooks: FormArray;
 
   ngOnInit(): void {
     this.getPendingBooks();
@@ -40,6 +40,11 @@ export class HomeComponent implements OnInit {
     private ics: IntercomService) {
     this.form = this.formBuilder.group({
       approvedBooks: this.formBuilder.array([], [Validators.required])
+
+    })
+
+    this.form = this.formBuilder.group({
+       downlaodApprovalBooks: this.formBuilder.array([], [Validators.required])
 
     })
     this.userRole = this.ics.userRole;
@@ -90,6 +95,7 @@ export class HomeComponent implements OnInit {
     const url: string = this.ics.apiRoute + "/book/pending";
     this.http.request('post', url).subscribe(
       (data: any) => {
+        console.log("pending books !!!!!!" , data.books)
         this.books = data.books;
         this.showBook = true;
       },
@@ -97,6 +103,16 @@ export class HomeComponent implements OnInit {
         console.warn("error: ", error);
       });
 
+  }
+
+  setDownlaodApprovalBooks(e){
+    this.downlaodApprovalBooks = this.form.get('downlaodApprovalBooks') as FormArray;
+    // if (e.target.checked) {
+      this.downlaodApprovalBooks.push(new FormControl(e.target.value));
+    // } else {
+    //   const index = this.downlaodApprovalBooks.controls.findIndex(x => x.value === e.target.value);
+    //   this.downlaodApprovalBooks.removeAt(index);
+    // }
   }
 
   onCheckboxSelection(e) {
@@ -108,6 +124,7 @@ export class HomeComponent implements OnInit {
       this.approvedBooks.removeAt(index);
     }
   }
+
 
 
   approveDialog(data) {
@@ -123,10 +140,34 @@ export class HomeComponent implements OnInit {
 
   }
 
+  setDownloadApproval(){
+    this.loading = true;
+    console.log("download approval books !!!!!!!!" , this.downlaodApprovalBooks.value)
+    const data = {
+      "bookBoIds": this.downlaodApprovalBooks.value
+    }
+
+    
+    const url: string = this.ics.apiRoute + "/book/setDownlaodApproval";
+    this.http.post(url, data).subscribe(
+      (data: any) => {
+
+        if (data.status){
+          this.successDialog();
+          this.loading = false;   
+          this.downlaodApprovalBooks.clear();
+        }
+      },
+      error => {
+        console.warn("error: ", error);
+        this.loading = false;    
+
+      });
+
+  }
+
 
   approveBooks() {
-    //this.approveDialog({});
-    // this.getPendingBooks();
     this.loading = true;
     const header: HttpHeaders = new HttpHeaders({
       token: this.ics.token
@@ -157,8 +198,6 @@ export class HomeComponent implements OnInit {
       error => {
         console.warn("error: ", error);
       });
-
-
   }
 
   getFeedbackCount(){
