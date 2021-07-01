@@ -138,6 +138,10 @@ input[type="text"] {
   width: 50%;
 }
 
+.approve-btn {
+  margin-right: 10px;
+}
+
 .card-container.card {
   max-width: 350px;
   max-height: 350px;
@@ -152,10 +156,18 @@ input[type="text"] {
   margin-bottom: 20px;
 } */
 .cardview {
-  padding: 0% 0% 0% 17%;
+  padding: 3% 0% 0% 20%;
   border-radius: 2px;
   overflow-x: hidden;
 }
+
+
+.nav-menu > ul > li:active {
+  background: #89daedb5;
+  color: white;
+}
+
+
 nav[_ngcontent-gxc-c290] {
   float: left;
   width: 16%;

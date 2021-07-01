@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   showBook = false;
   approvedBooks: FormArray;
   form: FormGroup;
+  form1: FormGroup;
   count: string;
   loading = false;
   feedbackCount: string;
@@ -38,7 +39,7 @@ export class HomeComponent implements OnInit {
     private formBuilder: FormBuilder,
 
     private ics: IntercomService) {
-    this.form = this.formBuilder.group({
+    this.form1 = this.formBuilder.group({
       approvedBooks: this.formBuilder.array([], [Validators.required])
 
     })
@@ -116,7 +117,8 @@ export class HomeComponent implements OnInit {
   }
 
   onCheckboxSelection(e) {
-    this.approvedBooks = this.form.get('approvedBooks') as FormArray;
+    this.approvedBooks = this.form1.get('approvedBooks') as FormArray;
+  
     if (e.target.checked) {
       this.approvedBooks.push(new FormControl(e.target.value));
     } else {
@@ -124,8 +126,6 @@ export class HomeComponent implements OnInit {
       this.approvedBooks.removeAt(index);
     }
   }
-
-
 
   approveDialog(data) {
     const dialogRef = this.dialog.open(ApproveDialog, {
@@ -164,6 +164,8 @@ export class HomeComponent implements OnInit {
 
 
   approveBooks() {
+    console.log("this.approvedBooks.value!!!!!", this.approvedBooks.value)
+
     this.loading = true;
     const header: HttpHeaders = new HttpHeaders({
       token: this.ics.token
@@ -173,6 +175,7 @@ export class HomeComponent implements OnInit {
       "bookBoIds": this.approvedBooks.value
     }
 
+    console.log("this.approvedBooks.value!!!!!" , this.approvedBooks.value)
     const url: string = this.ics.apiRoute + "/book/approve";
     this.http.post(url, data, { headers: header }).subscribe(
       (data: any) => {
@@ -181,7 +184,10 @@ export class HomeComponent implements OnInit {
 
           for (let i = 0; i < this.books.length; ++i) {
             this.approvedBooks.value.forEach(element => {
-              if (this.books[i].boId === element) {
+
+              console.log("this.books[i].Id!!!" , this.books[i].Id)
+              console.log("element !!!!!!!!!", element)
+              if (this.books[i].Id == element) {
                 this.books.splice(i, 1);
               }
             });
@@ -193,6 +199,7 @@ export class HomeComponent implements OnInit {
       },
       error => {
         console.warn("error: ", error);
+        this.loading = false;
       });
   }
 
